@@ -8,8 +8,10 @@ class Map {
 	constructor() {}
 
 	create(resources) {
-		for (var i = 0; i < 10; i++) {
-			systemHandler.register(new Tile(i, Math.random() * 500, Math.random() * 500, opengl.loader.resources.tile.texture));
+		for (let y = 0; y < 10; y++) {
+			for (let x = 0; x < 10; x++) {
+				systemHandler.register(new Tile(x + "_" + y, x * 256, y * 256, opengl.loader.resources.tile.texture));
+			}
 		}
 	}
 }
