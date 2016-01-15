@@ -10,14 +10,14 @@ class SystemHandler {
 	}
 
 	register(entity) {
-		for (let system of this.systems) {
-			system.Register(entity);
+		for (let system in this.systems) {
+			this.systems[system].register(entity);
 		}
 	}
 
 	run() {
-		for (let system of this.systems) {
-			system.run();
+		for (let system in this.systems) {
+			this.systems[system].run();
 		}
 	}
 }

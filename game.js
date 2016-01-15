@@ -27,8 +27,12 @@ function initialize() {
 	movement_engine.register(tt);
 	movement_engine.register(tt2);*/
 	systemHandler.add("renderer");
-	map.create();
-	animate();
+
+	opengl.loader.add('tile', './resources/tile.jpg').load(function(loader, resources) {
+		//new opengl.Sprite(resources.tile);
+		map.create();
+		animate();
+	});
 }
 
 function animate() {
