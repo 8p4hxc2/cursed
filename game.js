@@ -2,45 +2,40 @@
 var Alias = require('require-alias');
 
 global.alias = new Alias({
-	aliases: {
-		/* LIBS */
-		'@opengl': 'libs/pixi',
-		/* CORE */
-		'@system': 'systems/_system',
-		'@entity': 'entities/_entity',
-		'@component': 'components/_component',
-		/* REPERTOIRES */
-		'@systems': 'systems/',
-		'@entities': 'entities/',
-		'@factories': 'factories/',
-		'@handlers': 'handlers/'
-	}
+  aliases: {
+    /* LIBS */
+    '@opengl': 'libs/pixi',
+    /* CORE */
+    '@system': 'systems/_system',
+    '@entity': 'entities/_entity',
+    '@component': 'components/_component',
+    /* REPERTOIRES */
+    '@systems': 'systems/',
+    '@entities': 'entities/',
+    '@factories': 'factories/',
+    '@handlers': 'handlers/'
+  }
 });
 
-const opengl = alias.require("@opengl");
 const map = alias.require("@factories/map");
 const systemHandler = alias.require("@handlers/system");
+const resourceHandler = alias.require("@handlers/resource");
 
 function initialize() {
-	/*renderer.register(tt);
-	renderer.register(tt2);
-	movement_engine.register(tt);
-	movement_engine.register(tt2);*/
-	systemHandler.add("renderer");
+  systemHandler.add("renderer");
 
-	opengl.loader.add('tile', './resources/tile.jpg').load(function(loader, resources) {
-		//new opengl.Sprite(resources.tile);
-		map.create();
-		animate();
-	});
+  resourceHandler.run().then(function() {
+    map.create();
+    animate();
+  });
 }
 
 function animate() {
-	//	STATS.Start();
-	requestAnimationFrame(animate);
-	//	movement_engine.run();
-	systemHandler.run();
-	//	STATS.End();
+  //	STATS.Start();
+  requestAnimationFrame(animate);
+  //	movement_engine.run();
+  systemHandler.run();
+  //	STATS.End();
 }
 
 exports.Initialize = initialize;
