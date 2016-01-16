@@ -17,25 +17,23 @@ global.alias = new Alias({
   }
 });
 
-const map = alias.require("@factories/map");
+const level = alias.require("@factories/level");
 const systemHandler = alias.require("@handlers/system");
 const resourceHandler = alias.require("@handlers/resource");
 
 function initialize() {
   systemHandler.add("renderer");
+  systemHandler.add("animation");
 
   resourceHandler.run().then(function() {
-    map.create();
+    level.create();
     animate();
   });
 }
 
 function animate() {
-  //	STATS.Start();
-  requestAnimationFrame(animate);
-  //	movement_engine.run();
   systemHandler.run();
-  //	STATS.End();
+  requestAnimationFrame(animate);
 }
 
 exports.Initialize = initialize;

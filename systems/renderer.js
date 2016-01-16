@@ -4,36 +4,33 @@ const opengl = alias.require("@opengl");
 const System = alias.require("@system");
 
 class Renderer extends System {
-	constructor() {
-		super({
-			"sprite": true
-		});
-		this.canvas = opengl.autoDetectRenderer(window.innerWidth, window.innerHeight, {
-			backgroundColor: 0x1099bb
-		});
-		document.body.appendChild(this.canvas.view);
+  constructor() {
+    super({
+      "sprite": true
+    });
 
-		this.screen = new opengl.Container();
-	}
+    this.canvas = opengl.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+      backgroundColor: 0x1099bb
+    });
+    document.body.appendChild(this.canvas.view);
 
-	run() {
-		super.run();
-		this.canvas.render(this.screen);
-	}
+    this.screen = new opengl.Container();
+  }
 
-	process(entity) {
-		//console.log(entity);
-		if (!entity.addedToScreen) {
-			this.addToScreen(entity.components.sprite);
-			entity.addedToScreen = true;
-		}
+  run() {
+    super.run();
+    this.canvas.render(this.screen);
+  }
 
-		/*entity.components.sprite.ref.position.x = entity.components.position.x;
-		entity.components.sprite.ref.position.y = entity.components.position.y;*/
-	}
+  process(entity) {
+    if (!entity.addedToScreen) {
+      this.addToScreen(entity.components.sprite);
+      entity.addedToScreen = true;
+    }
+  }
 
-	addToScreen(sprite) {
-		this.screen.addChild(sprite.ref);
-	}
+  addToScreen(sprite) {
+    this.screen.addChild(sprite.ref, 128, 128);
+  }
 }
 module.exports = new Renderer();

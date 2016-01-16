@@ -8,6 +8,7 @@ class Sprite extends Component {
     super("sprite");
 
     this.ref = new opengl.Sprite(texture);
+
     this.ref.position.x = x;
     this.ref.position.y = y;
   }
