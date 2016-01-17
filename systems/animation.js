@@ -14,6 +14,14 @@ class Animation extends System {
   }
 
   process(entity) {
+    if (entity.components.keyboard.keys[13]) {
+      entity.components.animation.name = "cat_walk";
+    }
+    else {
+      entity.components.animation.name = "cat_idle";
+    }
+
+
     this.test += 0.3;
     entity.components.animation.current = Math.floor(this.test);
     if (entity.components.animation.current > entity.components.animation.frames) {

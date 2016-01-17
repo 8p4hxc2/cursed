@@ -9,6 +9,7 @@ global.alias = new Alias({
     '@system': 'systems/_system',
     '@entity': 'entities/_entity',
     '@component': 'components/_component',
+    '@components': 'components/',
     /* REPERTOIRES */
     '@systems': 'systems/',
     '@entities': 'entities/',
@@ -20,6 +21,7 @@ global.alias = new Alias({
 const level = alias.require("@factories/level");
 const systemHandler = alias.require("@handlers/system");
 const resourceHandler = alias.require("@handlers/resource");
+const keyboardHandler = alias.require("@handlers/keyboard");
 
 function initialize() {
   systemHandler.add("renderer");

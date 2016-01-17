@@ -9,6 +9,7 @@ class Player extends Entity {
 
     this.addComponent("sprite", x, y, resourceHandler.get(spriteId, "1"));
     this.addComponent("animation", spriteId, 10);
+    this.addComponent("keyboard");
   }
 }
 
