@@ -16,6 +16,10 @@ class Player extends System {
 	process(entity) {
 		var keys = entity.components.keyboard.keys;
 
+		if (keys[referential.keyboard.ok]) {
+			entity.components.body.Impulse(20000);
+		}
+
 		if (keys[referential.keyboard.right]) {
 			entity.components.animation.name = "cat_walk";
 			entity.components.sprite.ref.scale.x = 1;

@@ -21,9 +21,9 @@ class Level {
 
 
 		systemHandler.register(new Player("player", 0, 0, "cat_walk"));
-		systemHandler.register(new Ennemy("ennemy1", 300, 0, "cat_walk"));
+		/*systemHandler.register(new Ennemy("ennemy1", 300, 0, "cat_walk"));
     systemHandler.register(new Ennemy("ennemy2", 0, 300, "cat_walk"));
-    systemHandler.register(new Ennemy("ennemy3", 300, 300, "cat_walk"));
+    systemHandler.register(new Ennemy("ennemy3", 300, 300, "cat_walk"));*/
 		/*for (let y = 0; y < 1; y++) {
 		  for (let x = 0; x < 1; x++) {
 		    systemHandler.register(new Tile("1", 0, 0, resourceHandler.get("tile")));

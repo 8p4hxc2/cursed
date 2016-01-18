@@ -31,10 +31,6 @@ class Animation extends System {
 
 		entity.components.sprite.ref.texture = resourceHandler.get(entity.components.animation.name, entity.components.animation.current);
 	}
-
-	addToScreen(sprite) {
-		this.screen.addChild(sprite.ref);
-	}
 }
 
 module.exports = new Animation();

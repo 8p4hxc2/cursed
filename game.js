@@ -31,6 +31,7 @@ const keyboardHandler = alias.require("@handlers/keyboard");
 function initialize() {
 	systemHandler.add("renderer");
 	systemHandler.add("animation");
+	systemHandler.add("physic");
 	systemHandler.add("player");
 
 	resourceHandler.run().then(function() {
