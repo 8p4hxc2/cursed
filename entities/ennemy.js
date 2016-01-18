@@ -3,7 +3,7 @@
 const Entity = alias.require("@entity");
 const resourceHandler = alias.require("@handlers/resource");
 
-class Player extends Entity {
+class Ennemy extends Entity {
 	constructor(id, x, y, spriteId) {
 		super("player_" + id);
 
@@ -12,4 +12,4 @@ class Player extends Entity {
 	}
 }
 
-module.exports = Player;
+module.exports = Ennemy;
