@@ -11,7 +11,7 @@ class Physic extends System {
 			"body": true
 		});
 
-		this.world = new B2World(new B2Vec2(0, 0), true);
+		this.world = new B2World(new B2Vec2(0, 9.8), true);
 	}
 
 	run() {
@@ -24,11 +24,12 @@ class Physic extends System {
 		if (!entity.addedToWorld) {
 			var body = this.world.CreateBody(entity.components.body.definition);
 			body.CreateFixture(entity.components.body.fixture);
+			entity.components.body.objet = body;
 			entity.addedToWorld = true;
 		}
 
-		/*entity.components.sprite.ref.position = entity.components.body.objet.GetPosition();
-		entity.components.sprite.ref.rotation = entity.components.body.objet.GetAngle();*/
+		entity.components.sprite.ref.position = entity.components.body.objet.GetPosition();
+		entity.components.sprite.ref.rotation = entity.components.body.objet.GetAngle();
 	}
 }
 
