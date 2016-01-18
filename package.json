@@ -1,35 +1,36 @@
 {
-  "name": "Cursed",
-  "productName": "Cursed",
-  "version": "0.0.1",
-  "description": "",
-  "license": "MIT",
-  "main": "index.js",
-  "author": {
-    "name": "8p4hxc2",
-    "email": "8p4hxc2@gmail.com",
-    "url": ""
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {
-    "start": "electron .",
-    "build": "electron-packager . $npm_package_productName --out=dist --ignore=dist --prune --asar --all --version=0.30.0"
-  },
-  "files": [
-    "index.js",
-    "index.html",
-    "index.css"
-  ],
-  "keywords": [],
-  "dependencies": {
-    "electron-debug": ">=0.1.1",
-    "grunt": ">=0.4.1",
-    "require-alias":">=1.0.5"
-  },
-  "devDependencies": {
-    "electron-packager": ">=5.0.0",
-    "electron-prebuilt": ">=0.30.0"
-  }
+	"name": "Cursed",
+	"productName": "Cursed",
+	"version": "0.0.1",
+	"description": "",
+	"license": "MIT",
+	"main": "index.js",
+	"author": {
+		"name": "8p4hxc2",
+		"email": "8p4hxc2@gmail.com",
+		"url": ""
+	},
+	"engines": {
+		"node": ">=0.10.0"
+	},
+	"scripts": {
+		"start": "electron .",
+		"build": "electron-packager . $npm_package_productName --out=dist --ignore=dist --prune --asar --all --version=0.30.0"
+	},
+	"files": [
+		"index.js",
+		"index.html",
+		"index.css"
+	],
+	"keywords": [],
+	"dependencies": {
+		"electron-debug": ">=0.1.1",
+		"grunt": ">=0.4.1",
+		"require-alias": ">=1.0.5",
+		"box2dweb": ">=2.1.0-b"
+	},
+	"devDependencies": {
+		"electron-packager": ">=5.0.0",
+		"electron-prebuilt": ">=0.30.0"
+	}
 }
