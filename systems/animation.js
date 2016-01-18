@@ -3,6 +3,7 @@
 const opengl = alias.require("@opengl");
 const System = alias.require("@system");
 const resourceHandler = alias.require("@handlers/resource");
+const referential = alias.require("@referential");
 
 class Animation extends System {
 	constructor() {
@@ -10,15 +11,22 @@ class Animation extends System {
 			"animation": true
 		});
 
-		this.test = 1;
+		this.lastTime = 0;
+	}
+
+	run() {
+		var now = Date.now();
+
+		if (now - this.lastTime > referential.fps) {
+			this.lastTime = Date.now();
+			super.run();
+		}
 	}
 
 	process(entity) {
-		this.test += 0.3;
-		entity.components.animation.current = Math.floor(this.test);
+		entity.components.animation.current++;
 		if (entity.components.animation.current > entity.components.animation.frames) {
 			entity.components.animation.current = 1;
-			this.test = 1;
 		}
 
 		entity.components.sprite.ref.texture = resourceHandler.get(entity.components.animation.name, entity.components.animation.current);

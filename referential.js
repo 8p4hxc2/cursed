@@ -1,8 +1,9 @@
 var referencial = {
-	Keyboard: {
-		Right: 39,
-		Left: 37,
-		Ok: 13
+	fps: 1000 / 30,
+	keyboard: {
+		right: 39,
+		left: 37,
+		ok: 13
 	}
 };
 

@@ -7,25 +7,28 @@ const Player = alias.require("@entities/player");
 const systemHandler = alias.require("@handlers/system");
 
 class Level {
-  constructor() {}
+	constructor() {}
 
-  create(resources) {
-    /*systemHandler.register(new Background("background", resourceHandler.get("background")));
+	create(resources) {
+		/*systemHandler.register(new Background("background", resourceHandler.get("background")));
 
-    var bottom = window.innerHeight - 128;
+		var bottom = window.innerHeight - 128;
 
-    systemHandler.register(new Tile("1", 0, bottom, resourceHandler.get("tile")));
-    systemHandler.register(new Tile("2", 128, bottom, resourceHandler.get("tile2")));
-    systemHandler.register(new Tile("3", 256, bottom, resourceHandler.get("tile3")));*/
+		systemHandler.register(new Tile("1", 0, bottom, resourceHandler.get("tile")));
+		systemHandler.register(new Tile("2", 128, bottom, resourceHandler.get("tile2")));
+		systemHandler.register(new Tile("3", 256, bottom, resourceHandler.get("tile3")));*/
 
 
-    systemHandler.register(new Player("player", 0, 0, "cat_walk"));
-    /*for (let y = 0; y < 1; y++) {
-      for (let x = 0; x < 1; x++) {
-        systemHandler.register(new Tile("1", 0, 0, resourceHandler.get("tile")));
-      }
-    }*/
-  }
+		systemHandler.register(new Player("player", 0, 0, "cat_walk"));
+		systemHandler.register(new Player("player2", 300, 0, "cat_walk"));
+    systemHandler.register(new Player("player3", 0, 300, "cat_walk"));
+    systemHandler.register(new Player("player4", 300, 300, "cat_walk"));
+		/*for (let y = 0; y < 1; y++) {
+		  for (let x = 0; x < 1; x++) {
+		    systemHandler.register(new Tile("1", 0, 0, resourceHandler.get("tile")));
+		  }
+		}*/
+	}
 }
 
 module.exports = new Level();

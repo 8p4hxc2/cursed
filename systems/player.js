@@ -16,14 +16,14 @@ class Player extends System {
 	process(entity) {
 		var keys = entity.components.keyboard.keys;
 
-		if (keys[referential.Keyboard.Right]) {
+		if (keys[referential.keyboard.right]) {
 			entity.components.animation.name = "cat_walk";
 			entity.components.sprite.ref.scale.x = 1;
 			entity.components.sprite.ref.pivot.x = 0;
 			return;
 		}
 
-		if (keys[referential.Keyboard.Left]) {
+		if (keys[referential.keyboard.left]) {
 			entity.components.sprite.ref.scale.x = -1;
 			entity.components.sprite.ref.pivot.x = 547;
 			entity.components.animation.name = "cat_walk";
