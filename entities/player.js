@@ -1,17 +1,24 @@
 "use strict";
 
 const Entity = alias.require("@entity");
-const resourceHandler = alias.require("@handlers/resource");
+
 
 class Player extends Entity {
-	constructor(id, x, y, spriteId) {
-		super("player_" + id);
+  constructor(_params) {
+    super("player_" + _params.id);
 
-		this.addComponent("sprite", x, y, resourceHandler.get(spriteId, "1"));
-		this.addComponent("animation", spriteId, 10);
-		this.addComponent("body", x, y, "", 1.0, 1.0, 1.0, 547, 481);
-		this.addComponent("keyboard");
-	}
+    this.add("keyboard");
+    this.add("position", _params.position);
+    this.add("size", _params.size);
+    this.add("sprite", _params.sprite);
+    //this.add("animation", _params.animation);
+    this.add("body", {
+      type: "dynamic",
+      density: 1.0,
+      friction: 0.3,
+      restitution: 0.0
+    });
+  }
 }
 
 module.exports = Player;

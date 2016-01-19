@@ -6,7 +6,8 @@ const System = alias.require("@system");
 class Renderer extends System {
   constructor() {
     super({
-      "sprite": true
+      "sprite": true,
+      "position": true
     });
 
     this.canvas = opengl.autoDetectRenderer(window.innerWidth, window.innerHeight, {
@@ -27,10 +28,19 @@ class Renderer extends System {
       this.addToScreen(entity.components.sprite);
       entity.addedToScreen = true;
     }
+
+    entity.components.sprite.position = entity.components.position;
+    //entity.components.sprite.ref.position = entity.components.body.objet.GetPosition();
+
+    /*if (entity.components.body.objet.m_type === 2) {
+      entity.components.sprite.ref.position.x = entity.components.body.objet.GetPosition().x * 32;
+      entity.components.sprite.ref.position.y = entity.components.body.objet.GetPosition().y * 32;
+    }*/
+    //entity.components.sprite.ref.rotation = entity.components.body.objet.GetAngle();
   }
 
   addToScreen(sprite) {
-    this.screen.addChild(sprite.ref, 128, 128);
+    this.screen.addChild(sprite.ref, sprite.width, sprite.height);
   }
 }
 module.exports = new Renderer();

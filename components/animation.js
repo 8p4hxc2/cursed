@@ -3,12 +3,12 @@
 const Component = alias.require("@component");
 
 class Animation extends Component {
-  constructor(name, frames) {
+  constructor(_params) {
     super("animation");
 
-    this.name = name;
+    this.name = _params.name;
+    this.frames = _params.frames;
     this.current = 1;
-    this.frames = frames;
   }
 }
 

@@ -14,18 +14,22 @@ class Entity {
     this._id = value;
   }
 
-  addComponent(name, ...args) {
-    var Component = require("../components/" + name);
+  get(_component) {
+    return this.components[_component];
+  }
+
+  add(_component, _params) {
+    var Component = require("../components/" + _component);
 
     if (typeof(Component) === 'function') {
-      this.components[name] = new Component(...args);
+      this.components[_component] = new Component(_params);
     } else {
-      this.components[name] = Component;
+      this.components[_component] = Component;
     }
   }
 
-  contain(component) {
-    return typeof(this.components[component]) !== "undefined";
+  contain(_component) {
+    return typeof(this.components[_component]) !== "undefined";
   }
 }
 

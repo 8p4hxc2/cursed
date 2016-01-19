@@ -5,10 +5,10 @@ const resourceHandler = alias.require("@handlers/resource");
 
 class Ennemy extends Entity {
 	constructor(id, x, y, spriteId) {
-		super("player_" + id);
+		super("ennemy_" + id);
 
 		this.addComponent("sprite", x, y, resourceHandler.get(spriteId, "1"));
-		this.addComponent("animation", spriteId, 10);
+		//this.addComponent("animation", spriteId, 10);
 	}
 }
 

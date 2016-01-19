@@ -11,38 +11,38 @@ const B2PolygonShape = box2D.Collision.Shapes.b2PolygonShape;
 
 
 class Body extends Component {
-	constructor(x, y, type, density, friction, restitution, width, height) {
-		super("animation");
+  constructor(_params) {
+    super("body");
 
-		this.addedToWorld = false;
-		this.definition = null;
-		this.fixture = null;
-		this.objet = null;
+    this.definition = null;
+    this.fixture = null;
+    this.objet = null;
 
-		this.create(x, y, type, density, friction, restitution, width, height);
-	}
+    this.definition = new B2BodyDef();
+    //this.definition.position = new B2Vec2(x, y);
+    if (_params.type === "dynamic") {
+      this.definition.type = b2Body.b2_dynamicBody;
+    } else {
+      this.definition.type = b2Body.b2_staticBody;
+    }
 
-	create(x, y, type, density, friction, restitution, width, height) {
-		this.definition = new B2BodyDef();
-		this.definition.position = new B2Vec2(x, y);
-		if (type === "dynamic") {
-			this.definition.type = b2Body.b2_dynamicBody;
-		} else {
-			this.definition.type = b2Body.b2_staticBody;
-		}
+    this.fixture = new B2FixtureDef();
+    this.fixture.density = _params.density;
+    this.fixture.friction = _params.friction;
+    this.fixture.restitution = _params.restitution;
+    this.fixture.shape = new B2PolygonShape();
+    //this.fixture.shape.SetAsBox(width, height);
+  }
 
-		this.fixture = new B2FixtureDef();
-		this.fixture.density = density;
-		this.fixture.friction = friction;
-		this.fixture.restitution = restitution;
-		this.fixture.shape = new B2PolygonShape();
-		this.fixture.shape.SetAsBox(width, height);
-	}
+  Impulse(forceX, forceY) {
+    let impulse = new B2Vec2(forceX, forceY);
+    this.objet.ApplyImpulse(impulse, this.objet.GetWorldCenter());
+  }
 
-	Impulse(force) {
-		let impulse = new B2Vec2(0, force);
-		this.objet.ApplyImpulse(impulse, this.objet.GetWorldCenter());
-	}
+  Force(forceX, forceY) {
+    let impulse = new B2Vec2(forceX, forceY);
+    this.objet.SetLinearVelocity(impulse);
+  }
 }
 
 module.exports = Body;

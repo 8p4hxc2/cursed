@@ -3,12 +3,12 @@
 const Component = alias.require("@component");
 
 class Position extends Component {
-	constructor(x, y) {
-		super("position");
+  constructor(_params) {
+    super("position");
 
-		this.x = x || 0;
-		this.y = y || 0;
-	}
+    this.x = _params.x || 0;
+    this.y = _params.y || 0;
+  }
 }
 
 module.exports = Position;
