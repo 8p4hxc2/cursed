@@ -2,7 +2,6 @@
 
 const Entity = alias.require("@entity");
 
-
 class Player extends Entity {
   constructor(_params) {
     super("player_" + _params.id);
