@@ -40,78 +40,45 @@ const test = () => {
 
 Object.assign(test.prototype, prototest);*/
 
-var haha = {
-	test: {},
-	autre: (context) => ({
-		unefonction: () => {
-			console.log(context.mavar1);
-		}
-	})
+const rectangle = {
+	width: 0,
+	height: 0
 };
 
-const hehehe = (state) => {
-	uneautrefonction: () => console.log(state.name + "whut");
+const move = {
+	move: function() {
+		console.log(this.width + "," + this.height);
+	}
 };
+
+//var move={methods:{move:function(){console.log("ohe");}}};
 
 function initialize() {
-	/*var a = test();
-	a.lol = "1";
-	var b = test();
-	b.hehehe = "3";
-	a.test();
-	b.test();*/
-	var b = Object.create(haha);
-	var c = Object.create(hehehe);
-	var e = {
-		mavar1: "33"
-	};
-	var f = {};
+	const e = {};
+	const ee = Object.create(e);
+	const mm = Object.create(move);
 
-	Object.setPrototypeOf(e, Object.assign({}, Object.getPrototypeOf(c), Object.getPrototypeOf(b)));
-	Object.setPrototypeOf(f, Object.assign({}, Object.getPrototypeOf(b)));
+	Object.assign(ee, rectangle, {
+		width: 50
+	});
+	Object.assign(Object.getPrototypeOf(ee), Object.getPrototypeOf(mm));
+	ee.move();
 
-	console.log(e);
-	console.log(f);
-	//e.uneautrefonction();
-	e.autre(e).unefonction();
-	//f.uneautrefonction();
-	f.autre(f).unefonction();
-	e.test.haha = "omg";
-	//var ttt = Object.getPrototypeOf(e);
-	haha.autre.unefonction = function() {
-		console.log("===");
-	};
-	//Object.setPrototypeOf(e, ttt);
-	/*console.log(e);
-	console.log(f);*/
+	const f = {};
+	const ff = Object.create(f);
+	Object.assign(ff, rectangle, {
+		width: 5,
+		height: 11
+	});
+	Object.assign(Object.getPrototypeOf(ff), Object.getPrototypeOf(mm));
 
-	e.autre(e).unefonction();
-	f.autre(f).unefonction();
-	//f.uneautrefonction();
-	/*console.log(e.prototype);
-	console.log(haha.prototype);*/
-	//console.log(c.prototype);
-	//e.uneautrefonction();
-	/*Object.assign(e.prototype, b.prototype, c.prototype);*/
-	//var f = Object.assign({}, haha, hehehe);
-	//	Object.assign(e, b.prototype, c.prototype);
-	//e.unefonction();
-	/*f.unefonction = function() {
-		console.log("no");
-	};
-	f.unefonction();
-	e.unefonction();*/
-	/*a.test();
-	b.test();*/
-	/*systemHandler.add("physic");
-	systemHandler.add("animation");
-	systemHandler.add("renderer");
-	systemHandler.add("player");
-
-	resourceHandler.run().then(function() {
-	  level.create();
-	  animate();
-	});*/
+	Object.assign(Object.getPrototypeOf(mm), {
+		move: function() {
+			console.log("REDRAW");
+		}
+	});
+	ff.move();
+	ee.move();
 }
 
 function animate() {
