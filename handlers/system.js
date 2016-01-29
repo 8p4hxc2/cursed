@@ -1,25 +1,32 @@
-"use strict";
+define([], function() {
+	"use strict";
 
-class SystemHandler {
-	constructor() {
-		this.systems = [];
-	}
+	class SystemHandler {
+		constructor() {
+			this.systems = [];
+		}
 
-	add(system) {
-		this.systems[system] = alias.require("@systems/" + system);
-	}
+		add(system) {
+			return new Promise((resolve) => {
+				require(["systems/" + system], (loadedSystem) => {
+					this.systems[system] = loadedSystem;
+					resolve();
+				});
+			});
+		}
 
-	register(entity) {
-		for (let system in this.systems) {
-			this.systems[system].register(entity);
+		register(entity) {
+			for (let system in this.systems) {
+				this.systems[system].register(entity);
+			}
+		}
+
+		run() {
+			for (let system in this.systems) {
+				this.systems[system].run();
+			}
 		}
 	}
 
-	run() {
-		for (let system in this.systems) {
-			this.systems[system].run();
-		}
-	}
-}
-
-module.exports = new SystemHandler();
+	return new SystemHandler();
+});

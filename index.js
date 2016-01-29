@@ -1,38 +1,25 @@
 "use strict";
-const app = require('app');
-const BrowserWindow = require('browser-window');
-let mainWindow;
 
-function createMainWindow() {
-	const win = new BrowserWindow({
-		width: 1600,
-		height: 900,
-		resizable: false
-	});
+require.config({
+	waitSeconds: 20,
+	baseUrl: './',
+	// urlArgs: "bust=" + (new Date()).getTime(),
+	paths: {
+		/* LIBS */
+		"opengl": "libs/pixi",
 
-	win.loadURL(`file://${__dirname}/index.html`);
-	win.openDevTools();
-	win.on('closed', onClosed);
+		/* CORE */
+		"system": "systems/_system",
+		"entity": "entities/_entity",
+		"component": "components/_component",
 
-	return win;
-}
-
-function onClosed() {
-	mainWindow = null;
-}
-
-app.on('window-all-closed', function() {
-	if (process.platform !== 'darwin') {
-		app.quit();
-	}
+		/* CONFIG */
+		"referential": "referential.js"
+	},
+	shim: {},
+	map: {},
+	config: {},
+	bundles: {}
 });
 
-app.on('activate-with-no-open-windows', function() {
-	if (!mainWindow) {
-		mainWindow = createMainWindow();
-	}
-});
-
-app.on('ready', function() {
-	mainWindow = createMainWindow();
-});
+require(["game"]);
