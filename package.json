@@ -29,5 +29,18 @@
     "grunt": "*",
     "grunt-browserify": "*",
     "browserify": "*"
+  },
+  "aliasify": {
+    "aliases": {
+      "opengl": "./libs/index",
+      "referential": "./referential",
+      "system": "./systems/_system",
+      "entity": "./entities/_entity",
+      "component": "./components/_component",
+      "handlers": "./handlers",
+      "systems": "./systems",
+      "entities": "./entities",
+      "factories": "./factories"
+    }
   }
 }

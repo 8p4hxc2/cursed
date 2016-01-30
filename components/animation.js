@@ -1,15 +1,15 @@
 "use strict";
 
-const Component = alias.require("@component");
+var Component = require("component");
 
-class Animation extends Component {
-  constructor(_params) {
-    super("animation");
+function Animation(_params) {
+  Component.prototype.constructor.call(this, "animation");
 
-    this.name = _params.name;
-    this.frames = _params.frames;
-    this.current = 1;
-  }
+  this.name = _params.name;
+  this.frames = _params.frames;
+  this.current = 1;
 }
+
+Animation.prototype = Object.create(Component.prototype);
 
 module.exports = Animation;

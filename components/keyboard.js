@@ -1,13 +1,12 @@
 "use strict";
 
-const Component = alias.require("@component");
+var Component = require("component");
 
-class Keyboard extends Component {
-  constructor(x, y) {
-    super("keyboard");
-
-    this.keys = [];
-  }
+function Keyboard(x, y) {
+  Component.prototype.constructor.call(this, "keyboard");
+  this.keys = [];
 }
+
+Keyboard.prototype=Object.create(Component.prototype);
 
 module.exports = new Keyboard();

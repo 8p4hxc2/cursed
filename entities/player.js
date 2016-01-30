@@ -1,24 +1,24 @@
 "use strict";
 
-const Entity = alias.require("@entity");
+var Entity = require("entity");
 
 
-class Player extends Entity {
-  constructor(_params) {
-    super("player_" + _params.id);
+function Player(_params) {
+  Entity.prototype.constructor.call(this, "player_" + _params.id);
 
-    this.add("keyboard");
-    this.add("position", _params.position);
-    this.add("size", _params.size);
-    this.add("sprite", _params.sprite);
-    //this.add("animation", _params.animation);
-    this.add("body", {
-      type: "dynamic",
-      density: 1.0,
-      friction: 0.3,
-      restitution: 0.0
-    });
-  }
+  this.add(require("../components/keyboard"));
+  this.add(require("../components/position"), _params.position || {});
+  this.add(require("../components/size"), _params.size || {});
+  this.add(require("../components/sprite"), _params.sprite || {});
+  //this.add("animation", _params.animation);
+  this.add(require("../components/body"), {
+    type: "dynamic",
+    density: 1.0,
+    friction: 0.3,
+    restitution: 0.0
+  });
 }
+
+Player.prototype = Object.create(Entity.prototype);
 
 module.exports = Player;

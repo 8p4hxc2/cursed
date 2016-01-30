@@ -1,14 +1,14 @@
 "use strict";
 
-const Component = alias.require("@component");
+var Component = require("component");
 
-class Position extends Component {
-  constructor(_params) {
-    super("position");
+function Position(_params) {
+  Component.prototype.constructor.call(this,"position");
 
-    this.x = _params.x || 0;
-    this.y = _params.y || 0;
-  }
+  this.x = _params.x || 0;
+  this.y = _params.y || 0;
 }
+
+Position.prototype=Object.create(Component.prototype);
 
 module.exports = Position;

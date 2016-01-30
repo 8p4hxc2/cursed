@@ -1,60 +1,59 @@
 "use strict";
 
-const Component = alias.require("@component");
-const opengl = alias.require("@opengl");
-const resourceHandler = alias.require("@handlers/resource");
+var Component = require("component");
+var opengl = require("opengl");
+var resourceHandler = require("handlers/resource");
 
-class Sprite extends Component {
-  constructor(_params) {
-    super("sprite");
-    this.ref = new opengl.Sprite(resourceHandler.get(_params.texture, _params.frame));
-    this.ref.anchor = {
-      x: 0.5,
-      y: 0.5
-    };
-  }
-
-  set position(value) {
-    this.x = value.x;
-    this.y = value.y;
-  }
-
-  get position() {
-    return this.ref.position;
-  }
-
-  set rotation(value) {
-    this.ref.rotation = value;
-  }
-
-  get rotation() {
-    return this.ref.rotation;
-  }
-
-  set x(value) {
-    this.ref.position.x = value * 32;
-  }
-
-  get x() {
-    return this.ref.position.x;
-  }
-
-  set y(value) {
-    this.ref.position.y = value * 32;
-  }
-
-  get y() {
-    return this.ref.position.y;
-  }
-
-
-  get width() {
-    return this.ref.width;
-  }
-
-  get height() {
-    return this.ref.height;
-  }
+function Sprite(_params) {
+  Component.prototype.constructor.call(this, "sprite");
+  this.ref = new opengl.Sprite(resourceHandler.get(_params.texture, _params.frame));
+  this.ref.anchor = {
+    x: 0.5,
+    y: 0.5
+  };
 }
+
+Sprite.prototype = Object.create(Component.prototype);
+
+Sprite.prototype.setPosition = function(value) {
+  this.setX(value.x);
+  this.setY(value.y);
+};
+
+Sprite.prototype.getPosition = function() {
+  return this.ref.position;
+};
+
+Sprite.prototype.setRotation = function(value) {
+  this.ref.rotation = value;
+};
+
+Sprite.prototype.getRotation = function() {
+  return this.ref.rotation;
+};
+
+Sprite.prototype.setX = function(value) {
+  this.ref.position.x = value * 32;
+};
+
+Sprite.prototype.getX = function() {
+  return this.ref.position.x;
+};
+
+Sprite.prototype.setY = function(value) {
+  this.ref.position.y = value * 32;
+};
+
+Sprite.prototype.getY = function() {
+  return this.ref.position.y;
+};
+
+Sprite.prototype.getWidth = function() {
+  return this.ref.width;
+};
+
+Sprite.prototype.getHeight = function() {
+  return this.ref.height;
+};
 
 module.exports = Sprite;
