@@ -41,7 +41,7 @@ Sprite.prototype.getX = function() {
 };
 
 Sprite.prototype.setY = function(value) {
-  this.ref.position.y = value * 32;
+  this.ref.position.y = value * 32+window.innerHeight;
 };
 
 Sprite.prototype.getY = function() {

@@ -11,8 +11,8 @@ Level.prototype.add = function() {
   var oPlayer = new Player({
     id: Math.random() * 500,
     position: {
-      x: Math.random() * 10,
-      y: 10
+      x: Math.random() * 30,
+      y: Math.random() * 10 + 10
     },
     size: {
       width: 4,

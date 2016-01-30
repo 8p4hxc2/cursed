@@ -11,7 +11,7 @@ function Ground(_params) {
   });
 
   this.add(require("../components/size"), {
-    width: 8,
+    width: 180,
     height: 4
   });
 

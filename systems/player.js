@@ -11,6 +11,10 @@ function Player() {
       /*,
             "animation": true*/
   });
+
+  setInterval(function() {
+    test.add();
+  }, 500);
 }
 
 Player.prototype = Object.create(System.prototype);

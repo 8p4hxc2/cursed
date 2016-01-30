@@ -1938,7 +1938,7 @@ Sprite.prototype.getX = function() {
 };
 
 Sprite.prototype.setY = function(value) {
-  this.ref.position.y = value * 32;
+  this.ref.position.y = value * 32+window.innerHeight;
 };
 
 Sprite.prototype.getY = function() {
@@ -1995,7 +1995,7 @@ function Ground(_params) {
   });
 
   this.add(require("../components/size"), {
-    width: 8,
+    width: 180,
     height: 4
   });
 
@@ -2055,8 +2055,8 @@ Level.prototype.add = function() {
   var oPlayer = new Player({
     id: Math.random() * 500,
     position: {
-      x: Math.random() * 10,
-      y: 10
+      x: Math.random() * 30,
+      y: Math.random() * 10 + 10
     },
     size: {
       width: 4,
@@ -40215,6 +40215,10 @@ function Player() {
       /*,
             "animation": true*/
   });
+
+  setInterval(function() {
+    test.add();
+  }, 500);
 }
 
 Player.prototype = Object.create(System.prototype);
