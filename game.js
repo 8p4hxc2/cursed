@@ -1,35 +1,15 @@
 "use strict";
-var Alias = require('require-alias');
 
-global.alias = new Alias({
-  aliases: {
-    /* LIBS */
-    '@opengl': 'libs/pixi',
+(function() {
+  const opengl = require("./libs/index");
+  /*const systemHandler = alias.require("@handlers/system");
+  const resourceHandler = alias.require("@handlers/resource");
+  const keyboardHandler = alias.require("@handlers/keyboard");*/
+  let ecran = null;
+  let canvas = null;
 
-    /* CORE */
-    '@system': 'systems/_system',
-    '@entity': 'entities/_entity',
-    '@component': 'components/_component',
-    '@components': 'components/',
-
-    /* CONFIG */
-    '@referential': 'referential.js',
-
-    /* REPERTOIRES */
-    '@systems': 'systems/',
-    '@entities': 'entities/',
-    '@factories': 'factories/',
-    '@handlers': 'handlers/'
-  }
-});
-
-const level = alias.require("@factories/level");
-const systemHandler = alias.require("@handlers/system");
-const resourceHandler = alias.require("@handlers/resource");
-const keyboardHandler = alias.require("@handlers/keyboard");
-
-function initialize() {
-  systemHandler.add("physic");
+  //  function initialize() {
+  /*systemHandler.add("physic");
   systemHandler.add("animation");
   systemHandler.add("renderer");
   systemHandler.add("player");
@@ -37,12 +17,19 @@ function initialize() {
   resourceHandler.run().then(function() {
     level.create();
     animate();
+  });*/
+
+  canvas = opengl.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+    backgroundColor: 0x1099bb
   });
-}
+  document.body.appendChild(canvas.view);
 
-function animate() {
-  systemHandler.run();
-  requestAnimationFrame(animate);
-}
-
-exports.Initialize = initialize;
+  ecran = new opengl.Container();
+  //  }
+  animate();
+  function animate() {
+    //systemHandler.run();
+    canvas.render(ecran);
+    requestAnimationFrame(animate);
+  }
+}());
