@@ -1,36 +1,33 @@
-"use strict";
+define(["opengl", "system", "handlers/resource", "referential"], function(opengl, System, resourceHandler, referential) {
+  "use strict";
 
-const opengl = alias.require("@opengl");
-const System = alias.require("@system");
-const resourceHandler = alias.require("@handlers/resource");
-const referential = alias.require("@referential");
+  function Animation() {
+    System.prototype.constructor.call(this, {
+      "animation": true
+    });
 
-class Animation extends System {
-	constructor() {
-		super({
-			"animation": true
-		});
+    this.lastTime = 0;
+  }
 
-		this.lastTime = 0;
-	}
+  Animation.prototype = Object.create(System.prototype);
 
-	run() {
-		var now = Date.now();
+  Animation.prototype.run = function() {
+    var now = Date.now();
 
-		if (now - this.lastTime > referential.fps) {
-			this.lastTime = Date.now();
-			super.run();
-		}
-	}
+    if (now - this.lastTime > referential.fps) {
+      this.lastTime = Date.now();
+      System.prototype.run.call(this);
+    }
+  };
 
-	process(entity) {
-		entity.components.animation.current++;
-		if (entity.components.animation.current > entity.components.animation.frames) {
-			entity.components.animation.current = 1;
-		}
+  Animation.prototype.process = function(entity) {
+    entity.components.animation.current++;
+    if (entity.components.animation.current > entity.components.animation.frames) {
+      entity.components.animation.current = 1;
+    }
 
-		entity.components.sprite.ref.texture = resourceHandler.get(entity.components.animation.name, entity.components.animation.current);
-	}
-}
+    entity.components.sprite.ref.texture = resourceHandler.get(entity.components.animation.name, entity.components.animation.current);
+  };
 
-module.exports = new Animation();
+  return new Animation();
+});

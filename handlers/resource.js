@@ -1,23 +1,17 @@
-"use strict";
+define(["opengl"], function(opengl) {
+  "use strict";
 
-const opengl = alias.require("@opengl");
+  function ResourceHandler() {}
 
-class ResourceHandler {
-  constructor() {}
-
-  add(system) {
-    this.systems[system] = alias.require("@systems/" + system);
-  }
-
-  get(texture, frame) {
+  ResourceHandler.prototype.get = function(texture, frame) {
     if (frame) {
       return opengl.loader.resources[texture].textures[texture + "(" + frame + ")"];
     }
 
     return opengl.loader.resources[texture].texture;
-  }
+  };
 
-  run() {
+  ResourceHandler.prototype.run = function(resolve) {
     return new Promise(function(resolve) {
       opengl.loader.add('tile', './resources/Tiles/1.png');
       opengl.loader.add('tile1', './resources/Tiles/2.png');
@@ -28,7 +22,7 @@ class ResourceHandler {
 
       opengl.loader.load(resolve);
     });
-  }
-}
+  };
 
-module.exports = new ResourceHandler();
+  return new ResourceHandler();
+});

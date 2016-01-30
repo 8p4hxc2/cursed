@@ -1,13 +1,11 @@
-"use strict";
+define(["system", "libs/box2d"], function(System, box2D) {
+  "use strict";
 
-const System = alias.require("@system");
-const box2D = require("box2dweb");
-const B2Vec2 = box2D.Common.Math.b2Vec2;
-const B2World = box2D.Dynamics.b2World;
+  const B2Vec2 = box2D.Common.Math.b2Vec2;
+  const B2World = box2D.Dynamics.b2World;
 
-class Physic extends System {
-  constructor() {
-    super({
+  function Physic() {
+    System.prototype.constructor.call(this, {
       "body": true,
       "position": true,
       "size": true
@@ -16,13 +14,15 @@ class Physic extends System {
     this.world = new B2World(new B2Vec2(0, 9.8), true);
   }
 
-  run() {
-    this.world.Step(1 / 60, 10, 10);
-    super.run();
-    //this.world.ClearForces();
-  }
+  Physic.prototype = Object.create(System.prototype);
 
-  process(entity) {
+  Physic.prototype.run = function() {
+    this.world.Step(1 / 60, 10, 10);
+    System.prototype.run.call(this);
+    //this.world.ClearForces();
+  };
+
+  Physic.prototype.process = function(entity) {
     if (!entity.addedToWorld) {
       entity.components.body.definition.position = new B2Vec2(entity.components.position.x, -entity.components.position.y);
       var body = this.world.CreateBody(entity.components.body.definition);
@@ -36,7 +36,7 @@ class Physic extends System {
     entity.components.position.x = entity.components.body.objet.GetPosition().x;
     entity.components.position.y = entity.components.body.objet.GetPosition().y;
     entity.components.sprite.rotation = entity.components.body.objet.GetAngle();
-  }
-}
+  };
 
-module.exports = new Physic();
+  return new Physic();
+});

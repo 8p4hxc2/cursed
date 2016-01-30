@@ -1,24 +1,21 @@
-"use strict";
+define(["system", "referential", "factories/level"], function(System, referential, test) {
+  "use strict";
 
-const System = alias.require("@system");
-const referential = alias.require("@referential");
-const test = alias.require("@factories/level");
-
-class Player extends System {
-  constructor() {
-    super({
+  function Player() {
+    System.prototype.constructor.call(this, {
       "body": true,
-      "keyboard": true/*,
-      "animation": true*/
+      "keyboard": true,
+      "animation": true
     });
   }
 
-  process(entity) {
+  Player.prototype = Object.create(System.prototype);
+
+  Player.prototype.process = function(entity) {
     var keys = entity.components.keyboard.keys;
 
     if (keys[referential.keyboard.ok]) {
       //entity.components.body.Impulse(0, 1);
-      test.add();
       return;
     }
 
@@ -38,8 +35,8 @@ class Player extends System {
       return;
     }
 
-    //entity.components.animation.name = "cat_idle";
-  }
-}
+    entity.components.animation.name = "cat_idle";
+  };
 
-module.exports = new Player();
+  return new Player();
+});

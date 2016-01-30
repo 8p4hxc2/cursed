@@ -1,12 +1,8 @@
-"use strict";
+define(["opengl", "component", "handlers/resource"], function(opengl, Component, resourceHandler) {
+  "use strict";
 
-const Component = alias.require("@component");
-const opengl = alias.require("@opengl");
-const resourceHandler = alias.require("@handlers/resource");
-
-class Sprite extends Component {
-  constructor(_params) {
-    super("sprite");
+  function Sprite(_params) {
+    Component.prototype.constructor.call(this, "sprite");
     this.ref = new opengl.Sprite(resourceHandler.get(_params.texture, _params.frame));
     this.ref.anchor = {
       x: 0.5,
@@ -14,7 +10,9 @@ class Sprite extends Component {
     };
   }
 
-  set position(value) {
+  Sprite.prototype = Object.create(Component);
+
+  /*set position(value) {
     this.x = value.x;
     this.y = value.y;
   }
@@ -54,7 +52,7 @@ class Sprite extends Component {
 
   get height() {
     return this.ref.height;
-  }
-}
+  }*/
 
-module.exports = Sprite;
+  return Sprite;
+});

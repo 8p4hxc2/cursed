@@ -1,10 +1,8 @@
-"use strict";
+define(["entity"], function(Entity) {
+  "use strict";
 
-const Entity = alias.require("@entity");
-
-class Ground extends Entity {
-  constructor(_params) {
-    super("ground_" + _params.id);
+  function Ground(_params) {
+    Entity.prototype.constructor.call(this, "ground_" + _params.id);
 
     this.add("position", {
       x: 0,
@@ -20,13 +18,15 @@ class Ground extends Entity {
       texture: "tile3"
     });
 
-    this.add("body", {
+    /*this.add("body", {
       type: "static",
       density: 1.0,
       friction: 0.3,
       restitution: 0.0
-    });
+    });*/
   }
-}
 
-module.exports = Ground;
+  Ground.prototype = Object.create(Entity.prototype);
+
+  return Ground;
+});

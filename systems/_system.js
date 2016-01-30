@@ -1,34 +1,32 @@
 define([], function() {
-	"use strict";
+  "use strict";
 
-	class System {
-		constructor(blueprint) {
-			this.blueprint = blueprint;
-			this.entities = [];
-		}
+  function System(blueprint) {
+    this.blueprint = blueprint;
+    this.entities = [];
+  }
 
-		register(entity) {
-			let match = 0;
-			let total = 0;
+  System.prototype.register = function(entity) {
+    var match = 0;
+    var total = 0;
 
-			for (let component in this.blueprint) {
-				total++;
-				if (entity.contain(component)) {
-					match++;
-				}
-			}
+    for (var component in this.blueprint) {
+      total++;
+      if (entity.contain(component)) {
+        match++;
+      }
+    }
 
-			if (match === total) {
-				this.entities[entity.id] = entity;
-			}
-		}
+    if (match === total) {
+      this.entities[entity.id] = entity;
+    }
+  };
 
-		run() {
-			for (let entity in this.entities) {
-				this.process(this.entities[entity]);
-			}
-		}
-	}
+  System.prototype.run = function() {
+    for (var entity in this.entities) {
+      this.process(this.entities[entity]);
+    }
+  };
 
-	return System;
+  return System;
 });

@@ -1,36 +1,29 @@
-"use strict";
+define([], function() {
+  "use strict";
 
-class Entity {
-  constructor(id) {
-    this._id = id + "_" + new Date().getTime();
+  function Entity(id) {
+    this.id = id + "_" + new Date().getTime();
     this.components = [];
   }
 
-  get id() {
-    return this._id;
-  }
-
-  set id(value) {
-    this._id = value;
-  }
-
-  get(_component) {
+  Entity.prototype.get = function(_component) {
     return this.components[_component];
-  }
+  };
 
-  add(_component, _params) {
-    var Component = require("../components/" + _component);
+  Entity.prototype.add = function(_component, _params) {
+    var that = this;
+    require(["components/" + _component], function(Component) {
+      if (typeof(Component) === 'function') {
+        that.components[_component] = new Component(_params);
+      } else {
+        that.components[_component] = Component;
+      }
+    });
+  };
 
-    if (typeof(Component) === 'function') {
-      this.components[_component] = new Component(_params);
-    } else {
-      this.components[_component] = Component;
-    }
-  }
-
-  contain(_component) {
+  Entity.prototype.contain = function(_component) {
     return typeof(this.components[_component]) !== "undefined";
-  }
-}
+  };
 
-module.exports = Entity;
+  return Entity;
+});

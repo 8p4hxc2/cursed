@@ -1,39 +1,9 @@
-"use strict";
+define(["opengl", "entities/ground", "handlers/system"], function(opengl, Ground, systemHandler) {
+  "use strict";
 
-const opengl = alias.require("@opengl");
-const Tile = alias.require("@entities/tile");
-const Background = alias.require("@entities/background");
-const Player = alias.require("@entities/player");
-const Ground = alias.require("@entities/ground");
-const Ennemy = alias.require("@entities/ennemy");
-const systemHandler = alias.require("@handlers/system");
-
-class Level {
-  constructor() {}
-  add() {
-    let oPlayer = new Player({
-      id: Math.random() * 500,
-      position: {
-        x: Math.random()*10,
-        y: 10
-      },
-      size: {
-        width: 4,
-        height: 4
-      },
-      sprite: {
-        texture: "tile1"
-      }
-      /*,
-            animation: {
-              name: "cat_walk",
-              frames: 10
-            }*/
-    });
-    systemHandler.register(oPlayer);
-  }
-  create(resources) {
-    this.add();
+  function Level() {}
+  Level.prototype.create = function(resources) {
+    //this.add();
 
     /*systemHandler.register(new Background("background", resourceHandler.get("background")));
 
@@ -44,7 +14,7 @@ class Level {
     systemHandler.register(new Tile("3", 256, bottom, resourceHandler.get("tile3")));*/
 
 
-    let oGround = new Ground({
+    var oGround = new Ground({
       id: "1"
     });
 
@@ -70,7 +40,10 @@ class Level {
   });
 systemHandler.register(oPlayer);
 } */
-    systemHandler.register(oGround);
+setTimeout(function () {
+  systemHandler.register(oGround);
+}, 1000);
+
 
 
     /*systemHandler.register(new Ennemy("ennemy1", 300, 0, "cat_walk"));
@@ -81,7 +54,7 @@ systemHandler.register(oPlayer);
         systemHandler.register(new Tile("1", 0, 0, resourceHandler.get("tile")));
       }
     }*/
-  }
-}
+  };
 
-module.exports = new Level();
+  return new Level();
+});

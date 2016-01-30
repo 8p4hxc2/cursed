@@ -1,32 +1,31 @@
 define([], function() {
-	"use strict";
+  "use strict";
 
-	class SystemHandler {
-		constructor() {
-			this.systems = [];
-		}
+  function SystemHandler() {
+    this.systems = [];
+  }
 
-		add(system) {
-			return new Promise((resolve) => {
-				require(["systems/" + system], (loadedSystem) => {
-					this.systems[system] = loadedSystem;
-					resolve();
-				});
-			});
-		}
+  SystemHandler.prototype.add = function(system) {
+    var that = this;
+    return new Promise(function(resolve) {
+      require(["systems/" + system], function(loadedSystem) {
+        that.systems[system] = loadedSystem;
+				resolve();
+      });
+    });
+  };
 
-		register(entity) {
-			for (let system in this.systems) {
-				this.systems[system].register(entity);
-			}
-		}
+  SystemHandler.prototype.register = function(entity) {
+    for (var system in this.systems) {
+      this.systems[system].register(entity);
+    }
+  };
 
-		run() {
-			for (let system in this.systems) {
-				this.systems[system].run();
-			}
-		}
-	}
+  SystemHandler.prototype.run = function() {
+    for (var system in this.systems) {
+      this.systems[system].run();
+    }
+  };
 
-	return new SystemHandler();
+  return new SystemHandler();
 });
