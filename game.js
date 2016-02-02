@@ -16,16 +16,6 @@
     animate();
   });
 
-  //  function initialize() {
-  /*systemHandler.add("physic");
-  systemHandler.add("animation");
-
-  systemHandler.add("player");
-
-  */
-
-  //  }
-
   function animate() {
     systemHandler.run();
     requestAnimationFrame(animate);

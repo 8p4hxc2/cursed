@@ -26,9 +26,10 @@
     "resource-loader": "^1.6.4"
   },
   "devDependencies": {
-    "grunt": "*",
-    "grunt-browserify": "*",
-    "browserify": "*"
+    "browserify": "*",
+    "watchify": "*",
+    "aliasify": "*",
+    "http-server": "*"
   },
   "aliasify": {
     "aliases": {
