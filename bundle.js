@@ -74,7 +74,7 @@ Body.prototype.Force = function(forceX, forceY) {
 
 module.exports = Body;
 
-},{"./_component":1,"box2dweb":134}],4:[function(require,module,exports){
+},{"./_component":1,"box2dweb":135}],4:[function(require,module,exports){
 "use strict";
 
 var Component = require('./_component');
@@ -379,28 +379,30 @@ module.exports = new Level();
 "use strict";
 
 (function() {
-  var systemHandler = require('./handlers/system');
-  var resourceHandler = require('./handlers/resource');
-  var keyboardHandler = require('./handlers/keyboard');
-  var level = require("./factories/level");
+	var systemHandler = require('./handlers/system');
+	var resourceHandler = require('./handlers/resource');
+	var keyboardHandler = require('./handlers/keyboard');
+	var level = require("./factories/level");
 
-  systemHandler.add(require('./systems/physic'));
-  systemHandler.add(require('./systems/renderer'));
-  systemHandler.add(require('./systems/animation'));
-  systemHandler.add(require('./systems/player'));
+	resourceHandler.run().then(function() {
 
-  resourceHandler.run().then(function() {
-    level.create();
-    animate();
-  });
+		systemHandler.add(require('./systems/physic'));
+		systemHandler.add(require('./systems/renderer'));
+		systemHandler.add(require('./systems/particule'));
+		systemHandler.add(require('./systems/animation'));
+		systemHandler.add(require('./systems/player'));
 
-  function animate() {
-    systemHandler.run();
-    requestAnimationFrame(animate);
-  }
+		level.create();
+		animate();
+	});
+
+	function animate() {
+		systemHandler.run();
+		requestAnimationFrame(animate);
+	}
 }());
 
-},{"./factories/level":13,"./handlers/keyboard":15,"./handlers/resource":16,"./handlers/system":17,"./systems/animation":148,"./systems/physic":149,"./systems/player":150,"./systems/renderer":151}],15:[function(require,module,exports){
+},{"./factories/level":13,"./handlers/keyboard":15,"./handlers/resource":16,"./handlers/system":17,"./systems/animation":149,"./systems/particule":150,"./systems/physic":151,"./systems/player":152,"./systems/renderer":153}],15:[function(require,module,exports){
 "use strict";
 
 var cKeyboard = require("../components/keyboard");
@@ -457,6 +459,7 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('background', './resources/BG/1.png');
 		opengl.loader.add('cat_idle', './resources/cat/idle.json');
 		opengl.loader.add('cat_walk', './resources/cat/walk.json');
+		opengl.loader.add('snow', './resources/Snow100.png');
 
 		opengl.loader.load(resolve);
 	});
@@ -1179,7 +1182,7 @@ var CONST = {
 
 module.exports = CONST;
 
-},{"../../package.json":145}],22:[function(require,module,exports){
+},{"../../package.json":146}],22:[function(require,module,exports){
 var math = require('../math'),
     utils = require('../utils'),
     DisplayObject = require('./DisplayObject'),
@@ -2387,7 +2390,7 @@ DisplayObject.prototype.destroy = function ()
     this.filterArea = null;
 };
 
-},{"../const":21,"../math":31,"../textures/RenderTexture":69,"eventemitter3":136}],24:[function(require,module,exports){
+},{"../const":21,"../math":31,"../textures/RenderTexture":69,"eventemitter3":137}],24:[function(require,module,exports){
 var Container = require('../display/Container'),
     Texture = require('../textures/Texture'),
     CanvasBuffer = require('../renderers/canvas/utils/CanvasBuffer'),
@@ -4570,7 +4573,7 @@ GraphicsRenderer.prototype.buildPoly = function (graphicsData, webGLData)
     return true;
 };
 
-},{"../../const":21,"../../math":31,"../../renderers/webgl/WebGLRenderer":47,"../../renderers/webgl/utils/ObjectRenderer":61,"../../utils":75,"./WebGLGraphicsData":27,"earcut":135}],27:[function(require,module,exports){
+},{"../../const":21,"../../math":31,"../../renderers/webgl/WebGLRenderer":47,"../../renderers/webgl/utils/ObjectRenderer":61,"../../utils":75,"./WebGLGraphicsData":27,"earcut":136}],27:[function(require,module,exports){
 /**
  * An object containing WebGL specific properties to be used by the WebGL renderer
  *
@@ -7139,7 +7142,7 @@ SystemRenderer.prototype.destroy = function (removeView) {
     this._backgroundColorString = null;
 };
 
-},{"../const":21,"../math":31,"../utils":75,"eventemitter3":136}],42:[function(require,module,exports){
+},{"../const":21,"../math":31,"../utils":75,"eventemitter3":137}],42:[function(require,module,exports){
 var SystemRenderer = require('../SystemRenderer'),
     CanvasMaskManager = require('./utils/CanvasMaskManager'),
     utils = require('../../utils'),
@@ -8932,7 +8935,7 @@ FXAAFilter.prototype.applyFilter = function (renderer, input, output)
 };
 
 }).call(this,"/libs/core/renderers/webgl/filters")
-},{"./AbstractFilter":48,"fs":152}],50:[function(require,module,exports){
+},{"./AbstractFilter":48,"fs":154}],50:[function(require,module,exports){
 (function (__dirname){
 var AbstractFilter = require('./AbstractFilter'),
     math =  require('../../../math');
@@ -9031,7 +9034,7 @@ Object.defineProperties(SpriteMaskFilter.prototype, {
 });
 
 }).call(this,"/libs/core/renderers/webgl/filters")
-},{"../../../math":31,"./AbstractFilter":48,"fs":152}],51:[function(require,module,exports){
+},{"../../../math":31,"./AbstractFilter":48,"fs":154}],51:[function(require,module,exports){
 var WebGLManager = require('./WebGLManager');
 
 /**
@@ -13678,7 +13681,7 @@ BaseTexture.fromCanvas = function (canvas, scaleMode)
     return baseTexture;
 };
 
-},{"../const":21,"../utils":75,"eventemitter3":136}],69:[function(require,module,exports){
+},{"../const":21,"../utils":75,"eventemitter3":137}],69:[function(require,module,exports){
 var BaseTexture = require('./BaseTexture'),
     Texture = require('./Texture'),
     RenderTarget = require('../renderers/webgl/utils/RenderTarget'),
@@ -14583,7 +14586,7 @@ Texture.removeTextureFromCache = function (id)
  */
 Texture.EMPTY = new Texture(new BaseTexture());
 
-},{"../math":31,"../utils":75,"./BaseTexture":68,"./TextureUvs":71,"./VideoBaseTexture":72,"eventemitter3":136}],71:[function(require,module,exports){
+},{"../math":31,"../utils":75,"./BaseTexture":68,"./TextureUvs":71,"./VideoBaseTexture":72,"eventemitter3":137}],71:[function(require,module,exports){
 
 /**
  * A standard object to store the Uvs of a texture
@@ -15244,7 +15247,7 @@ Ticker.prototype.update = function update(currentTime)
 
 module.exports = Ticker;
 
-},{"../const":21,"eventemitter3":136}],74:[function(require,module,exports){
+},{"../const":21,"eventemitter3":137}],74:[function(require,module,exports){
 var Ticker = require('./Ticker');
 
 /**
@@ -15577,7 +15580,7 @@ var utils = module.exports = {
     BaseTextureCache: {}
 };
 
-},{"../const":21,"./pluginTarget":76,"async":133,"eventemitter3":136}],76:[function(require,module,exports){
+},{"../const":21,"./pluginTarget":76,"async":134,"eventemitter3":137}],76:[function(require,module,exports){
 /**
  * Mixins functionality to make an object have "plugins".
  *
@@ -17570,7 +17573,7 @@ Object.defineProperties(AsciiFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/ascii")
-},{"../../core":28,"fs":152}],86:[function(require,module,exports){
+},{"../../core":28,"fs":154}],86:[function(require,module,exports){
 var core = require('../../core'),
     BlurXFilter = require('../blur/BlurXFilter'),
     BlurYFilter = require('../blur/BlurYFilter');
@@ -17815,7 +17818,7 @@ Object.defineProperties(BlurDirFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/blur")
-},{"../../core":28,"fs":152}],88:[function(require,module,exports){
+},{"../../core":28,"fs":154}],88:[function(require,module,exports){
 var core = require('../../core'),
     BlurXFilter = require('./BlurXFilter'),
     BlurYFilter = require('./BlurYFilter');
@@ -18020,7 +18023,7 @@ Object.defineProperties(BlurXFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/blur")
-},{"../../core":28,"fs":152}],90:[function(require,module,exports){
+},{"../../core":28,"fs":154}],90:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18108,7 +18111,7 @@ Object.defineProperties(BlurYFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/blur")
-},{"../../core":28,"fs":152}],91:[function(require,module,exports){
+},{"../../core":28,"fs":154}],91:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18140,7 +18143,7 @@ SmartBlurFilter.prototype.constructor = SmartBlurFilter;
 module.exports = SmartBlurFilter;
 
 }).call(this,"/libs/filters/blur")
-},{"../../core":28,"fs":152}],92:[function(require,module,exports){
+},{"../../core":28,"fs":154}],92:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18678,7 +18681,7 @@ Object.defineProperties(ColorMatrixFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/color")
-},{"../../core":28,"fs":152}],93:[function(require,module,exports){
+},{"../../core":28,"fs":154}],93:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18729,7 +18732,7 @@ Object.defineProperties(ColorStepFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/color")
-},{"../../core":28,"fs":152}],94:[function(require,module,exports){
+},{"../../core":28,"fs":154}],94:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18822,7 +18825,7 @@ Object.defineProperties(ConvolutionFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/convolution")
-},{"../../core":28,"fs":152}],95:[function(require,module,exports){
+},{"../../core":28,"fs":154}],95:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18850,7 +18853,7 @@ CrossHatchFilter.prototype.constructor = CrossHatchFilter;
 module.exports = CrossHatchFilter;
 
 }).call(this,"/libs/filters/crosshatch")
-},{"../../core":28,"fs":152}],96:[function(require,module,exports){
+},{"../../core":28,"fs":154}],96:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -18936,7 +18939,7 @@ Object.defineProperties(DisplacementFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/displacement")
-},{"../../core":28,"fs":152}],97:[function(require,module,exports){
+},{"../../core":28,"fs":154}],97:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19010,7 +19013,7 @@ Object.defineProperties(DotScreenFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/dot")
-},{"../../core":28,"fs":152}],98:[function(require,module,exports){
+},{"../../core":28,"fs":154}],98:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 
@@ -19103,7 +19106,7 @@ Object.defineProperties(BlurYTintFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/dropshadow")
-},{"../../core":28,"fs":152}],99:[function(require,module,exports){
+},{"../../core":28,"fs":154}],99:[function(require,module,exports){
 var core = require('../../core'),
     BlurXFilter = require('../blur/BlurXFilter'),
     BlurYTintFilter = require('./BlurYTintFilter');
@@ -19347,7 +19350,7 @@ Object.defineProperties(GrayFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/gray")
-},{"../../core":28,"fs":152}],101:[function(require,module,exports){
+},{"../../core":28,"fs":154}],101:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI filters library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -19438,7 +19441,7 @@ Object.defineProperties(InvertFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/invert")
-},{"../../core":28,"fs":152}],103:[function(require,module,exports){
+},{"../../core":28,"fs":154}],103:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19495,7 +19498,7 @@ Object.defineProperties(NoiseFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/noise")
-},{"../../core":28,"fs":152}],104:[function(require,module,exports){
+},{"../../core":28,"fs":154}],104:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19548,7 +19551,7 @@ Object.defineProperties(PixelateFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/pixelate")
-},{"../../core":28,"fs":152}],105:[function(require,module,exports){
+},{"../../core":28,"fs":154}],105:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19636,7 +19639,7 @@ Object.defineProperties(RGBSplitFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/rgb")
-},{"../../core":28,"fs":152}],106:[function(require,module,exports){
+},{"../../core":28,"fs":154}],106:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19688,7 +19691,7 @@ Object.defineProperties(SepiaFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/sepia")
-},{"../../core":28,"fs":152}],107:[function(require,module,exports){
+},{"../../core":28,"fs":154}],107:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19778,7 +19781,7 @@ Object.defineProperties(ShockwaveFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/shockwave")
-},{"../../core":28,"fs":152}],108:[function(require,module,exports){
+},{"../../core":28,"fs":154}],108:[function(require,module,exports){
 (function (__dirname){
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
@@ -19905,7 +19908,7 @@ Object.defineProperties(TiltShiftAxisFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/tiltshift")
-},{"../../core":28,"fs":152}],109:[function(require,module,exports){
+},{"../../core":28,"fs":154}],109:[function(require,module,exports){
 var core = require('../../core'),
     TiltShiftXFilter = require('./TiltShiftXFilter'),
     TiltShiftYFilter = require('./TiltShiftYFilter');
@@ -20178,7 +20181,7 @@ Object.defineProperties(TwistFilter.prototype, {
 });
 
 }).call(this,"/libs/filters/twist")
-},{"../../core":28,"fs":152}],113:[function(require,module,exports){
+},{"../../core":28,"fs":154}],113:[function(require,module,exports){
 (function (global){
 // run the polyfills
 require('./polyfill');
@@ -20210,7 +20213,7 @@ Object.assign(core, require('./deprecation'));
 global.PIXI = core;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./accessibility":20,"./core":28,"./deprecation":77,"./extras":84,"./filters":101,"./interaction":116,"./loaders":119,"./mesh":126,"./polyfill":131}],114:[function(require,module,exports){
+},{"./accessibility":20,"./core":28,"./deprecation":77,"./extras":84,"./filters":101,"./interaction":116,"./loaders":119,"./mesh":126,"./polyfill":132}],114:[function(require,module,exports){
 var core = require('../core');
 
 /**
@@ -21322,7 +21325,7 @@ module.exports = function ()
     };
 };
 
-},{"../core":28,"../extras":84,"path":153,"resource-loader":142}],119:[function(require,module,exports){
+},{"../core":28,"../extras":84,"path":155,"resource-loader":143}],119:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI loaders library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -21343,7 +21346,7 @@ module.exports = {
     Resource:           require('resource-loader').Resource
 };
 
-},{"./bitmapFontParser":118,"./loader":120,"./spritesheetParser":121,"./textureParser":122,"resource-loader":142}],120:[function(require,module,exports){
+},{"./bitmapFontParser":118,"./loader":120,"./spritesheetParser":121,"./textureParser":122,"resource-loader":143}],120:[function(require,module,exports){
 var ResourceLoader = require('resource-loader'),
     textureParser = require('./textureParser'),
     spritesheetParser = require('./spritesheetParser'),
@@ -21405,7 +21408,7 @@ var Resource = ResourceLoader.Resource;
 
 Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
 
-},{"./bitmapFontParser":118,"./spritesheetParser":121,"./textureParser":122,"resource-loader":142}],121:[function(require,module,exports){
+},{"./bitmapFontParser":118,"./spritesheetParser":121,"./textureParser":122,"resource-loader":143}],121:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     path = require('path'),
     core = require('../core');
@@ -21489,7 +21492,7 @@ module.exports = function ()
     };
 };
 
-},{"../core":28,"path":153,"resource-loader":142}],122:[function(require,module,exports){
+},{"../core":28,"path":155,"resource-loader":143}],122:[function(require,module,exports){
 var core = require('../core');
 
 module.exports = function ()
@@ -22636,6 +22639,1780 @@ module.exports = MeshShader;
 core.ShaderManager.registerPlugin('meshShader', MeshShader);
 
 },{"../../core":28}],129:[function(require,module,exports){
+/*! PixiParticles 1.5.2 */
+/**
+*  @module Pixi Particles
+*  @namespace cloudkid
+*/
+(function(undefined) {
+
+	"use strict";
+
+	window.cloudkid = window.cloudkid || {};
+
+	var BLEND_MODES = PIXI.BLEND_MODES || PIXI.blendModes;
+
+	/**
+	 * Contains helper functions for particles and emitters to use.
+	 * @class ParticleUtils
+	 * @static
+	 */
+	var ParticleUtils = {};
+
+	var DEG_TO_RADS = ParticleUtils.DEG_TO_RADS = Math.PI / 180;
+
+	ParticleUtils.useAPI3 = true;
+	// avoid the string replacement of '"1.5.2"'
+	var version = PIXI["VER"+"SION"];// jshint ignore:line
+	if(version && parseInt(version.substring(0, version.indexOf("."))) >= 3)
+	{
+		ParticleUtils.useAPI3 = true;
+	}
+
+	/**
+	 * Rotates a point by a given angle.
+	 * @method rotatePoint
+	 * @param {Number} angle The angle to rotate by in degrees
+	 * @param {PIXI.Point} p The point to rotate around 0,0.
+	 * @static
+	 */
+	ParticleUtils.rotatePoint = function(angle, p)
+	{
+		if(!angle) return;
+		angle *= DEG_TO_RADS;
+		var s = Math.sin(angle);
+		var c = Math.cos(angle);
+		var xnew = p.x * c - p.y * s;
+		var ynew = p.x * s + p.y * c;
+		p.x = xnew;
+		p.y = ynew;
+	};
+
+	/**
+	 * Combines separate color components (0-255) into a single uint color.
+	 * @method combineRGBComponents
+	 * @param {uint} r The red value of the color
+	 * @param {uint} g The green value of the color
+	 * @param {uint} b The blue value of the color
+	 * @return {uint} The color in the form of 0xRRGGBB
+	 * @static
+	 */
+	ParticleUtils.combineRGBComponents = function(r, g, b/*, a*/)
+	{
+		return /*a << 24 |*/ r << 16 | g << 8 | b;
+	};
+
+	/**
+	 * Reduces the point to a length of 1.
+	 * @method normalize
+	 * @static
+	 * @param {PIXI.Point} point The point to normalize
+	 */
+	ParticleUtils.normalize = function(point)
+	{
+		var oneOverLen = 1 / ParticleUtils.length(point);
+		point.x *= oneOverLen;
+		point.y *= oneOverLen;
+	};
+
+	/**
+	 * Multiplies the x and y values of this point by a value.
+	 * @method scaleBy
+	 * @static
+	 * @param {PIXI.Point} point The point to scaleBy
+	 * @param value {Number} The value to scale by.
+	 */
+	ParticleUtils.scaleBy = function(point, value)
+	{
+		point.x *= value;
+		point.y *= value;
+	};
+
+	/**
+	 * Returns the length (or magnitude) of this point.
+	 * @method length
+	 * @static
+	 * @param {PIXI.Point} point The point to measure length
+	 * @return The length of this point.
+	 */
+	ParticleUtils.length = function(point)
+	{
+		return Math.sqrt(point.x * point.x + point.y * point.y);
+	};
+
+	/**
+	 * Converts a hex string from "#AARRGGBB", "#RRGGBB", "0xAARRGGBB", "0xRRGGBB",
+	 * "AARRGGBB", or "RRGGBB" to an array of ints of 0-255 or Numbers from 0-1, as
+	 * [r, g, b, (a)].
+	 * @method hexToRGB
+	 * @param {String} color The input color string.
+	 * @param {Array} output An array to put the output in. If omitted, a new array is created.
+	 * @return The array of numeric color values.
+	 * @static
+	 */
+	ParticleUtils.hexToRGB = function(color, output)
+	{
+		if (output)
+			output.length = 0;
+		else
+			output = [];
+		if (color.charAt(0) == "#")
+			color = color.substr(1);
+		else if (color.indexOf("0x") === 0)
+			color = color.substr(2);
+		var alpha;
+		if (color.length == 8)
+		{
+			alpha = color.substr(0, 2);
+			color = color.substr(2);
+		}
+		output.push(parseInt(color.substr(0, 2), 16));//Red
+		output.push(parseInt(color.substr(2, 2), 16));//Green
+		output.push(parseInt(color.substr(4, 2), 16));//Blue
+		if (alpha)
+			output.push(parseInt(alpha, 16));
+		return output;
+	};
+
+	/**
+	 * Generates a custom ease function, based on the GreenSock custom ease, as demonstrated
+	 * by the related tool at http://www.greensock.com/customease/.
+	 * @method generateEase
+	 * @param {Array} segments An array of segments, as created by
+	 * http://www.greensock.com/customease/.
+	 * @return {Function} A function that calculates the percentage of change at
+	 *                    a given point in time (0-1 inclusive).
+	 * @static
+	 */
+	ParticleUtils.generateEase = function(segments)
+	{
+		var qty = segments.length;
+		var oneOverQty = 1 / qty;
+		/*
+		 * Calculates the percentage of change at a given point in time (0-1 inclusive).
+		 * @param {Number} time The time of the ease, 0-1 inclusive.
+		 * @return {Number} The percentage of the change, 0-1 inclusive (unless your
+		 *                  ease goes outside those bounds).
+		 */
+		var simpleEase = function(time)
+		{
+			var t, s;
+			var i = (qty * time) | 0;//do a quick floor operation
+			t = (time - (i * oneOverQty)) * qty;
+			s = segments[i] || segments[qty - 1];
+			return (s.s + t * (2 * (1 - t) * (s.cp - s.s) + t * (s.e - s.s)));
+		};
+		return simpleEase;
+	};
+
+	/**
+	 * Gets a blend mode, ensuring that it is valid.
+	 * @method getBlendMode
+	 * @param {String} name The name of the blend mode to get.
+	 * @return {int} The blend mode as specified in the PIXI.blendModes enumeration.
+	 * @static
+	 */
+	ParticleUtils.getBlendMode = function(name)
+	{
+		if (!name) return BLEND_MODES.NORMAL;
+		name = name.toUpperCase();
+		while (name.indexOf(" ") >= 0)
+			name = name.replace(" ", "_");
+		return BLEND_MODES[name] || BLEND_MODES.NORMAL;
+	};
+
+	cloudkid.ParticleUtils = ParticleUtils;
+
+	/**
+	 * @module Pixi Particles
+	 * @namespace window
+	 */
+	/**
+	 * Add methods to Array
+	 * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+	 * @class Array.prototype
+	 */
+
+	/**
+	 * Shuffles the array
+	 * @method shuffle
+	 * @return {Array} The array, for chaining calls.
+	 */
+	if(!Array.prototype.shuffle)
+	{
+		// In EcmaScript 5 specs and browsers that support it you can use the Object.defineProperty
+		// to make it not enumerable set the enumerable property to false
+		Object.defineProperty(Array.prototype, 'shuffle', {
+			enumerable: false,
+			writable:false,
+			value: function() {
+				for(var j, x, i = this.length; i; j = Math.floor(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+				return this;
+			}
+		});
+	}
+
+	/**
+	 * Get a random item from an array
+	 * @method random
+	 * @return {*} The random item
+	 */
+	if(!Array.prototype.random)
+	{
+		Object.defineProperty(Array.prototype, 'random', {
+			enumerable: false,
+			writable: false,
+			value: function() {
+				return this[Math.floor(Math.random() * this.length)];
+			}
+		});
+	}
+}());
+/**
+*  @module Pixi Particles
+*  @namespace cloudkid
+*/
+(function(cloudkid, undefined) {
+
+	"use strict";
+
+	var ParticleUtils = cloudkid.ParticleUtils;
+	var Sprite = PIXI.Sprite;
+	var EMPTY_TEXTURE;
+	var useAPI3 = ParticleUtils.useAPI3;
+	if(!useAPI3)
+	{
+		var canvas = document.createElement("canvas");
+		canvas.width = canvas.height = 1;
+		EMPTY_TEXTURE = PIXI.Texture.fromCanvas(canvas);
+	}
+
+	/**
+	 * An individual particle image. You shouldn't have to deal with these.
+	 * @class Particle
+	 * @constructor
+	 * @param {Emitter} emitter The emitter that controls this particle.
+	 */
+	var Particle = function(emitter)
+	{
+		//start off the sprite with a blank texture, since we are going to replace it
+		//later when the particle is initialized. Pixi v2 requires a texture, v3 supplies a
+		//blank texture for us.
+		if(useAPI3)
+			Sprite.call(this);
+		else
+			Sprite.call(this, EMPTY_TEXTURE);
+
+		/**
+		 * The emitter that controls this particle.
+		 * @property {Emitter} emitter
+		 */
+		this.emitter = emitter;
+		//particles should be centered
+		this.anchor.x = this.anchor.y = 0.5;
+		/**
+		 * The velocity of the particle. Speed may change, but the angle also
+		 * contained in velocity is constant.
+		 * @property {PIXI.Point} velocity
+		 */
+		this.velocity = new PIXI.Point();
+		/**
+		 * The maximum lifetime of this particle, in seconds.
+		 * @property {Number} maxLife
+		 */
+		this.maxLife = 0;
+		/**
+		 * The current age of the particle, in seconds.
+		 * @property {Number} age
+		 */
+		this.age = 0;
+		/**
+		 * A simple easing function to be applied to all properties that
+		 * are being interpolated.
+		 * @property {Function} ease
+		 */
+		this.ease = null;
+		/**
+		 * Extra data that the emitter passes along for custom particles.
+		 * @property {Object} extraData
+		 */
+		this.extraData = null;
+		/**
+		 * The alpha of the particle at the start of its life.
+		 * @property {Number} startAlpha
+		 */
+		this.startAlpha = 0;
+		/**
+		 * The alpha of the particle at the end of its life.
+		 * @property {Number} endAlpha
+		 */
+		this.endAlpha = 0;
+		/**
+		 * The speed of the particle at the start of its life.
+		 * @property {Number} startSpeed
+		 */
+		this.startSpeed = 0;
+		/**
+		 * The speed of the particle at the end of its life.
+		 * @property {Number} endSpeed
+		 */
+		this.endSpeed = 0;
+		/**
+		 * Acceleration to apply to the particle.
+		 * @property {PIXI.Point} accleration
+		 */
+		this.acceleration = new PIXI.Point();
+		/**
+		 * The scale of the particle at the start of its life.
+		 * @property {Number} startScale
+		 */
+		this.startScale = 0;
+		/**
+		 * The scale of the particle at the start of its life.
+		 * @property {Number} endScale
+		 */
+		this.endScale = 0;
+		/**
+		 * The tint of the particle at the start of its life.
+		 * @property {Array} startColor
+		 */
+		this.startColor = null;
+		/**
+		 * The red tint of the particle at the start of its life.
+		 * This is pulled from startColor in init().
+		 * @property {uint} _sR
+		 * @private
+		 */
+		this._sR = 0;
+		/**
+		 * The green tint of the particle at the start of its life.
+		 * This is pulled from startColor in init().
+		 * @property {uint} _sG
+		 * @private
+		 */
+		this._sG = 0;
+		/**
+		 * The blue tint of the particle at the start of its life.
+		 * This is pulled from startColor in init().
+		 * @property {uint} _sB
+		 * @private
+		 */
+		this._sB = 0;
+		/**
+		 * The tint of the particle at the start of its life.
+		 * @property {Array} endColor
+		 */
+		this.endColor = null;
+		/**
+		 * The red tint of the particle at the end of its life.
+		 * This is pulled from endColor in init().
+		 * @property {uint} _eR
+		 * @private
+		 */
+		this._eR = 0;
+		/**
+		 * The green tint of the particle at the end of its life.
+		 * This is pulled from endColor in init().
+		 * @property {uint} _sG
+		 * @private
+		 */
+		this._eG = 0;
+		/**
+		 * The blue tint of the particle at the end of its life.
+		 * This is pulled from endColor in init().
+		 * @property {uint} _sB
+		 * @private
+		 */
+		this._eB = 0;
+		/**
+		 * If alpha should be interpolated at all.
+		 * @property {Boolean} _doAlpha
+		 * @private
+		 */
+		this._doAlpha = false;
+		/**
+		 * If scale should be interpolated at all.
+		 * @property {Boolean} _doScale
+		 * @private
+		 */
+		this._doScale = false;
+		/**
+		 * If speed should be interpolated at all.
+		 * @property {Boolean} _doSpeed
+		 * @private
+		 */
+		this._doSpeed = false;
+		/**
+		 * If acceleration should be handled at all. _doSpeed is mutually exclusive with this,
+		 * and _doSpeed gets priority.
+		 * @property {Boolean} _doAcceleration
+		 * @private
+		 */
+		this._doAcceleration = false;
+		/**
+		 * If color should be interpolated at all.
+		 * @property {Boolean} _doColor
+		 * @private
+		 */
+		this._doColor = false;
+		/**
+		 * If normal movement should be handled. Subclasses wishing to override movement
+		 * can set this to false in init().
+		 * @property {Boolean} _doNormalMovement
+		 * @private
+		 */
+		this._doNormalMovement = false;
+		/**
+		 * One divided by the max life of the particle, saved for slightly faster math.
+		 * @property {Number} _oneOverLife
+		 * @private
+		 */
+		this._oneOverLife = 0;
+
+		/**
+		 * Reference to the next particle in the list.
+		 * @property {Particle} next
+		 * @private
+		 */
+		this.next = null;
+
+		/**
+		 * Reference to the previous particle in the list.
+		 * @property {Particle} prev
+		 * @private
+		 */
+		this.prev = null;
+
+		//save often used functions on the instance instead of the prototype for better speed
+		this.init = this.init;
+		this.Particle_init = this.Particle_init;
+		this.update = this.update;
+		this.Particle_update = this.Particle_update;
+		this.applyArt = this.applyArt;
+		this.kill = this.kill;
+	};
+
+	// Reference to the prototype
+	var p = Particle.prototype = Object.create(Sprite.prototype);
+
+	/**
+	 * Initializes the particle for use, based on the properties that have to
+	 * have been set already on the particle.
+	 * @method init
+	 */
+	/**
+	 * A reference to init, so that subclasses can access it without the penalty of Function.call()
+	 * @method Particle_init
+	 * @private
+	 */
+	p.init = p.Particle_init = function()
+	{
+		//reset the age
+		this.age = 0;
+		//set up the velocity based on the start speed and rotation
+		this.velocity.x = this.startSpeed;
+		this.velocity.y = 0;
+		ParticleUtils.rotatePoint(this.rotation, this.velocity);
+		//convert rotation to Radians from Degrees
+		this.rotation *= ParticleUtils.DEG_TO_RADS;
+		//convert rotation speed to Radians from Degrees
+		this.rotationSpeed *= ParticleUtils.DEG_TO_RADS;
+		//set alpha to inital alpha
+		this.alpha = this.startAlpha;
+		//set scale to initial scale
+		this.scale.x = this.scale.y = this.startScale;
+		//determine start and end color values
+		if (this.startColor)
+		{
+			this._sR = this.startColor[0];
+			this._sG = this.startColor[1];
+			this._sB = this.startColor[2];
+			if(this.endColor)
+			{
+				this._eR = this.endColor[0];
+				this._eG = this.endColor[1];
+				this._eB = this.endColor[2];
+			}
+		}
+		//figure out what we need to interpolate
+		this._doAlpha = this.startAlpha != this.endAlpha;
+		this._doSpeed = this.startSpeed != this.endSpeed;
+		this._doScale = this.startScale != this.endScale;
+		this._doColor = !!this.endColor;
+		this._doAcceleration = this.acceleration.x !== 0 || this.acceleration.y !== 0;
+		//_doNormalMovement can be cancelled by subclasses
+		this._doNormalMovement = this._doSpeed || this.startSpeed !== 0 || this._doAcceleration;
+		//save our lerp helper
+		this._oneOverLife = 1 / this.maxLife;
+		//set the inital color
+		this.tint = ParticleUtils.combineRGBComponents(this._sR, this._sG, this._sB);
+		//ensure visibility
+		this.visible = true;
+	};
+
+	/**
+	 * Sets the texture for the particle. This can be overridden to allow
+	 * for an animated particle.
+	 * @method applyArt
+	 * @param {PIXI.Texture} art The texture to set.
+	 */
+	p.applyArt = function(art)
+	{
+		if (useAPI3)
+		{
+			//remove warning on PIXI 3
+			this.texture = art;
+		}
+		else
+		{
+			this.setTexture(art);
+		}
+	};
+
+	/**
+	 * Updates the particle.
+	 * @method update
+	 * @param {Number} delta Time elapsed since the previous frame, in __seconds__.
+	 * @return {Number} The standard interpolation multiplier (0-1) used for all relevant particle
+	 *                   properties. A value of -1 means the particle died of old age instead.
+	 */
+	/**
+	 * A reference to update so that subclasses can access the original without the overhead
+	 * of Function.call().
+	 * @method Particle_update
+	 * @param {Number} delta Time elapsed since the previous frame, in __seconds__.
+	 * @return {Number} The standard interpolation multiplier (0-1) used for all relevant particle
+	 *                   properties. A value of -1 means the particle died of old age instead.
+	 * @private
+	 */
+	p.update = p.Particle_update = function(delta)
+	{
+		//increase age
+		this.age += delta;
+		//recycle particle if it is too old
+		if(this.age >= this.maxLife)
+		{
+			this.kill();
+			return -1;
+		}
+
+		//determine our interpolation value
+		var lerp = this.age * this._oneOverLife;//lifetime / maxLife;
+		if (this.ease)
+		{
+			if(this.ease.length == 4)
+			{
+				//the t, b, c, d parameters that some tween libraries use
+				//(time, initial value, end value, duration)
+				lerp = this.ease(lerp, 0, 1, 1);
+			}
+			else
+			{
+				//the simplified version that we like that takes
+				//one parameter, time from 0-1. TweenJS eases provide this usage.
+				lerp = this.ease(lerp);
+			}
+		}
+
+		//interpolate alpha
+		if (this._doAlpha)
+			this.alpha = (this.endAlpha - this.startAlpha) * lerp + this.startAlpha;
+		//interpolate scale
+		if (this._doScale)
+		{
+			var scale = (this.endScale - this.startScale) * lerp + this.startScale;
+			this.scale.x = this.scale.y = scale;
+		}
+		//handle movement
+		if(this._doNormalMovement)
+		{
+			//interpolate speed
+			if (this._doSpeed)
+			{
+				var speed = (this.endSpeed - this.startSpeed) * lerp + this.startSpeed;
+				ParticleUtils.normalize(this.velocity);
+				ParticleUtils.scaleBy(this.velocity, speed);
+			}
+			else if(this._doAcceleration)
+			{
+				this.velocity.x += this.acceleration.x * delta;
+				this.velocity.y += this.acceleration.y * delta;
+			}
+			//adjust position based on velocity
+			this.position.x += this.velocity.x * delta;
+			this.position.y += this.velocity.y * delta;
+		}
+		//interpolate color
+		if (this._doColor)
+		{
+			var r = (this._eR - this._sR) * lerp + this._sR;
+			var g = (this._eG - this._sG) * lerp + this._sG;
+			var b = (this._eB - this._sB) * lerp + this._sB;
+			this.tint = ParticleUtils.combineRGBComponents(r, g, b);
+		}
+		//update rotation
+		if(this.rotationSpeed !== 0)
+		{
+			this.rotation += this.rotationSpeed * delta;
+		}
+		else if(this.acceleration)
+		{
+			this.rotation = Math.atan2(this.velocity.y, this.velocity.x);// + Math.PI / 2;
+		}
+		return lerp;
+	};
+
+	/**
+	 * Kills the particle, removing it from the display list
+	 * and telling the emitter to recycle it.
+	 * @method kill
+	 */
+	p.kill = function()
+	{
+		this.emitter.recycle(this);
+	};
+
+	/**
+	 * Destroys the particle, removing references and preventing future use.
+	 * @method destroy
+	 */
+	p.destroy = function()
+	{
+		this.emitter = this.velocity = this.startColor = this.endColor = this.ease =
+			this.next = this.prev = null;
+	};
+
+	/**
+	 * Checks over the art that was passed to the Emitter's init() function, to do any special
+	 * modifications to prepare it ahead of time.
+	 * @method parseArt
+	 * @static
+	 * @param  {Array} art The array of art data. For Particle, it should be an array of Textures.
+	 *                     Any strings in the array will be converted to Textures via
+	 *                     Texture.fromImage().
+	 * @return {Array} The art, after any needed modifications.
+	 */
+	Particle.parseArt = function(art)
+	{
+		//convert any strings to Textures.
+		var i;
+		for(i = art.length; i >= 0; --i)
+		{
+			if(typeof art[i] == "string")
+				art[i] = PIXI.Texture.fromImage(art[i]);
+		}
+		//particles from different base textures will be slower in WebGL than if they
+		//were from one spritesheet
+		if(true)
+		{
+			for(i = art.length - 1; i > 0; --i)
+			{
+				if(art[i].baseTexture != art[i - 1].baseTexture)
+				{
+					if (window.console)
+						console.warn("PixiParticles: using particle textures from different images may hinder performance in WebGL");
+					break;
+				}
+			}
+		}
+
+		return art;
+	};
+
+	/**
+	 * Parses extra emitter data to ensure it is set up for this particle class.
+	 * Particle does nothing to the extra data.
+	 * @method parseData
+	 * @static
+	 * @param  {Object} extraData The extra data from the particle config.
+	 * @return {Object} The parsed extra data.
+	 */
+	Particle.parseData = function(extraData)
+	{
+		return extraData;
+	};
+
+	cloudkid.Particle = Particle;
+
+}(cloudkid));
+
+/**
+*  @module Pixi Particles
+*  @namespace cloudkid
+*/
+(function(cloudkid, undefined) {
+
+	"use strict";
+
+	var ParticleUtils = cloudkid.ParticleUtils,
+		Particle = cloudkid.Particle,
+		ParticleContainer = PIXI.ParticleContainer;
+
+	/**
+	 * A particle emitter.
+	 * @class Emitter
+	 * @constructor
+	 * @param {PIXI.DisplayObjectContainer} particleParent The display object to add the
+	 *                                                     particles to.
+	 * @param {Array|PIXI.Texture|String} [particleImages] A texture or array of textures to use
+	 *                                                     for the particles. Strings will be turned
+	 *                                                     into textures via Texture.fromImage().
+	 * @param {Object} [config] A configuration object containing settings for the emitter.
+	 */
+	var Emitter = function(particleParent, particleImages, config)
+	{
+		/**
+		 * The constructor used to create new particles. The default is
+		 * the built in particle class.
+		 * @property {Function} _particleConstructor
+		 * @private
+		 */
+		this._particleConstructor = Particle;
+		//properties for individual particles
+		/**
+		 * An array of PIXI Texture objects.
+		 * @property {Array} particleImages
+		 */
+		this.particleImages = null;
+		/**
+		 * The starting alpha of all particles.
+		 * @property {Number} startAlpha
+		 * @default 1
+		 */
+		this.startAlpha = 1;
+		/**
+		 * The ending alpha of all particles.
+		 * @property {Number} endAlpha
+		 * @default 1
+		 */
+		this.endAlpha = 1;
+		/**
+		 * The starting speed of all particles.
+		 * @property {Number} startSpeed
+		 * @default 0
+		 */
+		this.startSpeed = 0;
+		/**
+		 * The ending speed of all particles.
+		 * @property {Number} endSpeed
+		 * @default 0
+		 */
+		this.endSpeed = 0;
+		/**
+		 * Acceleration to apply to particles. Using this disables
+		 * any interpolation of particle speed. If the particles do
+		 * not have a rotation speed, then they will be rotated to
+		 * match the direction of travel.
+		 * @property {PIXI.Point} acceleration
+		 * @default null
+		 */
+		this.acceleration = null;
+		/**
+		 * The starting scale of all particles.
+		 * @property {Number} startScale
+		 * @default 1
+		 */
+		this.startScale = 1;
+		/**
+		 * The ending scale of all particles.
+		 * @property {Number} endScale
+		 * @default 1
+		 */
+		this.endScale = 1;
+		/**
+		 * A minimum multiplier for the scale of a particle at both start and
+		 * end. A value between minimumScaleMultiplier and 1 is randomly generated
+		 * and multiplied with startScale and endScale to provide the actual
+		 * startScale and endScale for each particle.
+		 * @property {Number} minimumScaleMultiplier
+		 * @default 1
+		 */
+		this.minimumScaleMultiplier = 1;
+		/**
+		 * The starting color of all particles, as red, green, and blue uints from 0-255.
+		 * @property {Array} startColor
+		 */
+		this.startColor = null;
+		/**
+		 * The ending color of all particles, as red, green, and blue uints from 0-255.
+		 * @property {Array} endColor
+		 */
+		this.endColor = null;
+		/**
+		 * The minimum lifetime for a particle, in seconds.
+		 * @property {Number} minLifetime
+		 */
+		this.minLifetime = 0;
+		/**
+		 * The maximum lifetime for a particle, in seconds.
+		 * @property {Number} maxLifetime
+		 */
+		this.maxLifetime = 0;
+		/**
+		 * The minimum start rotation for a particle, in degrees. This value
+		 * is ignored if the spawn type is "burst" or "arc".
+		 * @property {Number} minStartRotation
+		 */
+		this.minStartRotation = 0;
+		/**
+		 * The maximum start rotation for a particle, in degrees. This value
+		 * is ignored if the spawn type is "burst" or "arc".
+		 * @property {Number} maxStartRotation
+		 */
+		this.maxStartRotation = 0;
+		/**
+		 * The minimum rotation speed for a particle, in degrees per second.
+		 * This only visually spins the particle, it does not change direction of movement.
+		 * @property {Number} minRotationSpeed
+		 */
+		this.minRotationSpeed = 0;
+		/**
+		 * The maximum rotation speed for a particle, in degrees per second.
+		 * This only visually spins the particle, it does not change direction of movement.
+		 * @property {Number} maxRotationSpeed
+		 */
+		this.maxRotationSpeed = 0;
+		/**
+		 * The blend mode for all particles, as named by PIXI.blendModes.
+		 * @property {int} particleBlendMode
+		 */
+		this.particleBlendMode = 0;
+		/**
+		 * An easing function for nonlinear interpolation of values. Accepts a single
+		 * parameter of time as a value from 0-1, inclusive. Expected outputs are values
+		 * from 0-1, inclusive.
+		 * @property {Function} customEase
+		 */
+		this.customEase = null;
+		/**
+		 *	Extra data for use in custom particles. The emitter doesn't look inside, but
+		 *	passes it on to the particle to use in init().
+		 *	@property {Object} extraData
+		 */
+		this.extraData = null;
+		//properties for spawning particles
+		/**
+		 * Time between particle spawns in seconds.
+		 * @property {Number} _frequency
+		 * @private
+		 */
+		this._frequency = 1;
+		/**
+		 * Maximum number of particles to keep alive at a time. If this limit
+		 * is reached, no more particles will spawn until some have died.
+		 * @property {int} maxParticles
+		 * @default 1000
+		 */
+		this.maxParticles = 1000;
+		/**
+		 * The amount of time in seconds to emit for before setting emit to false.
+		 * A value of -1 is an unlimited amount of time.
+		 * @property {Number} emitterLifetime
+		 * @default -1
+		 */
+		this.emitterLifetime = -1;
+		/**
+		 * Position at which to spawn particles, relative to the emitter's owner's origin.
+		 * For example, the flames of a rocket travelling right might have a spawnPos
+		 * of {x:-50, y:0}.
+		 * to spawn at the rear of the rocket.
+		 * To change this, use updateSpawnPos().
+		 * @property {PIXI.Point} spawnPos
+		 * @readOnly
+		 */
+		this.spawnPos = null;
+		/**
+		 * How the particles will be spawned. Valid types are "point", "rectangle",
+		 * "circle", "burst", "ring".
+		 * @property {String} spawnType
+		 * @readOnly
+		 */
+		this.spawnType = null;
+		/**
+		 * A reference to the emitter function specific to the spawn type.
+		 * @property {Function} _spawnFunc
+		 * @private
+		 */
+		this._spawnFunc = null;
+		/**
+		 * A rectangle relative to spawnPos to spawn particles inside if the spawn type is "rect".
+		 * @property {PIXI.Rectangle} spawnRect
+		 */
+		this.spawnRect = null;
+		/**
+		 * A circle relative to spawnPos to spawn particles inside if the spawn type is "circle".
+		 * @property {PIXI.Circle} spawnCircle
+		 */
+		this.spawnCircle = null;
+		/**
+		 * Number of particles to spawn each wave in a burst.
+		 * @property {int} particlesPerWave
+		 * @default 1
+		 */
+		this.particlesPerWave = 1;
+		/**
+		 * Spacing between particles in a burst. 0 gives a random angle for each particle.
+		 * @property {Number} particleSpacing
+		 * @default 0
+		 */
+		this.particleSpacing = 0;
+		/**
+		 * Angle at which to start spawning particles in a burst.
+		 * @property {Number} angleStart
+		 * @default 0
+		 */
+		this.angleStart = 0;
+		/**
+		 * Rotation of the emitter or emitter's owner in degrees. This is added to
+		 * the calculated spawn angle.
+		 * To change this, use rotate().
+		 * @property {Number} rotation
+		 * @default 0
+		 * @readOnly
+		 */
+		this.rotation = 0;
+		/**
+		 * The world position of the emitter's owner, to add spawnPos to when
+		 * spawning particles. To change this, use updateOwnerPos().
+		 * @property {PIXI.Point} ownerPos
+		 * @default {x:0, y:0}
+		 * @readOnly
+		 */
+		this.ownerPos = null;
+		/**
+		 * The origin + spawnPos in the previous update, so that the spawn position
+		 * can be interpolated to space out particles better.
+		 * @property {PIXI.Point} _prevEmitterPos
+		 * @private
+		 */
+		this._prevEmitterPos = null;
+		/**
+		 * If _prevEmitterPos is valid, to prevent interpolation on the first update
+		 * @property {Boolean} _prevPosIsValid
+		 * @private
+		 * @default false
+		 */
+		this._prevPosIsValid = false;
+		/**
+		 * If either ownerPos or spawnPos has changed since the previous update.
+		 * @property {Boolean} _posChanged
+		 */
+		this._posChanged = false;
+		/**
+		 * If the parent is a ParticleContainer from Pixi V3
+		 * @property {Boolean} _parentIsPC
+		 * @private
+		 */
+		this._parentIsPC = false;
+		/**
+		 * The display object to add particles to.
+		 * @property {PIXI.DisplayObjectContainer} _parent
+		 * @private
+		 */
+		this._parent = null;
+		/**
+		 * If particles should be added at the back of the display list instead of the front.
+		 * @property {Boolean} addAtBack
+		 */
+		this.addAtBack = false;
+		/**
+		 * The current number of active particles.
+		 * @property {Number} particleCount
+		 * @readOnly
+		 */
+		this.particleCount = 0;
+		/**
+		 * If particles should be emitted during update() calls. Setting this to false
+		 * stops new particles from being created, but allows existing ones to die out.
+		 * @property {Boolean} _emit
+		 * @private
+		 */
+		this._emit = false;
+		/**
+		 * The timer for when to spawn particles in seconds, where numbers less
+		 * than 0 mean that particles should be spawned.
+		 * @property {Number} _spawnTimer
+		 * @private
+		 */
+		this._spawnTimer = 0;
+		/**
+		 * The life of the emitter in seconds.
+		 * @property {Number} _emitterLife
+		 * @private
+		 */
+		this._emitterLife = -1;
+		/**
+		 * The particles that are active and on the display list. This is the first particle in a
+		 * linked list.
+		 * @property {Particle} _activeParticlesFirst
+		 * @private
+		 */
+		this._activeParticlesFirst = null;
+		/**
+		 * The particles that are active and on the display list. This is the last particle in a
+		 * linked list.
+		 * @property {Particle} _activeParticlesLast
+		 * @private
+		 */
+		this._activeParticlesLast = null;
+		/**
+		 * The particles that are not currently being used. This is the first particle in a
+		 * linked list.
+		 * @property {Particle} _poolFirst
+		 * @private
+		 */
+		this._poolFirst = null;
+		/**
+		 * The original config object that this emitter was initialized with.
+		 * @property {Object} _origConfig
+		 * @private
+		 */
+		this._origConfig = null;
+		/**
+		 * The original particle image data that this emitter was initialized with.
+		 * @property {PIXI.Texture|Array|String} _origArt
+		 * @private
+		 */
+		this._origArt = null;
+
+		//set the initial parent
+		this.parent = particleParent;
+
+		if(particleImages && config)
+			this.init(particleImages, config);
+
+		//save often used functions on the instance instead of the prototype for better speed
+		this.recycle = this.recycle;
+		this.update = this.update;
+		this.rotate = this.rotate;
+		this.updateSpawnPos = this.updateSpawnPos;
+		this.updateOwnerPos = this.updateOwnerPos;
+	};
+
+	// Reference to the prototype
+	var p = Emitter.prototype = {};
+
+	var helperPoint = new PIXI.Point();
+
+	/**
+	 * Time between particle spawns in seconds. If this value is not a number greater than 0,
+	 * it will be set to 1 (particle per second) to prevent infinite loops.
+	 * @property {Number} frequency
+	 */
+	Object.defineProperty(p, "frequency",
+	{
+		get: function() { return this._frequency; },
+		set: function(value)
+		{
+			//do some error checking to prevent infinite loops
+			if(typeof value == "number" && value > 0)
+				this._frequency = value;
+			else
+				this._frequency = 1;
+		}
+	});
+
+	/**
+	 * The constructor used to create new particles. The default is
+	 * the built in Particle class. Setting this will dump any active or
+	 * pooled particles, if the emitter has already been used.
+	 * @property {Function} particleConstructor
+	 */
+	Object.defineProperty(p, "particleConstructor",
+	{
+		get: function() { return this._particleConstructor; },
+		set: function(value)
+		{
+			if(value != this._particleConstructor)
+			{
+				this._particleConstructor = value;
+				//clean up existing particles
+				this.cleanup();
+				//scrap all the particles
+				for (var particle = this._poolFirst; particle; particle = particle.next)
+				{
+					particle.destroy();
+				}
+				this._poolFirst = null;
+				//re-initialize the emitter so that the new constructor can do anything it needs to
+				if(this._origConfig && this._origArt)
+					this.init(this._origArt, this._origConfig);
+			}
+		}
+	});
+
+	/**
+	* The display object to add particles to. Settings this will dump any active particles.
+	* @property {PIXI.DisplayObjectContainer} parent
+	*/
+	Object.defineProperty(p, "parent",
+	{
+		get: function() { return this._parent; },
+		set: function(value)
+		{
+			this.cleanup();
+			this._parent = value;
+			this._parentIsPC = ParticleContainer && value && value instanceof ParticleContainer;
+		}
+	});
+
+	/**
+	 * Sets up the emitter based on the config settings.
+	 * @method init
+	 * @param {Array|PIXI.Texture} art A texture or array of textures to use for the particles.
+	 * @param {Object} config A configuration object containing settings for the emitter.
+	 */
+	p.init = function(art, config)
+	{
+		if(!art || !config)
+			return;
+		//clean up any existing particles
+		this.cleanup();
+
+		//store the original config and particle images, in case we need to re-initialize
+		//when the particle constructor is changed
+		this._origConfig = config;
+		this._origArt = art;
+
+		//set up the array of data, also ensuring that it is an array
+		art = Array.isArray(art) ? art.slice() : [art];
+		//run the art through the particle class's parsing function
+		var partClass = this._particleConstructor;
+		this.particleImages = partClass.parseArt ? partClass.parseArt(art) : art;
+		///////////////////////////
+		// Particle Properties   //
+		///////////////////////////
+		//set up the alpha
+		if (config.alpha)
+		{
+			this.startAlpha = config.alpha.start;
+			this.endAlpha = config.alpha.end;
+		}
+		else
+			this.startAlpha = this.endAlpha = 1;
+		//set up the speed
+		if (config.speed)
+		{
+			this.startSpeed = config.speed.start;
+			this.endSpeed = config.speed.end;
+		}
+		else
+			this.startSpeed = this.endSpeed = 0;
+		//set up acceleration
+		var acceleration = config.acceleration;
+		if(acceleration && (acceleration.x || acceleration.y))
+		{
+			this.endSpeed = this.startSpeed;
+			this.acceleration = new PIXI.Point(acceleration.x, acceleration.y);
+		}
+		else
+			this.acceleration = new PIXI.Point();
+		//set up the scale
+		if (config.scale)
+		{
+			this.startScale = config.scale.start;
+			this.endScale = config.scale.end;
+			this.minimumScaleMultiplier = config.scale.minimumScaleMultiplier || 1;
+		}
+		else
+			this.startScale = this.endScale = this.minimumScaleMultiplier = 1;
+		//set up the color
+		if (config.color)
+		{
+			this.startColor = ParticleUtils.hexToRGB(config.color.start);
+			//if it's just one color, only use the start color
+			if (config.color.start != config.color.end)
+			{
+				this.endColor = ParticleUtils.hexToRGB(config.color.end);
+			}
+			else
+				this.endColor = null;
+		}
+		//set up the start rotation
+		if (config.startRotation)
+		{
+			this.minStartRotation = config.startRotation.min;
+			this.maxStartRotation = config.startRotation.max;
+		}
+		else
+			this.minStartRotation = this.maxStartRotation = 0;
+		//set up the rotation speed
+		if (config.rotationSpeed)
+		{
+			this.minRotationSpeed = config.rotationSpeed.min;
+			this.maxRotationSpeed = config.rotationSpeed.max;
+		}
+		else
+			this.minRotationSpeed = this.maxRotationSpeed = 0;
+		//set up the lifetime
+		this.minLifetime = config.lifetime.min;
+		this.maxLifetime = config.lifetime.max;
+		//get the blend mode
+		this.particleBlendMode = ParticleUtils.getBlendMode(config.blendMode);
+		//use the custom ease if provided
+		if (config.ease)
+		{
+			this.customEase = typeof config.ease == "function" ?
+														config.ease :
+														ParticleUtils.generateEase(config.ease);
+		}
+		else
+			this.customEase = null;
+		//set up the extra data, running it through the particle class's parseData function.
+		if(partClass.parseData)
+			this.extraData = partClass.parseData(config.extraData);
+		else
+			this.extraData = config.extraData || null;
+		//////////////////////////
+		// Emitter Properties   //
+		//////////////////////////
+		//reset spawn type specific settings
+		this.spawnRect = this.spawnCircle = null;
+		this.particlesPerWave = 1;
+		this.particleSpacing = 0;
+		this.angleStart = 0;
+		var spawnCircle;
+		//determine the spawn function to use
+		switch(config.spawnType)
+		{
+			case "rect":
+				this.spawnType = "rect";
+				this._spawnFunc = this._spawnRect;
+				var spawnRect = config.spawnRect;
+				this.spawnRect = new PIXI.Rectangle(spawnRect.x, spawnRect.y, spawnRect.w, spawnRect.h);
+				break;
+			case "circle":
+				this.spawnType = "circle";
+				this._spawnFunc = this._spawnCircle;
+				spawnCircle = config.spawnCircle;
+				this.spawnCircle = new PIXI.Circle(spawnCircle.x, spawnCircle.y, spawnCircle.r);
+				break;
+			case "ring":
+				this.spawnType = "ring";
+				this._spawnFunc = this._spawnRing;
+				spawnCircle = config.spawnCircle;
+				this.spawnCircle = new PIXI.Circle(spawnCircle.x, spawnCircle.y, spawnCircle.r);
+				this.spawnCircle.minRadius = spawnCircle.minR;
+				break;
+			case "burst":
+				this.spawnType = "burst";
+				this._spawnFunc = this._spawnBurst;
+				this.particlesPerWave = config.particlesPerWave;
+				this.particleSpacing = config.particleSpacing;
+				this.angleStart = config.angleStart ? config.angleStart : 0;
+				break;
+			case "point":
+				this.spawnType = "point";
+				this._spawnFunc = this._spawnPoint;
+				break;
+			default:
+				this.spawnType = "point";
+				this._spawnFunc = this._spawnPoint;
+				break;
+		}
+		//set the spawning frequency
+		this.frequency = config.frequency;
+		//set the emitter lifetime
+		this.emitterLifetime = config.emitterLifetime || -1;
+		//set the max particles
+		this.maxParticles = config.maxParticles > 0 ? config.maxParticles : 1000;
+		//determine if we should add the particle at the back of the list or not
+		this.addAtBack = !!config.addAtBack;
+		//reset the emitter position and rotation variables
+		this.rotation = 0;
+		this.ownerPos = new PIXI.Point();
+		this.spawnPos = new PIXI.Point(config.pos.x, config.pos.y);
+		this._prevEmitterPos = this.spawnPos.clone();
+		//previous emitter position is invalid and should not be used for interpolation
+		this._prevPosIsValid = false;
+		//start emitting
+		this._spawnTimer = 0;
+		this.emit = true;
+	};
+
+	/**
+	 * Recycles an individual particle.
+	 * @method recycle
+	 * @param {Particle} particle The particle to recycle.
+	 */
+	p.recycle = function(particle)
+	{
+		if(particle.next)
+			particle.next.prev = particle.prev;
+		if(particle.prev)
+			particle.prev.next = particle.next;
+		if(particle == this._activeParticlesLast)
+			this._activeParticlesLast = particle.prev;
+		if(particle == this._activeParticlesFirst)
+			this._activeParticlesFirst = particle.next;
+		//add to pool
+		particle.prev = null;
+		particle.next = this._poolFirst;
+		this._poolFirst = particle;
+		//remove child from display, or make it invisible if it is in a ParticleContainer
+		if(this._parentIsPC)
+		{
+			particle.alpha = 0;
+			particle.visible = false;
+		}
+		else
+		{
+			if(particle.parent)
+				particle.parent.removeChild(particle);
+		}
+		//decrease count
+		--this.particleCount;
+	};
+
+	/**
+	 * Sets the rotation of the emitter to a new value.
+	 * @method rotate
+	 * @param {Number} newRot The new rotation, in degrees.
+	 */
+	p.rotate = function(newRot)
+	{
+		if (this.rotation == newRot) return;
+		//caclulate the difference in rotation for rotating spawnPos
+		var diff = newRot - this.rotation;
+		this.rotation = newRot;
+		//rotate spawnPos
+		ParticleUtils.rotatePoint(diff, this.spawnPos);
+		//mark the position as having changed
+		this._posChanged = true;
+	};
+
+	/**
+	 * Changes the spawn position of the emitter.
+	 * @method updateSpawnPos
+	 * @param {Number} x The new x value of the spawn position for the emitter.
+	 * @param {Number} y The new y value of the spawn position for the emitter.
+	 */
+	p.updateSpawnPos = function(x, y)
+	{
+		this._posChanged = true;
+		this.spawnPos.x = x;
+		this.spawnPos.y = y;
+	};
+
+	/**
+	 * Changes the position of the emitter's owner. You should call this if you are adding
+	 * particles to the world display object that your emitter's owner is moving around in.
+	 * @method updateOwnerPos
+	 * @param {Number} x The new x value of the emitter's owner.
+	 * @param {Number} y The new y value of the emitter's owner.
+	 */
+	p.updateOwnerPos = function(x, y)
+	{
+		this._posChanged = true;
+		this.ownerPos.x = x;
+		this.ownerPos.y = y;
+	};
+
+	/**
+	 * Prevents emitter position interpolation in the next update.
+	 * This should be used if you made a major position change of your emitter's owner
+	 * that was not normal movement.
+	 * @method resetPositionTracking
+	 */
+	p.resetPositionTracking = function()
+	{
+		this._prevPosIsValid = false;
+	};
+
+	/**
+	 * If particles should be emitted during update() calls. Setting this to false
+	 * stops new particles from being created, but allows existing ones to die out.
+	 * @property {Boolean} emit
+	 */
+	Object.defineProperty(p, "emit",
+	{
+		get: function() { return this._emit; },
+		set: function(value)
+		{
+			this._emit = !!value;
+			this._emitterLife = this.emitterLifetime;
+		}
+	});
+
+	/**
+	 * Updates all particles spawned by this emitter and emits new ones.
+	 * @method update
+	 * @param {Number} delta Time elapsed since the previous frame, in __seconds__.
+	 */
+	p.update = function(delta)
+	{
+		//update existing particles
+		var i, particle, next;
+		for (particle = this._activeParticlesFirst; particle; particle = next)
+		{
+			next = particle.next;
+			particle.update(delta);
+		}
+		var prevX, prevY;
+		//if the previous position is valid, store these for later interpolation
+		if(this._prevPosIsValid)
+		{
+			prevX = this._prevEmitterPos.x;
+			prevY = this._prevEmitterPos.y;
+		}
+		//store current position of the emitter as local variables
+		var curX = this.ownerPos.x + this.spawnPos.x;
+		var curY = this.ownerPos.y + this.spawnPos.y;
+		//spawn new particles
+		if (this.emit)
+		{
+			//decrease spawn timer
+			this._spawnTimer -= delta;
+			//while _spawnTimer < 0, we have particles to spawn
+			while(this._spawnTimer <= 0)
+			{
+				//determine if the emitter should stop spawning
+				if(this._emitterLife > 0)
+				{
+					this._emitterLife -= this._frequency;
+					if(this._emitterLife <= 0)
+					{
+						this._spawnTimer = 0;
+						this._emitterLife = 0;
+						this.emit = false;
+						break;
+					}
+				}
+				//determine if we have hit the particle limit
+				if(this.particleCount >= this.maxParticles)
+				{
+					this._spawnTimer += this._frequency;
+					continue;
+				}
+				//determine the particle lifetime
+				var lifetime;
+				if (this.minLifetime == this.maxLifetime)
+					lifetime = this.minLifetime;
+				else
+					lifetime = Math.random() * (this.maxLifetime - this.minLifetime) + this.minLifetime;
+				//only make the particle if it wouldn't immediately destroy itself
+				if(-this._spawnTimer < lifetime)
+				{
+					//If the position has changed and this isn't the first spawn,
+					//interpolate the spawn position
+					var emitPosX, emitPosY;
+					if (this._prevPosIsValid && this._posChanged)
+					{
+						//1 - _spawnTimer / delta, but _spawnTimer is negative
+						var lerp = 1 + this._spawnTimer / delta;
+						emitPosX = (curX - prevX) * lerp + prevX;
+						emitPosY = (curY - prevY) * lerp + prevY;
+					}
+					else//otherwise just set to the spawn position
+					{
+						emitPosX = curX;
+						emitPosY = curY;
+					}
+					//create enough particles to fill the wave (non-burst types have a wave of 1)
+					i = 0;
+					for(var len = Math.min(this.particlesPerWave, this.maxParticles - this.particleCount); i < len; ++i)
+					{
+						//create particle
+						var p;
+						if(this._poolFirst)
+						{
+							p = this._poolFirst;
+							this._poolFirst = this._poolFirst.next;
+							p.next = null;
+						}
+						else
+						{
+							p = new this.particleConstructor(this);
+						}
+
+						//set a random texture if we have more than one
+						if(this.particleImages.length > 1)
+						{
+							p.applyArt(this.particleImages.random());
+						}
+						else
+						{
+							//if they are actually the same texture, a standard particle
+							//will quit early from the texture setting in setTexture().
+							p.applyArt(this.particleImages[0]);
+						}
+						//set up the start and end values
+						p.startAlpha = this.startAlpha;
+						p.endAlpha = this.endAlpha;
+						p.startSpeed = this.startSpeed;
+						p.endSpeed = this.endSpeed;
+						p.acceleration.x = this.acceleration.x;
+						p.acceleration.y = this.acceleration.y;
+						if(this.minimumScaleMultiplier != 1)
+						{
+							var rand = Math.random() * (1 - this.minimumScaleMultiplier) + this.minimumScaleMultiplier;
+							p.startScale = this.startScale * rand;
+							p.endScale = this.endScale * rand;
+						}
+						else
+						{
+							p.startScale = this.startScale;
+							p.endScale = this.endScale;
+						}
+						p.startColor = this.startColor;
+						p.endColor = this.endColor;
+						//randomize the rotation speed
+						if(this.minRotationSpeed == this.maxRotationSpeed)
+							p.rotationSpeed = this.minRotationSpeed;
+						else
+							p.rotationSpeed = Math.random() * (this.maxRotationSpeed - this.minRotationSpeed) + this.minRotationSpeed;
+						//set up the lifetime
+						p.maxLife = lifetime;
+						//set the blend mode
+						p.blendMode = this.particleBlendMode;
+						//set the custom ease, if any
+						p.ease = this.customEase;
+						//set the extra data, if any
+						p.extraData = this.extraData;
+						//call the proper function to handle rotation and position of particle
+						this._spawnFunc(p, emitPosX, emitPosY, i);
+						//initialize particle
+						p.init();
+						//update the particle by the time passed, so the particles are spread out properly
+						p.update(-this._spawnTimer);//we want a positive delta, because a negative delta messes things up
+						//add the particle to the display list
+						if(!this._parentIsPC || !p.parent)
+						{
+							if (this.addAtBack)
+								this._parent.addChildAt(p, 0);
+							else
+								this._parent.addChild(p);
+						}
+						else
+						{
+							//shuffle children to correct place
+							var children = this._parent.children;
+							//avoid using splice if possible
+							var index = children.indexOf(p);
+							if(index < 1)
+								children.shift();
+							else if(index == children.length - 1)
+								children.pop();
+							else
+								children.splice(index, 1);
+							if(this.addAtBack)
+								children.unshift(p);
+							else
+								children.push(p);
+						}
+						//add particle to list of active particles
+						if(this._activeParticlesLast)
+						{
+							this._activeParticlesLast.next = p;
+							p.prev = this._activeParticlesLast;
+							this._activeParticlesLast = p;
+						}
+						else
+						{
+							this._activeParticlesLast = this._activeParticlesFirst = p;
+						}
+						++this.particleCount;
+					}
+				}
+				//increase timer and continue on to any other particles that need to be created
+				this._spawnTimer += this._frequency;
+			}
+		}
+		//if the position changed before this update, then keep track of that
+		if(this._posChanged)
+		{
+			this._prevEmitterPos.x = curX;
+			this._prevEmitterPos.y = curY;
+			this._prevPosIsValid = true;
+			this._posChanged = false;
+		}
+	};
+
+	/**
+	 * Positions a particle for a point type emitter.
+	 * @method _spawnPoint
+	 * @private
+	 * @param {Particle} p The particle to position and rotate.
+	 * @param {Number} emitPosX The emitter's x position
+	 * @param {Number} emitPosY The emitter's y position
+	 * @param {int} i The particle number in the current wave. Not used for this function.
+	 */
+	p._spawnPoint = function(p, emitPosX, emitPosY, i)
+	{
+		//set the initial rotation/direction of the particle based on
+		//starting particle angle and rotation of emitter
+		if (this.minStartRotation == this.maxStartRotation)
+			p.rotation = this.minStartRotation + this.rotation;
+		else
+			p.rotation = Math.random() * (this.maxStartRotation - this.minStartRotation) + this.minStartRotation + this.rotation;
+		//drop the particle at the emitter's position
+		p.position.x = emitPosX;
+		p.position.y = emitPosY;
+	};
+
+	/**
+	 * Positions a particle for a rectangle type emitter.
+	 * @method _spawnRect
+	 * @private
+	 * @param {Particle} p The particle to position and rotate.
+	 * @param {Number} emitPosX The emitter's x position
+	 * @param {Number} emitPosY The emitter's y position
+	 * @param {int} i The particle number in the current wave. Not used for this function.
+	 */
+	p._spawnRect = function(p, emitPosX, emitPosY, i)
+	{
+		//set the initial rotation/direction of the particle based on starting
+		//particle angle and rotation of emitter
+		if (this.minStartRotation == this.maxStartRotation)
+			p.rotation = this.minStartRotation + this.rotation;
+		else
+			p.rotation = Math.random() * (this.maxStartRotation - this.minStartRotation) + this.minStartRotation + this.rotation;
+		//place the particle at a random point in the rectangle
+		helperPoint.x = Math.random() * this.spawnRect.width + this.spawnRect.x;
+		helperPoint.y = Math.random() * this.spawnRect.height + this.spawnRect.y;
+		if(this.rotation !== 0)
+			ParticleUtils.rotatePoint(this.rotation, helperPoint);
+		p.position.x = emitPosX + helperPoint.x;
+		p.position.y = emitPosY + helperPoint.y;
+	};
+
+	/**
+	 * Positions a particle for a circle type emitter.
+	 * @method _spawnCircle
+	 * @private
+	 * @param {Particle} p The particle to position and rotate.
+	 * @param {Number} emitPosX The emitter's x position
+	 * @param {Number} emitPosY The emitter's y position
+	 * @param {int} i The particle number in the current wave. Not used for this function.
+	 */
+	p._spawnCircle = function(p, emitPosX, emitPosY, i)
+	{
+		//set the initial rotation/direction of the particle based on starting
+		//particle angle and rotation of emitter
+		if (this.minStartRotation == this.maxStartRotation)
+			p.rotation = this.minStartRotation + this.rotation;
+		else
+			p.rotation = Math.random() * (this.maxStartRotation - this.minStartRotation) +
+						this.minStartRotation + this.rotation;
+		//place the particle at a random radius in the circle
+		helperPoint.x = Math.random() * this.spawnCircle.radius;
+		helperPoint.y = 0;
+		//rotate the point to a random angle in the circle
+		ParticleUtils.rotatePoint(Math.random() * 360, helperPoint);
+		//offset by the circle's center
+		helperPoint.x += this.spawnCircle.x;
+		helperPoint.y += this.spawnCircle.y;
+		//rotate the point by the emitter's rotation
+		if(this.rotation !== 0)
+			ParticleUtils.rotatePoint(this.rotation, helperPoint);
+		//set the position, offset by the emitter's position
+		p.position.x = emitPosX + helperPoint.x;
+		p.position.y = emitPosY + helperPoint.y;
+	};
+
+	/**
+	 * Positions a particle for a ring type emitter.
+	 * @method _spawnRing
+	 * @private
+	 * @param {Particle} p The particle to position and rotate.
+	 * @param {Number} emitPosX The emitter's x position
+	 * @param {Number} emitPosY The emitter's y position
+	 * @param {int} i The particle number in the current wave. Not used for this function.
+	 */
+	p._spawnRing = function(p, emitPosX, emitPosY, i)
+	{
+		var spawnCircle = this.spawnCircle;
+		//set the initial rotation/direction of the particle based on starting
+		//particle angle and rotation of emitter
+		if (this.minStartRotation == this.maxStartRotation)
+			p.rotation = this.minStartRotation + this.rotation;
+		else
+			p.rotation = Math.random() * (this.maxStartRotation - this.minStartRotation) +
+						this.minStartRotation + this.rotation;
+		//place the particle at a random radius in the ring
+		if(spawnCircle.minRadius == spawnCircle.radius)
+		{
+			helperPoint.x = Math.random() * (spawnCircle.radius - spawnCircle.minRadius) +
+							spawnCircle.minRadius;
+		}
+		else
+			helperPoint.x = spawnCircle.radius;
+		helperPoint.y = 0;
+		//rotate the point to a random angle in the circle
+		var angle = Math.random() * 360;
+		p.rotation += angle;
+		ParticleUtils.rotatePoint(angle, helperPoint);
+		//offset by the circle's center
+		helperPoint.x += this.spawnCircle.x;
+		helperPoint.y += this.spawnCircle.y;
+		//rotate the point by the emitter's rotation
+		if(this.rotation !== 0)
+			ParticleUtils.rotatePoint(this.rotation, helperPoint);
+		//set the position, offset by the emitter's position
+		p.position.x = emitPosX + helperPoint.x;
+		p.position.y = emitPosY + helperPoint.y;
+	};
+
+	/**
+	 * Positions a particle for a burst type emitter.
+	 * @method _spawnBurst
+	 * @private
+	 * @param {Particle} p The particle to position and rotate.
+	 * @param {Number} emitPosX The emitter's x position
+	 * @param {Number} emitPosY The emitter's y position
+	 * @param {int} i The particle number in the current wave.
+	 */
+	p._spawnBurst = function(p, emitPosX, emitPosY, i)
+	{
+		//set the initial rotation/direction of the particle based on spawn
+		//angle and rotation of emitter
+		if(this.particleSpacing === 0)
+			p.rotation = Math.random() * 360;
+		else
+			p.rotation = this.angleStart + (this.particleSpacing * i) + this.rotation;
+		//drop the particle at the emitter's position
+		p.position.x = emitPosX;
+		p.position.y = emitPosY;
+	};
+
+	/**
+	 * Kills all active particles immediately.
+	 * @method cleanup
+	 */
+	p.cleanup = function()
+	{
+		var particle, next;
+		for (particle = this._activeParticlesFirst; particle; particle = next)
+		{
+			next = particle.next;
+			this.recycle(particle);
+			if(particle.parent)
+				particle.parent.removeChild(particle);
+		}
+		this._activeParticlesFirst = this._activeParticlesLast = null;
+		this.particleCount = 0;
+	};
+
+	/**
+	 * Destroys the emitter and all of its particles.
+	 * @method destroy
+	 */
+	p.destroy = function()
+	{
+		this.cleanup();
+		for (var particle = this._poolFirst; particle; particle = particle.next)
+		{
+			particle.destroy();
+		}
+		this._poolFirst = this._parent = this.particleImages = this.spawnPos = this.ownerPos =
+			this.startColor = this.endColor = this.customEase = null;
+	};
+
+	cloudkid.Emitter = Emitter;
+
+}(cloudkid));
+
+},{}],130:[function(require,module,exports){
 // References:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign
 
@@ -22651,7 +24428,7 @@ if (!Math.sign)
     };
 }
 
-},{}],130:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 // References:
 // https://github.com/sindresorhus/object-assign
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -22661,12 +24438,12 @@ if (!Object.assign)
     Object.assign = require('object-assign');
 }
 
-},{"object-assign":137}],131:[function(require,module,exports){
+},{"object-assign":138}],132:[function(require,module,exports){
 require('./Object.assign');
 require('./requestAnimationFrame');
 require('./Math.sign');
 
-},{"./Math.sign":129,"./Object.assign":130,"./requestAnimationFrame":132}],132:[function(require,module,exports){
+},{"./Math.sign":130,"./Object.assign":131,"./requestAnimationFrame":133}],133:[function(require,module,exports){
 (function (global){
 // References:
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -22736,7 +24513,7 @@ if (!global.cancelAnimationFrame) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],133:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 (function (process,global){
 /*!
  * async
@@ -24005,7 +25782,7 @@ if (!global.cancelAnimationFrame) {
 }());
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":154}],134:[function(require,module,exports){
+},{"_process":156}],135:[function(require,module,exports){
 /*
 * Copyright (c) 2006-2007 Erin Catto http://www.gphysics.com
 *
@@ -34862,7 +36639,7 @@ var i;
 for (i = 0; i < Box2D.postDefs.length; ++i) Box2D.postDefs[i]();
 
 module.exports = Box2D
-},{}],135:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 'use strict';
 
 module.exports = earcut;
@@ -35448,7 +37225,7 @@ function Node(i, x, y) {
     this.steiner = false;
 }
 
-},{}],136:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 'use strict';
 
 //
@@ -35712,7 +37489,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],137:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 /* eslint-disable no-unused-vars */
 'use strict';
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -35753,7 +37530,7 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],138:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 (function (process){
 /*!
  * async
@@ -36880,7 +38657,7 @@ module.exports = Object.assign || function (target, source) {
 }());
 
 }).call(this,require('_process'))
-},{"_process":154}],139:[function(require,module,exports){
+},{"_process":156}],140:[function(require,module,exports){
 var async       = require('async'),
     urlParser   = require('url'),
     Resource    = require('./Resource'),
@@ -37338,7 +39115,7 @@ Loader.LOAD_TYPE = Resource.LOAD_TYPE;
 Loader.XHR_READY_STATE = Resource.XHR_READY_STATE;
 Loader.XHR_RESPONSE_TYPE = Resource.XHR_RESPONSE_TYPE;
 
-},{"./Resource":140,"async":138,"eventemitter3":136,"url":159}],140:[function(require,module,exports){
+},{"./Resource":141,"async":139,"eventemitter3":137,"url":161}],141:[function(require,module,exports){
 var EventEmitter = require('eventemitter3'),
     _url = require('url'),
     // tests is CORS is supported in XHR, if not we need to use XDR
@@ -38140,7 +39917,7 @@ function setExtMap(map, extname, val) {
     map[extname] = val;
 }
 
-},{"eventemitter3":136,"url":159}],141:[function(require,module,exports){
+},{"eventemitter3":137,"url":161}],142:[function(require,module,exports){
 module.exports = {
 
     // private property
@@ -38206,7 +39983,7 @@ module.exports = {
     }
 };
 
-},{}],142:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 module.exports = require('./Loader');
 
 module.exports.Resource = require('./Resource');
@@ -38220,7 +39997,7 @@ module.exports.middleware = {
     }
 };
 
-},{"./Loader":139,"./Resource":140,"./middlewares/caching/memory":143,"./middlewares/parsing/blob":144}],143:[function(require,module,exports){
+},{"./Loader":140,"./Resource":141,"./middlewares/caching/memory":144,"./middlewares/parsing/blob":145}],144:[function(require,module,exports){
 // a simple in-memory cache for resources
 var cache = {};
 
@@ -38242,7 +40019,7 @@ module.exports = function () {
     };
 };
 
-},{}],144:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 var Resource = require('../../Resource'),
     b64 = require('../../b64');
 
@@ -38302,56 +40079,57 @@ module.exports = function () {
     };
 };
 
-},{"../../Resource":140,"../../b64":141}],145:[function(require,module,exports){
+},{"../../Resource":141,"../../b64":142}],146:[function(require,module,exports){
 module.exports={
-  "name": "Cursed",
-  "productName": "Cursed",
-  "version": "0.0.1",
-  "description": "",
-  "license": "MIT",
-  "main": "index.js",
-  "author": {
-    "name": "8p4hxc2",
-    "email": "8p4hxc2@gmail.com",
-    "url": ""
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {},
-  "files": [],
-  "keywords": [],
-  "dependencies": {
-    "box2dweb": ">=2.1.0-b",
-    "async": "^1.5.0",
-    "brfs": "^1.4.1",
-    "earcut": "^2.0.7",
-    "eventemitter3": "^1.1.1",
-    "object-assign": "^4.0.1",
-    "resource-loader": "^1.6.4"
-  },
-  "devDependencies": {
-    "browserify": "*",
-    "watchify": "*",
-    "aliasify": "*",
-    "http-server": "*"
-  },
-  "aliasify": {
-    "aliases": {
-      "opengl": "./libs/index",
-      "referential": "./referential",
-      "system": "./systems/_system",
-      "entity": "./entities/_entity",
-      "component": "./components/_component",
-      "handlers": "./handlers",
-      "systems": "./systems",
-      "entities": "./entities",
-      "factories": "./factories"
-    }
-  }
+	"name": "Cursed",
+	"productName": "Cursed",
+	"version": "0.0.1",
+	"description": "",
+	"license": "MIT",
+	"main": "index.js",
+	"author": {
+		"name": "8p4hxc2",
+		"email": "8p4hxc2@gmail.com",
+		"url": ""
+	},
+	"engines": {
+		"node": ">=0.10.0"
+	},
+	"scripts": {},
+	"files": [],
+	"keywords": [],
+	"dependencies": {
+		"box2dweb": ">=2.1.0-b",
+		"async": "^1.5.0",
+		"brfs": "^1.4.1",
+		"earcut": "^2.0.7",
+		"eventemitter3": "^1.1.1",
+		"object-assign": "^4.0.1",
+		"resource-loader": "^1.6.4",
+		"pixi-particles": "^1.5.1"
+	},
+	"devDependencies": {
+		"browserify": "*",
+		"watchify": "*",
+		"aliasify": "*",
+		"http-server": "*"
+	},
+	"aliasify": {
+		"aliases": {
+			"opengl": "./libs/index",
+			"referential": "./referential",
+			"system": "./systems/_system",
+			"entity": "./entities/_entity",
+			"component": "./components/_component",
+			"handlers": "./handlers",
+			"systems": "./systems",
+			"entities": "./entities",
+			"factories": "./factories"
+		}
+	}
 }
 
-},{}],146:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var referencial = {
 	fps: 1000 / 30,
 	keyboard: {
@@ -38364,7 +40142,7 @@ var referencial = {
 
 module.exports = referencial;
 
-},{}],147:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 "use strict";
 
 function System(name, blueprint) {
@@ -38395,9 +40173,12 @@ System.prototype.run = function() {
   }
 };
 
+System.prototype.process = function() {
+};
+
 module.exports = System;
 
-},{}],148:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 "use strict";
 
 var opengl = require('./../libs/index');
@@ -38435,7 +40216,106 @@ Animation.prototype.process = function(entity) {
 
 module.exports = new Animation();
 
-},{"./../handlers/resource":16,"./../libs/index":113,"./../referential":146,"./_system":147}],149:[function(require,module,exports){
+},{"./../handlers/resource":16,"./../libs/index":113,"./../referential":147,"./_system":148}],150:[function(require,module,exports){
+"use strict";
+
+var opengl = require('./../libs/index');
+var System = require('./_system');
+require("../libs/pixiparticles");
+var renderer = require("./renderer");
+var resourceHandler = require('./../handlers/resource');
+
+function Particule() {
+	System.prototype.constructor.call(this, "particule");
+	this.elapsed = Date.now();
+	this.emitter = new cloudkid.Emitter(
+		// The DisplayObjectContainer to put the emitter in
+		// if using blend modes, it's important to put this
+		// on top of a bitmap, and not use the PIXI.Stage
+		renderer.screen,
+
+		// The collection of particle images to use
+		[resourceHandler.get("snow")],
+
+		// Emitter configuration, edit this to change the look
+		// of the emitter
+		{
+			"alpha": {
+				"start": 0.73,
+				"end": 0.46
+			},
+			"scale": {
+				"start": 0.15,
+				"end": 0.2,
+				"minimumScaleMultiplier": 0.5
+			},
+			"color": {
+				"start": "ffffff",
+				"end": "ffffff"
+			},
+			"speed": {
+				"start": 200,
+				"end": 200
+			},
+			"startRotation": {
+				"min": 50,
+				"max": 70
+			},
+			"rotationSpeed": {
+				"min": 0,
+				"max": 200
+			},
+			"lifetime": {
+				"min": 4,
+				"max": 4
+			},
+			"blendMode": "normal",
+			"ease": [{
+				"s": 0,
+				"cp": 0.379,
+				"e": 0.548
+			}, {
+				"s": 0.548,
+				"cp": 0.717,
+				"e": 0.676
+			}, {
+				"s": 0.676,
+				"cp": 0.635,
+				"e": 1
+			}],
+			"frequency": 0.004,
+			"emitterLifetime": 0,
+			"maxParticles": 1000,
+			"pos": {
+				"x": 0,
+				"y": 0
+			},
+			"addAtBack": false,
+			"spawnType": "rect",
+			"spawnRect": {
+				"x": 0,
+				"y": -300,
+				"w": 900,
+				"h": 20
+			}
+		});
+}
+
+Particule.prototype = Object.create(System.prototype);
+
+Particule.prototype.run = function(entity) {
+	System.prototype.run.call(this, entity);
+	var now = Date.now();
+
+	// The emitter requires the elapsed
+	// number of seconds since the last update
+	this.emitter.update((now - this.elapsed) * 0.001);
+	this.elapsed = now;
+};
+
+module.exports = new Particule();
+
+},{"../libs/pixiparticles":129,"./../handlers/resource":16,"./../libs/index":113,"./_system":148,"./renderer":153}],151:[function(require,module,exports){
 "use strict";
 
 var System = require('./_system');
@@ -38479,7 +40359,7 @@ Physic.prototype.process = function(entity) {
 
 module.exports = new Physic();
 
-},{"./_system":147,"box2dweb":134}],150:[function(require,module,exports){
+},{"./_system":148,"box2dweb":135}],152:[function(require,module,exports){
 "use strict";
 
 var System = require('./_system');
@@ -38526,7 +40406,7 @@ Player.prototype.process = function(entity) {
 
 module.exports = new Player();
 
-},{"./../factories/level":13,"./../referential":146,"./_system":147}],151:[function(require,module,exports){
+},{"./../factories/level":13,"./../referential":147,"./_system":148}],153:[function(require,module,exports){
 "use strict";
 
 var opengl = require('./../libs/index');
@@ -38567,9 +40447,9 @@ Renderer.prototype.addToScreen = function(sprite) {
 
 module.exports = new Renderer();
 
-},{"./../libs/index":113,"./_system":147}],152:[function(require,module,exports){
+},{"./../libs/index":113,"./_system":148}],154:[function(require,module,exports){
 
-},{}],153:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -38797,7 +40677,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":154}],154:[function(require,module,exports){
+},{"_process":156}],156:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -38890,7 +40770,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],155:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.0 by @mathias */
 ;(function(root) {
@@ -39427,7 +41307,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],156:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -39513,7 +41393,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],157:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -39600,13 +41480,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],158:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":156,"./encode":157}],159:[function(require,module,exports){
+},{"./decode":158,"./encode":159}],161:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -40340,7 +42220,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":160,"punycode":155,"querystring":158}],160:[function(require,module,exports){
+},{"./util":162,"punycode":157,"querystring":160}],162:[function(require,module,exports){
 'use strict';
 
 module.exports = {

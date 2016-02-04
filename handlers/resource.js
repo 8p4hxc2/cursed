@@ -20,6 +20,7 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('background', './resources/BG/1.png');
 		opengl.loader.add('cat_idle', './resources/cat/idle.json');
 		opengl.loader.add('cat_walk', './resources/cat/walk.json');
+		opengl.loader.add('snow', './resources/Snow100.png');
 
 		opengl.loader.load(resolve);
 	});

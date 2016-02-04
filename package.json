@@ -1,47 +1,48 @@
 {
-  "name": "Cursed",
-  "productName": "Cursed",
-  "version": "0.0.1",
-  "description": "",
-  "license": "MIT",
-  "main": "index.js",
-  "author": {
-    "name": "8p4hxc2",
-    "email": "8p4hxc2@gmail.com",
-    "url": ""
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {},
-  "files": [],
-  "keywords": [],
-  "dependencies": {
-    "box2dweb": ">=2.1.0-b",
-    "async": "^1.5.0",
-    "brfs": "^1.4.1",
-    "earcut": "^2.0.7",
-    "eventemitter3": "^1.1.1",
-    "object-assign": "^4.0.1",
-    "resource-loader": "^1.6.4"
-  },
-  "devDependencies": {
-    "browserify": "*",
-    "watchify": "*",
-    "aliasify": "*",
-    "http-server": "*"
-  },
-  "aliasify": {
-    "aliases": {
-      "opengl": "./libs/index",
-      "referential": "./referential",
-      "system": "./systems/_system",
-      "entity": "./entities/_entity",
-      "component": "./components/_component",
-      "handlers": "./handlers",
-      "systems": "./systems",
-      "entities": "./entities",
-      "factories": "./factories"
-    }
-  }
+	"name": "Cursed",
+	"productName": "Cursed",
+	"version": "0.0.1",
+	"description": "",
+	"license": "MIT",
+	"main": "index.js",
+	"author": {
+		"name": "8p4hxc2",
+		"email": "8p4hxc2@gmail.com",
+		"url": ""
+	},
+	"engines": {
+		"node": ">=0.10.0"
+	},
+	"scripts": {},
+	"files": [],
+	"keywords": [],
+	"dependencies": {
+		"box2dweb": ">=2.1.0-b",
+		"async": "^1.5.0",
+		"brfs": "^1.4.1",
+		"earcut": "^2.0.7",
+		"eventemitter3": "^1.1.1",
+		"object-assign": "^4.0.1",
+		"resource-loader": "^1.6.4",
+		"pixi-particles": "^1.5.1"
+	},
+	"devDependencies": {
+		"browserify": "*",
+		"watchify": "*",
+		"aliasify": "*",
+		"http-server": "*"
+	},
+	"aliasify": {
+		"aliases": {
+			"opengl": "./libs/index",
+			"referential": "./referential",
+			"system": "./systems/_system",
+			"entity": "./entities/_entity",
+			"component": "./components/_component",
+			"handlers": "./handlers",
+			"systems": "./systems",
+			"entities": "./entities",
+			"factories": "./factories"
+		}
+	}
 }

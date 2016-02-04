@@ -28,4 +28,7 @@ System.prototype.run = function() {
   }
 };
 
+System.prototype.process = function() {
+};
+
 module.exports = System;
