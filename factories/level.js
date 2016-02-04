@@ -3,6 +3,7 @@
 var opengl = require("opengl");
 var systemHandler = require("handlers/system");
 var Ground = require("../entities/ground");
+var Background = require("../entities/background");
 var Player = require("../entities/player");
 var Tile = require("../entities/tile");
 
@@ -16,8 +17,8 @@ Level.prototype.add = function() {
 			y: Math.random() * 10 + 10
 		},
 		size: {
-			width: 4,
-			height: 4
+			width: 2.4,
+			height: 2.4
 		},
 		sprite: {
 			texture: "tile1"
@@ -27,6 +28,10 @@ Level.prototype.add = function() {
 };
 
 Level.prototype.create = function(resources) {
+	var oBackground = new Background({
+		id: "1"
+	});
+	systemHandler.register(oBackground);
 	var oPlayer = new Player({
 		id: Math.random() * 500,
 		position: {

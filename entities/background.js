@@ -1,14 +1,20 @@
 "use strict";
 
-const Entity = alias.require("@entity");
+var Entity = require("entity");
 
-class Background extends Entity {
-  constructor(id, texture) {
-    super("background_" + id);
+function Background(_params) {
+	Entity.prototype.constructor.call(this, "background_" + _params.id);
 
-    this.addComponent("sprite", 0, 0, texture);
-    /*this.addComponent("sprite", x, y);*/
-  }
+	this.add(require("../components/sprite"), {
+		texture: "background"
+	});
+
+	this.add(require("../components/position"), {
+		x: 31,
+		y: -10
+	});
 }
+
+Background.prototype = Object.create(Entity.prototype);
 
 module.exports = Background;

@@ -15,7 +15,7 @@ ResourceHandler.prototype.get = function(texture, frame) {
 ResourceHandler.prototype.run = function() {
 	return new Promise(function(resolve) {
 		opengl.loader.add('tile', './resources/Tiles/1.png');
-		opengl.loader.add('tile1', './resources/Tiles/2.png');
+		opengl.loader.add('tile1', './resources/Object/Crate.png');
 		opengl.loader.add('tile3', './resources/Tiles/3.png');
 		opengl.loader.add('background', './resources/BG/1.png');
 		opengl.loader.add('cat_idle', './resources/cat/idle.json');

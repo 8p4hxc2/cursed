@@ -27,14 +27,14 @@ Player.prototype.process = function(entity) {
 		entity.components.animation.name = "cat_walk";
 		entity.components.sprite.ref.scale.x = 1;
 		//entity.components.sprite.ref.pivot.x = 0;
-		entity.components.body.Force(1000, 0);
+		entity.components.body.Force(10, 0);
 		return;
 	}
 
 	if (keys[referential.keyboard.left]) {
 		entity.components.sprite.ref.scale.x = -1;
 		//entity.components.sprite.ref.pivot.x = 547;
-		entity.components.body.Force(-1000, 0);
+		entity.components.body.Force(-10, 0);
 		entity.components.animation.name = "cat_walk";
 		return;
 	}
