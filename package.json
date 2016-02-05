@@ -23,8 +23,7 @@
 		"earcut": "^2.0.7",
 		"eventemitter3": "^1.1.1",
 		"object-assign": "^4.0.1",
-		"resource-loader": "^1.6.4",
-		"pixi-particles": "^1.5.1"
+		"resource-loader": "^1.6.4"
 	},
 	"devDependencies": {
 		"browserify": "*",

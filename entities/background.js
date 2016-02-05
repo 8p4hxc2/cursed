@@ -5,13 +5,13 @@ var Entity = require("entity");
 function Background(_params) {
 	Entity.prototype.constructor.call(this, "background_" + _params.id);
 
-	this.add(require("../components/sprite"), {
+	this.add(require("../components/tilingSprite"), {
 		texture: "background"
 	});
 
 	this.add(require("../components/position"), {
-		x: 31,
-		y: -10
+		x: 0,
+		y: -25
 	});
 }
 

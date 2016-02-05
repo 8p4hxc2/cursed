@@ -17,7 +17,7 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('tile', './resources/Tiles/1.png');
 		opengl.loader.add('tile1', './resources/Object/Crate.png');
 		opengl.loader.add('tile3', './resources/Tiles/3.png');
-		opengl.loader.add('background', './resources/BG/1.png');
+		opengl.loader.add('background', './resources/tileset/winter/BG.png');
 		opengl.loader.add('cat_idle', './resources/cat/idle.json');
 		opengl.loader.add('cat_walk', './resources/cat/walk.json');
 		opengl.loader.add('snow', './resources/Snow100.png');
