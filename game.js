@@ -7,8 +7,6 @@
 	var level = require("./factories/level");
 
 	resourceHandler.run().then(function() {
-
-		systemHandler.add(require("systems/physic"));
 		systemHandler.add(require("systems/renderer"));
 		systemHandler.add(require("systems/particule"));
 		systemHandler.add(require("systems/animation"));

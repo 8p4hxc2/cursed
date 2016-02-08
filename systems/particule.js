@@ -16,7 +16,7 @@ function Particule() {
 		renderer.screen,
 
 		// The collection of particle images to use
-		[resourceHandler.get("snow")],
+		[resourceHandler.get("tile_desert")],
 
 		// Emitter configuration, edit this to change the look
 		// of the emitter
