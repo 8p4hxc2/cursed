@@ -3,10 +3,54 @@
 var systemHandler = require("handlers/system");
 var Tile = require("../entities/tile");
 
-function Level() {}
+function Level() {
+	this.nbRoom = 0;
+}
 
-Level.prototype.create = function(resources) {
-	for (var y = 0; y < 50; y++) {
+Level.prototype.create = function(x, y, noD) {
+	if (this.nbRoom < 500) {
+		this.nbRoom += 1;
+		var rooms = [];
+		var maxRoomWidth = 4;
+		var maxRoomHeight = 4;
+		var minRoomWidth = 1;
+		var minRoomHeight = 1;
+
+
+		var size = {
+			width: Math.floor(Math.random() * maxRoomWidth) + minRoomWidth,
+			height: Math.floor(Math.random() * maxRoomHeight) + minRoomHeight
+		};
+
+		var position = {
+			x: x,
+			y: y
+		};
+
+		var nTop = Math.round(Math.random() * 10) === 1 && noD !== "noup" ? this.create(x, y - 1, "nodown") : null;
+		var nDown = Math.round(Math.random() * 2) === 1 && noD !== "nodown" ? this.create(x, y + 1, "noup") : null;
+		var nLeft = Math.round(Math.random() * 2) === 1 && noD !== "noleft" ? this.create(x-1, y, "noright") : null;
+		var nRight = Math.round(Math.random() * 2) === 1 && noD !== "noright" ? this.create(x+1, y, "noleft") : null;
+
+		var neighbours = {
+			up: nTop,
+			down: nDown,
+			left: nLeft,
+			right: nRight
+		};
+
+		return Object.assign({}, position, size, neighbours);
+	}
+
+	return;
+};
+
+Level.prototype.generate = function(rooms) {
+	console.log(rooms);
+
+	this.generateBranch(rooms);
+
+	/*for (var y = 0; y < 50; y++) {
 		for (var x = 0; x < 50; x++) {
 			var oTile = new Tile({
 				id: Math.random() * 500,
@@ -20,6 +64,27 @@ Level.prototype.create = function(resources) {
 			});
 			systemHandler.register(oTile);
 		}
+	}*/
+};
+
+Level.prototype.generateBranch = function(branch) {
+	if (branch) {
+		var oTile = new Tile({
+			id: Math.random() * 500,
+			position: {
+				x: branch.x * 32 + 500, // + branch.width * 32,
+				y: branch.y * 32 + 300 // + branch.height * 32
+			},
+			sprite: {
+				texture: "tile_desert"
+			}
+		});
+		systemHandler.register(oTile);
+
+		this.generateBranch(branch.down);
+		this.generateBranch(branch.up);
+		this.generateBranch(branch.left);
+		this.generateBranch(branch.right);
 	}
 };
 

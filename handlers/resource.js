@@ -14,7 +14,7 @@ ResourceHandler.prototype.get = function(texture, frame) {
 
 ResourceHandler.prototype.run = function() {
 	return new Promise(function(resolve) {
-		opengl.loader.add('tile_desert', './resources/tiles/desert.png');
+		opengl.loader.add('tile_desert', './resources/tiles/lol.png');
 		opengl.loader.add('snow', './resources/tiles/desert.png');
 
 		opengl.loader.load(resolve);

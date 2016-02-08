@@ -8,11 +8,11 @@
 
 	resourceHandler.run().then(function() {
 		systemHandler.add(require("systems/renderer"));
-		systemHandler.add(require("systems/particule"));
+		//systemHandler.add(require("systems/particule"));
 		systemHandler.add(require("systems/animation"));
 		systemHandler.add(require("systems/player"));
 
-		level.create();
+		level.generate(level.create(0, 0, 0));
 		animate();
 	});
 

@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module '/srv/http/cursed/resources/tiles/game.js' from '/srv/http/cursed/resources/tiles'");
