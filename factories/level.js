@@ -8,7 +8,7 @@ function Level() {
 }
 
 Level.prototype.create = function(x, y, noD) {
-	if (this.nbRoom < 500) {
+	if (Math.floor(Math.random() * 4) !== 1 && this.nbRoom < 50 || this.nbRoom < 50) {
 		this.nbRoom += 1;
 		var rooms = [];
 		var maxRoomWidth = 4;
@@ -27,10 +27,10 @@ Level.prototype.create = function(x, y, noD) {
 			y: y
 		};
 
-		var nTop = Math.round(Math.random() * 10) === 1 && noD !== "noup" ? this.create(x, y - 1, "nodown") : null;
+		var nTop = Math.round(Math.random() * 2) === 1 && noD !== "noup" ? this.create(x, y - 1, "nodown") : null;
 		var nDown = Math.round(Math.random() * 2) === 1 && noD !== "nodown" ? this.create(x, y + 1, "noup") : null;
-		var nLeft = Math.round(Math.random() * 2) === 1 && noD !== "noleft" ? this.create(x-1, y, "noright") : null;
-		var nRight = Math.round(Math.random() * 2) === 1 && noD !== "noright" ? this.create(x+1, y, "noleft") : null;
+		var nLeft = Math.round(Math.random() * 2) === 1 && noD !== "noleft" ? this.create(x - 1, y, "noright") : null;
+		var nRight = Math.round(Math.random() * 2) === 1 && noD !== "noright" ? this.create(x + 1, y, "noleft") : null;
 
 		var neighbours = {
 			up: nTop,
