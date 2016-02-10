@@ -14,8 +14,12 @@ ResourceHandler.prototype.get = function(texture, frame) {
 
 ResourceHandler.prototype.run = function() {
 	return new Promise(function(resolve) {
-		opengl.loader.add('tile_desert', './resources/tiles/lol.png');
-		opengl.loader.add('snow', './resources/tiles/desert.png');
+		opengl.loader.add('tile_desert', './resources/tiles/desert.png');
+		opengl.loader.add('wall_brick_b', './resources/walls/brick/bottom.png');
+		opengl.loader.add('wall_brick_l', './resources/walls/brick/left.png');
+		opengl.loader.add('wall_brick_bl', './resources/walls/brick/bottom_left.png');
+
+		opengl.loader.add('monster_zombie', './resources/monsters/zombie.png');
 
 		opengl.loader.load(resolve);
 	});

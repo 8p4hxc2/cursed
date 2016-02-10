@@ -68,12 +68,14 @@ Level.prototype.generate = function(rooms) {
 };
 
 Level.prototype.generateBranch = function(branch) {
-	if (branch) {
-		var oTile = new Tile({
+	var oTile = null;
+
+	/*if (branch) {
+		oTile = new Tile({
 			id: Math.random() * 500,
 			position: {
-				x: branch.x * 32 + 500, // + branch.width * 32,
-				y: branch.y * 32 + 300 // + branch.height * 32
+				x: (branch.x - branch.y) * 28 + 500, // + branch.width * 32,
+				y: (branch.x + branch.y) / 2 * 28 + 300 // + branch.height * 32
 			},
 			sprite: {
 				texture: "tile_desert"
@@ -85,7 +87,59 @@ Level.prototype.generateBranch = function(branch) {
 		this.generateBranch(branch.up);
 		this.generateBranch(branch.left);
 		this.generateBranch(branch.right);
-	}
+	} else {*/
+		for (i = -10; i < 0; i++) {
+			oTile = new Tile({
+				id: Math.random() * 50000000,
+				position: {
+					x: (0 - i) * 28 + 100,
+					y: (0 + i) / 2 * 28 + 100
+				},
+				sprite: {
+					texture: "wall_brick_l"
+				}
+			});
+			systemHandler.register(oTile);
+		}
+
+		oTile = new Tile({
+			id: Math.random() * 50000000,
+			position: {
+				x: (0 - 0) * 28 + 100,
+				y: (0 + 0) / 2 * 28 + 100
+			},
+			sprite: {
+				texture: "wall_brick_bl"
+			}
+		});
+		systemHandler.register(oTile);
+
+		for (var i = 1; i < 10; i++) {
+			oTile = new Tile({
+				id: Math.random() * 50000000,
+				position: {
+					x: (i - 0) * 28 + 100,
+					y: (i + 0) / 2 * 28 + 100
+				},
+				sprite: {
+					texture: "wall_brick_b"
+				}
+			});
+			systemHandler.register(oTile);
+		}
+
+		oTile = new Tile({
+			id: Math.random() * 50000000,
+			position: {
+				x: (3 - -3) * 28 + 100,
+				y: (3 + -3) / 2 * 28 + 100
+			},
+			sprite: {
+				texture: "monster_zombie"
+			}
+		});
+		systemHandler.register(oTile);
+	//}
 };
 
 module.exports = new Level();

@@ -211,12 +211,14 @@ Level.prototype.generate = function(rooms) {
 };
 
 Level.prototype.generateBranch = function(branch) {
-	if (branch) {
-		var oTile = new Tile({
+	var oTile = null;
+
+	/*if (branch) {
+		oTile = new Tile({
 			id: Math.random() * 500,
 			position: {
-				x: branch.x * 32 + 500, // + branch.width * 32,
-				y: branch.y * 32 + 300 // + branch.height * 32
+				x: (branch.x - branch.y) * 28 + 500, // + branch.width * 32,
+				y: (branch.x + branch.y) / 2 * 28 + 300 // + branch.height * 32
 			},
 			sprite: {
 				texture: "tile_desert"
@@ -228,7 +230,59 @@ Level.prototype.generateBranch = function(branch) {
 		this.generateBranch(branch.up);
 		this.generateBranch(branch.left);
 		this.generateBranch(branch.right);
-	}
+	} else {*/
+		for (i = -10; i < 0; i++) {
+			oTile = new Tile({
+				id: Math.random() * 50000000,
+				position: {
+					x: (0 - i) * 28 + 100,
+					y: (0 + i) / 2 * 28 + 100
+				},
+				sprite: {
+					texture: "wall_brick_l"
+				}
+			});
+			systemHandler.register(oTile);
+		}
+
+		oTile = new Tile({
+			id: Math.random() * 50000000,
+			position: {
+				x: (0 - 0) * 28 + 100,
+				y: (0 + 0) / 2 * 28 + 100
+			},
+			sprite: {
+				texture: "wall_brick_bl"
+			}
+		});
+		systemHandler.register(oTile);
+
+		for (var i = 1; i < 10; i++) {
+			oTile = new Tile({
+				id: Math.random() * 50000000,
+				position: {
+					x: (i - 0) * 28 + 100,
+					y: (i + 0) / 2 * 28 + 100
+				},
+				sprite: {
+					texture: "wall_brick_b"
+				}
+			});
+			systemHandler.register(oTile);
+		}
+
+		oTile = new Tile({
+			id: Math.random() * 50000000,
+			position: {
+				x: (3 - -3) * 28 + 100,
+				y: (3 + -3) / 2 * 28 + 100
+			},
+			sprite: {
+				texture: "monster_zombie"
+			}
+		});
+		systemHandler.register(oTile);
+	//}
 };
 
 module.exports = new Level();
@@ -240,12 +294,13 @@ module.exports = new Level();
 	var systemHandler = require('./handlers/system');
 	var resourceHandler = require('./handlers/resource');
 	var keyboardHandler = require('./handlers/keyboard');
+	window.Promise=require("./libs/promise");
 	var level = require("./factories/level");
 
 	resourceHandler.run().then(function() {
 		systemHandler.add(require('./systems/renderer'));
 		//systemHandler.add(require("systems/particule"));
-		systemHandler.add(require('./systems/animation'));
+		//systemHandler.add(require("systems/animation"));
 		systemHandler.add(require('./systems/player'));
 
 		level.generate(level.create(0, 0, 0));
@@ -258,7 +313,7 @@ module.exports = new Level();
 	}
 }());
 
-},{"./factories/level":7,"./handlers/keyboard":9,"./handlers/resource":10,"./handlers/system":11,"./systems/animation":141,"./systems/player":142,"./systems/renderer":143}],9:[function(require,module,exports){
+},{"./factories/level":7,"./handlers/keyboard":9,"./handlers/resource":10,"./handlers/system":11,"./libs/promise":127,"./systems/player":142,"./systems/renderer":143}],9:[function(require,module,exports){
 "use strict";
 
 var cKeyboard = require("../components/keyboard");
@@ -309,8 +364,12 @@ ResourceHandler.prototype.get = function(texture, frame) {
 
 ResourceHandler.prototype.run = function() {
 	return new Promise(function(resolve) {
-		opengl.loader.add('tile_desert', './resources/tiles/lol.png');
-		opengl.loader.add('snow', './resources/tiles/desert.png');
+		opengl.loader.add('tile_desert', './resources/tiles/desert.png');
+		opengl.loader.add('wall_brick_b', './resources/walls/brick/bottom.png');
+		opengl.loader.add('wall_brick_l', './resources/walls/brick/left.png');
+		opengl.loader.add('wall_brick_bl', './resources/walls/brick/bottom_left.png');
+
+		opengl.loader.add('monster_zombie', './resources/monsters/zombie.png');
 
 		opengl.loader.load(resolve);
 	});
@@ -1033,7 +1092,7 @@ var CONST = {
 
 module.exports = CONST;
 
-},{"../../package.json":138}],16:[function(require,module,exports){
+},{"../../package.json":139}],16:[function(require,module,exports){
 var math = require('../math'),
     utils = require('../utils'),
     DisplayObject = require('./DisplayObject'),
@@ -2241,7 +2300,7 @@ DisplayObject.prototype.destroy = function ()
     this.filterArea = null;
 };
 
-},{"../const":15,"../math":25,"../textures/RenderTexture":63,"eventemitter3":129}],18:[function(require,module,exports){
+},{"../const":15,"../math":25,"../textures/RenderTexture":63,"eventemitter3":130}],18:[function(require,module,exports){
 var Container = require('../display/Container'),
     Texture = require('../textures/Texture'),
     CanvasBuffer = require('../renderers/canvas/utils/CanvasBuffer'),
@@ -4424,7 +4483,7 @@ GraphicsRenderer.prototype.buildPoly = function (graphicsData, webGLData)
     return true;
 };
 
-},{"../../const":15,"../../math":25,"../../renderers/webgl/WebGLRenderer":41,"../../renderers/webgl/utils/ObjectRenderer":55,"../../utils":69,"./WebGLGraphicsData":21,"earcut":128}],21:[function(require,module,exports){
+},{"../../const":15,"../../math":25,"../../renderers/webgl/WebGLRenderer":41,"../../renderers/webgl/utils/ObjectRenderer":55,"../../utils":69,"./WebGLGraphicsData":21,"earcut":129}],21:[function(require,module,exports){
 /**
  * An object containing WebGL specific properties to be used by the WebGL renderer
  *
@@ -6993,7 +7052,7 @@ SystemRenderer.prototype.destroy = function (removeView) {
     this._backgroundColorString = null;
 };
 
-},{"../const":15,"../math":25,"../utils":69,"eventemitter3":129}],36:[function(require,module,exports){
+},{"../const":15,"../math":25,"../utils":69,"eventemitter3":130}],36:[function(require,module,exports){
 var SystemRenderer = require('../SystemRenderer'),
     CanvasMaskManager = require('./utils/CanvasMaskManager'),
     utils = require('../../utils'),
@@ -13532,7 +13591,7 @@ BaseTexture.fromCanvas = function (canvas, scaleMode)
     return baseTexture;
 };
 
-},{"../const":15,"../utils":69,"eventemitter3":129}],63:[function(require,module,exports){
+},{"../const":15,"../utils":69,"eventemitter3":130}],63:[function(require,module,exports){
 var BaseTexture = require('./BaseTexture'),
     Texture = require('./Texture'),
     RenderTarget = require('../renderers/webgl/utils/RenderTarget'),
@@ -14437,7 +14496,7 @@ Texture.removeTextureFromCache = function (id)
  */
 Texture.EMPTY = new Texture(new BaseTexture());
 
-},{"../math":25,"../utils":69,"./BaseTexture":62,"./TextureUvs":65,"./VideoBaseTexture":66,"eventemitter3":129}],65:[function(require,module,exports){
+},{"../math":25,"../utils":69,"./BaseTexture":62,"./TextureUvs":65,"./VideoBaseTexture":66,"eventemitter3":130}],65:[function(require,module,exports){
 
 /**
  * A standard object to store the Uvs of a texture
@@ -15098,7 +15157,7 @@ Ticker.prototype.update = function update(currentTime)
 
 module.exports = Ticker;
 
-},{"../const":15,"eventemitter3":129}],68:[function(require,module,exports){
+},{"../const":15,"eventemitter3":130}],68:[function(require,module,exports){
 var Ticker = require('./Ticker');
 
 /**
@@ -15431,7 +15490,7 @@ var utils = module.exports = {
     BaseTextureCache: {}
 };
 
-},{"../const":15,"./pluginTarget":70,"async":127,"eventemitter3":129}],70:[function(require,module,exports){
+},{"../const":15,"./pluginTarget":70,"async":128,"eventemitter3":130}],70:[function(require,module,exports){
 /**
  * Mixins functionality to make an object have "plugins".
  *
@@ -21176,7 +21235,7 @@ module.exports = function ()
     };
 };
 
-},{"../core":22,"../extras":78,"path":145,"resource-loader":135}],113:[function(require,module,exports){
+},{"../core":22,"../extras":78,"path":145,"resource-loader":136}],113:[function(require,module,exports){
 /**
  * @file        Main export of the PIXI loaders library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -21197,7 +21256,7 @@ module.exports = {
     Resource:           require('resource-loader').Resource
 };
 
-},{"./bitmapFontParser":112,"./loader":114,"./spritesheetParser":115,"./textureParser":116,"resource-loader":135}],114:[function(require,module,exports){
+},{"./bitmapFontParser":112,"./loader":114,"./spritesheetParser":115,"./textureParser":116,"resource-loader":136}],114:[function(require,module,exports){
 var ResourceLoader = require('resource-loader'),
     textureParser = require('./textureParser'),
     spritesheetParser = require('./spritesheetParser'),
@@ -21259,7 +21318,7 @@ var Resource = ResourceLoader.Resource;
 
 Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
 
-},{"./bitmapFontParser":112,"./spritesheetParser":115,"./textureParser":116,"resource-loader":135}],115:[function(require,module,exports){
+},{"./bitmapFontParser":112,"./spritesheetParser":115,"./textureParser":116,"resource-loader":136}],115:[function(require,module,exports){
 var Resource = require('resource-loader').Resource,
     path = require('path'),
     core = require('../core');
@@ -21343,7 +21402,7 @@ module.exports = function ()
     };
 };
 
-},{"../core":22,"path":145,"resource-loader":135}],116:[function(require,module,exports){
+},{"../core":22,"path":145,"resource-loader":136}],116:[function(require,module,exports){
 var core = require('../core');
 
 module.exports = function ()
@@ -22515,7 +22574,7 @@ if (!Object.assign)
     Object.assign = require('object-assign');
 }
 
-},{"object-assign":130}],125:[function(require,module,exports){
+},{"object-assign":131}],125:[function(require,module,exports){
 require('./Object.assign');
 require('./requestAnimationFrame');
 require('./Math.sign');
@@ -22591,6 +22650,10 @@ if (!global.cancelAnimationFrame) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],127:[function(require,module,exports){
+/*! promise-polyfill 3.1.0 */
+!function(a){function b(a,b){return function(){a.apply(b,arguments)}}function c(a){if("object"!=typeof this)throw new TypeError("Promises must be constructed via new");if("function"!=typeof a)throw new TypeError("not a function");this._state=null,this._value=null,this._deferreds=[],i(a,b(e,this),b(f,this))}function d(a){var b=this;return null===this._state?void this._deferreds.push(a):void k(function(){var c=b._state?a.onFulfilled:a.onRejected;if(null===c)return void(b._state?a.resolve:a.reject)(b._value);var d;try{d=c(b._value)}catch(e){return void a.reject(e)}a.resolve(d)})}function e(a){try{if(a===this)throw new TypeError("A promise cannot be resolved with itself.");if(a&&("object"==typeof a||"function"==typeof a)){var c=a.then;if("function"==typeof c)return void i(b(c,a),b(e,this),b(f,this))}this._state=!0,this._value=a,g.call(this)}catch(d){f.call(this,d)}}function f(a){this._state=!1,this._value=a,g.call(this)}function g(){for(var a=0,b=this._deferreds.length;b>a;a++)d.call(this,this._deferreds[a]);this._deferreds=null}function h(a,b,c,d){this.onFulfilled="function"==typeof a?a:null,this.onRejected="function"==typeof b?b:null,this.resolve=c,this.reject=d}function i(a,b,c){var d=!1;try{a(function(a){d||(d=!0,b(a))},function(a){d||(d=!0,c(a))})}catch(e){if(d)return;d=!0,c(e)}}var j=setTimeout,k="function"==typeof setImmediate&&setImmediate||function(a){j(a,1)},l=Array.isArray||function(a){return"[object Array]"===Object.prototype.toString.call(a)};c.prototype["catch"]=function(a){return this.then(null,a)},c.prototype.then=function(a,b){var e=this;return new c(function(c,f){d.call(e,new h(a,b,c,f))})},c.all=function(){var a=Array.prototype.slice.call(1===arguments.length&&l(arguments[0])?arguments[0]:arguments);return new c(function(b,c){function d(f,g){try{if(g&&("object"==typeof g||"function"==typeof g)){var h=g.then;if("function"==typeof h)return void h.call(g,function(a){d(f,a)},c)}a[f]=g,0===--e&&b(a)}catch(i){c(i)}}if(0===a.length)return b([]);for(var e=a.length,f=0;f<a.length;f++)d(f,a[f])})},c.resolve=function(a){return a&&"object"==typeof a&&a.constructor===c?a:new c(function(b){b(a)})},c.reject=function(a){return new c(function(b,c){c(a)})},c.race=function(a){return new c(function(b,c){for(var d=0,e=a.length;e>d;d++)a[d].then(b,c)})},c._setImmediateFn=function(a){k=a},"undefined"!=typeof module&&module.exports?module.exports=c:a.Promise||(a.Promise=c)}(this);
+
+},{}],128:[function(require,module,exports){
 (function (process,global){
 /*!
  * async
@@ -23859,7 +23922,7 @@ if (!global.cancelAnimationFrame) {
 }());
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":146}],128:[function(require,module,exports){
+},{"_process":146}],129:[function(require,module,exports){
 'use strict';
 
 module.exports = earcut;
@@ -24445,7 +24508,7 @@ function Node(i, x, y) {
     this.steiner = false;
 }
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 'use strict';
 
 //
@@ -24709,7 +24772,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],130:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 /* eslint-disable no-unused-vars */
 'use strict';
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -24750,7 +24813,7 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],131:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 (function (process){
 /*!
  * async
@@ -25877,7 +25940,7 @@ module.exports = Object.assign || function (target, source) {
 }());
 
 }).call(this,require('_process'))
-},{"_process":146}],132:[function(require,module,exports){
+},{"_process":146}],133:[function(require,module,exports){
 var async       = require('async'),
     urlParser   = require('url'),
     Resource    = require('./Resource'),
@@ -26335,7 +26398,7 @@ Loader.LOAD_TYPE = Resource.LOAD_TYPE;
 Loader.XHR_READY_STATE = Resource.XHR_READY_STATE;
 Loader.XHR_RESPONSE_TYPE = Resource.XHR_RESPONSE_TYPE;
 
-},{"./Resource":133,"async":131,"eventemitter3":129,"url":151}],133:[function(require,module,exports){
+},{"./Resource":134,"async":132,"eventemitter3":130,"url":151}],134:[function(require,module,exports){
 var EventEmitter = require('eventemitter3'),
     _url = require('url'),
     // tests is CORS is supported in XHR, if not we need to use XDR
@@ -27137,7 +27200,7 @@ function setExtMap(map, extname, val) {
     map[extname] = val;
 }
 
-},{"eventemitter3":129,"url":151}],134:[function(require,module,exports){
+},{"eventemitter3":130,"url":151}],135:[function(require,module,exports){
 module.exports = {
 
     // private property
@@ -27203,7 +27266,7 @@ module.exports = {
     }
 };
 
-},{}],135:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 module.exports = require('./Loader');
 
 module.exports.Resource = require('./Resource');
@@ -27217,7 +27280,7 @@ module.exports.middleware = {
     }
 };
 
-},{"./Loader":132,"./Resource":133,"./middlewares/caching/memory":136,"./middlewares/parsing/blob":137}],136:[function(require,module,exports){
+},{"./Loader":133,"./Resource":134,"./middlewares/caching/memory":137,"./middlewares/parsing/blob":138}],137:[function(require,module,exports){
 // a simple in-memory cache for resources
 var cache = {};
 
@@ -27239,7 +27302,7 @@ module.exports = function () {
     };
 };
 
-},{}],137:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 var Resource = require('../../Resource'),
     b64 = require('../../b64');
 
@@ -27299,7 +27362,7 @@ module.exports = function () {
     };
 };
 
-},{"../../Resource":133,"../../b64":134}],138:[function(require,module,exports){
+},{"../../Resource":134,"../../b64":135}],139:[function(require,module,exports){
 module.exports={
 	"name": "Cursed",
 	"productName": "Cursed",
@@ -27348,7 +27411,7 @@ module.exports={
 	}
 }
 
-},{}],139:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 var referencial = {
 	fps: 1000 / 30,
 	keyboard: {
@@ -27361,7 +27424,7 @@ var referencial = {
 
 module.exports = referencial;
 
-},{}],140:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 "use strict";
 
 function System(name, blueprint) {
@@ -27397,45 +27460,7 @@ System.prototype.process = function() {
 
 module.exports = System;
 
-},{}],141:[function(require,module,exports){
-"use strict";
-
-var opengl = require('./../libs/index');
-var System = require('./_system');
-var resourceHandler = require('./../handlers/resource');
-var referential = require('./../referential');
-
-function Animation() {
-	System.prototype.constructor.call(this, "animation", {
-		"animation": true
-	});
-
-	this.lastTime = 0;
-}
-
-Animation.prototype = Object.create(System.prototype);
-
-Animation.prototype.run = function() {
-	var now = Date.now();
-
-	if (now - this.lastTime > referential.fps) {
-		this.lastTime = Date.now();
-		System.prototype.run.call(this);
-	}
-};
-
-Animation.prototype.process = function(entity) {
-	entity.components.animation.current++;
-	if (entity.components.animation.current > entity.components.animation.frames) {
-		entity.components.animation.current = 1;
-	}
-
-	entity.components.sprite.ref.texture = resourceHandler.get(entity.components.animation.texture, entity.components.animation.current);
-};
-
-module.exports = new Animation();
-
-},{"./../handlers/resource":10,"./../libs/index":107,"./../referential":139,"./_system":140}],142:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 "use strict";
 
 var System = require('./_system');
@@ -27482,7 +27507,7 @@ Player.prototype.process = function(entity) {
 
 module.exports = new Player();
 
-},{"./../factories/level":7,"./../referential":139,"./_system":140}],143:[function(require,module,exports){
+},{"./../factories/level":7,"./../referential":140,"./_system":141}],143:[function(require,module,exports){
 "use strict";
 
 var opengl = require('./../libs/index');
@@ -27500,6 +27525,7 @@ function Renderer() {
 	document.body.appendChild(this.canvas.view);
 
 	this.screen = new opengl.Container();
+	//this.screen.scale={x:window.innerWidth/480,y:window.innerHeight/270};
 }
 
 Renderer.prototype = Object.create(System.prototype);
@@ -27526,7 +27552,7 @@ Renderer.prototype.addToScreen = function(sprite) {
 
 module.exports = new Renderer();
 
-},{"./../libs/index":107,"./_system":140}],144:[function(require,module,exports){
+},{"./../libs/index":107,"./_system":141}],144:[function(require,module,exports){
 
 },{}],145:[function(require,module,exports){
 (function (process){

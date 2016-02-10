@@ -15,6 +15,7 @@ function Renderer() {
 	document.body.appendChild(this.canvas.view);
 
 	this.screen = new opengl.Container();
+	//this.screen.scale={x:window.innerWidth/480,y:window.innerHeight/270};
 }
 
 Renderer.prototype = Object.create(System.prototype);
