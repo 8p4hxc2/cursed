@@ -45,6 +45,60 @@ Level.prototype.create = function(x, y, noD) {
 	return;
 };
 
+Level.prototype.drawRoom = function(x, y, width, height) {
+	// sol
+	for (var i = 0; i < height + 2; i++) {
+		for (var j = 0; j < width + 2; j++) {
+			systemHandler.register(this.createTile(j - 1, i - 1, "tile_desert"));
+		}
+	}
+	
+	// angle tl
+	systemHandler.register(this.createTile(x - 1, y - 1, "wall_brick_tl"));
+
+	// mur de gauche
+	for (i = y; i < y + height; i++) {
+		systemHandler.register(this.createTile(x - 1, i, "wall_brick_l"));
+	}
+
+	// angle bg
+	systemHandler.register(this.createTile(x - 1, y + height, "wall_brick_bl"));
+
+	// mur du haut
+	for (i = x; i < x + width; i++) {
+		systemHandler.register(this.createTile(i, y - 1, "wall_brick_b"));
+	}
+
+	// angle tr
+	systemHandler.register(this.createTile(x + width, y - 1, "wall_brick_tr"));
+
+	// mur du bas
+	for (i = x; i < x + width; i++) {
+		systemHandler.register(this.createTile(i, y + height, "wall_brick_b"));
+	}
+
+	// mur de droite
+	for (i = y; i < y + height; i++) {
+		systemHandler.register(this.createTile(x + width, i, "wall_brick_l"));
+	}
+
+	// angle br
+	systemHandler.register(this.createTile(x + width, y + height, "wall_brick_br"));
+};
+
+Level.prototype.createTile = function(x, y, texture) {
+	return new Tile({
+		id: x + "_" + y + "_" + texture,
+		position: {
+			x: (x - y) * 28 + 300,
+			y: (x + y) / 2 * 28 + 300
+		},
+		sprite: {
+			texture: texture
+		}
+	});
+};
+
 Level.prototype.generate = function(rooms) {
 	console.log(rooms);
 
@@ -88,57 +142,57 @@ Level.prototype.generateBranch = function(branch) {
 		this.generateBranch(branch.left);
 		this.generateBranch(branch.right);
 	} else {*/
-		for (i = -10; i < 0; i++) {
-			oTile = new Tile({
-				id: Math.random() * 50000000,
-				position: {
-					x: (0 - i) * 28 + 100,
-					y: (0 + i) / 2 * 28 + 100
-				},
-				sprite: {
-					texture: "wall_brick_l"
-				}
-			});
-			systemHandler.register(oTile);
-		}
-
+	for (i = -10; i < 0; i++) {
 		oTile = new Tile({
 			id: Math.random() * 50000000,
 			position: {
-				x: (0 - 0) * 28 + 100,
-				y: (0 + 0) / 2 * 28 + 100
+				x: (0 - i) * 28 + 100,
+				y: (0 + i) / 2 * 28 + 100
 			},
 			sprite: {
-				texture: "wall_brick_bl"
+				texture: "wall_brick_l"
 			}
 		});
 		systemHandler.register(oTile);
+	}
 
-		for (var i = 1; i < 10; i++) {
-			oTile = new Tile({
-				id: Math.random() * 50000000,
-				position: {
-					x: (i - 0) * 28 + 100,
-					y: (i + 0) / 2 * 28 + 100
-				},
-				sprite: {
-					texture: "wall_brick_b"
-				}
-			});
-			systemHandler.register(oTile);
+	oTile = new Tile({
+		id: Math.random() * 50000000,
+		position: {
+			x: (0 - 0) * 28 + 100,
+			y: (0 + 0) / 2 * 28 + 100
+		},
+		sprite: {
+			texture: "wall_brick_bl"
 		}
+	});
+	systemHandler.register(oTile);
 
+	for (var i = 1; i < 10; i++) {
 		oTile = new Tile({
 			id: Math.random() * 50000000,
 			position: {
-				x: (3 - -3) * 28 + 100,
-				y: (3 + -3) / 2 * 28 + 100
+				x: (i - 0) * 28 + 100,
+				y: (i + 0) / 2 * 28 + 100
 			},
 			sprite: {
-				texture: "monster_zombie"
+				texture: "wall_brick_b"
 			}
 		});
 		systemHandler.register(oTile);
+	}
+
+	oTile = new Tile({
+		id: Math.random() * 50000000,
+		position: {
+			x: (3 - -3) * 28 + 100,
+			y: (3 + -3) / 2 * 28 + 100
+		},
+		sprite: {
+			texture: "monster_zombie"
+		}
+	});
+	systemHandler.register(oTile);
 	//}
 };
 

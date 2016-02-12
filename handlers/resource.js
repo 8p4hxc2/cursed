@@ -18,6 +18,9 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('wall_brick_b', './resources/walls/brick/bottom.png');
 		opengl.loader.add('wall_brick_l', './resources/walls/brick/left.png');
 		opengl.loader.add('wall_brick_bl', './resources/walls/brick/bottom_left.png');
+		opengl.loader.add('wall_brick_br', './resources/walls/brick/bottom_right.png');
+		opengl.loader.add('wall_brick_tl', './resources/walls/brick/top_left.png');
+		opengl.loader.add('wall_brick_tr', './resources/walls/brick/top_right.png');
 
 		opengl.loader.add('monster_zombie', './resources/monsters/zombie.png');
 

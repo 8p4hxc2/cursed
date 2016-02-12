@@ -188,6 +188,60 @@ Level.prototype.create = function(x, y, noD) {
 	return;
 };
 
+Level.prototype.drawRoom = function(x, y, width, height) {
+	// sol
+	for (var i = 0; i < height + 2; i++) {
+		for (var j = 0; j < width + 2; j++) {
+			systemHandler.register(this.createTile(j - 1, i - 1, "tile_desert"));
+		}
+	}
+	
+	// angle tl
+	systemHandler.register(this.createTile(x - 1, y - 1, "wall_brick_tl"));
+
+	// mur de gauche
+	for (i = y; i < y + height; i++) {
+		systemHandler.register(this.createTile(x - 1, i, "wall_brick_l"));
+	}
+
+	// angle bg
+	systemHandler.register(this.createTile(x - 1, y + height, "wall_brick_bl"));
+
+	// mur du haut
+	for (i = x; i < x + width; i++) {
+		systemHandler.register(this.createTile(i, y - 1, "wall_brick_b"));
+	}
+
+	// angle tr
+	systemHandler.register(this.createTile(x + width, y - 1, "wall_brick_tr"));
+
+	// mur du bas
+	for (i = x; i < x + width; i++) {
+		systemHandler.register(this.createTile(i, y + height, "wall_brick_b"));
+	}
+
+	// mur de droite
+	for (i = y; i < y + height; i++) {
+		systemHandler.register(this.createTile(x + width, i, "wall_brick_l"));
+	}
+
+	// angle br
+	systemHandler.register(this.createTile(x + width, y + height, "wall_brick_br"));
+};
+
+Level.prototype.createTile = function(x, y, texture) {
+	return new Tile({
+		id: x + "_" + y + "_" + texture,
+		position: {
+			x: (x - y) * 28 + 300,
+			y: (x + y) / 2 * 28 + 300
+		},
+		sprite: {
+			texture: texture
+		}
+	});
+};
+
 Level.prototype.generate = function(rooms) {
 	console.log(rooms);
 
@@ -231,57 +285,57 @@ Level.prototype.generateBranch = function(branch) {
 		this.generateBranch(branch.left);
 		this.generateBranch(branch.right);
 	} else {*/
-		for (i = -10; i < 0; i++) {
-			oTile = new Tile({
-				id: Math.random() * 50000000,
-				position: {
-					x: (0 - i) * 28 + 100,
-					y: (0 + i) / 2 * 28 + 100
-				},
-				sprite: {
-					texture: "wall_brick_l"
-				}
-			});
-			systemHandler.register(oTile);
-		}
-
+	for (i = -10; i < 0; i++) {
 		oTile = new Tile({
 			id: Math.random() * 50000000,
 			position: {
-				x: (0 - 0) * 28 + 100,
-				y: (0 + 0) / 2 * 28 + 100
+				x: (0 - i) * 28 + 100,
+				y: (0 + i) / 2 * 28 + 100
 			},
 			sprite: {
-				texture: "wall_brick_bl"
+				texture: "wall_brick_l"
 			}
 		});
 		systemHandler.register(oTile);
+	}
 
-		for (var i = 1; i < 10; i++) {
-			oTile = new Tile({
-				id: Math.random() * 50000000,
-				position: {
-					x: (i - 0) * 28 + 100,
-					y: (i + 0) / 2 * 28 + 100
-				},
-				sprite: {
-					texture: "wall_brick_b"
-				}
-			});
-			systemHandler.register(oTile);
+	oTile = new Tile({
+		id: Math.random() * 50000000,
+		position: {
+			x: (0 - 0) * 28 + 100,
+			y: (0 + 0) / 2 * 28 + 100
+		},
+		sprite: {
+			texture: "wall_brick_bl"
 		}
+	});
+	systemHandler.register(oTile);
 
+	for (var i = 1; i < 10; i++) {
 		oTile = new Tile({
 			id: Math.random() * 50000000,
 			position: {
-				x: (3 - -3) * 28 + 100,
-				y: (3 + -3) / 2 * 28 + 100
+				x: (i - 0) * 28 + 100,
+				y: (i + 0) / 2 * 28 + 100
 			},
 			sprite: {
-				texture: "monster_zombie"
+				texture: "wall_brick_b"
 			}
 		});
 		systemHandler.register(oTile);
+	}
+
+	oTile = new Tile({
+		id: Math.random() * 50000000,
+		position: {
+			x: (3 - -3) * 28 + 100,
+			y: (3 + -3) / 2 * 28 + 100
+		},
+		sprite: {
+			texture: "monster_zombie"
+		}
+	});
+	systemHandler.register(oTile);
 	//}
 };
 
@@ -294,16 +348,17 @@ module.exports = new Level();
 	var systemHandler = require('./handlers/system');
 	var resourceHandler = require('./handlers/resource');
 	var keyboardHandler = require('./handlers/keyboard');
-	window.Promise=require("./libs/promise");
+	window.Promise = require("./libs/promise");
 	var level = require("./factories/level");
 
 	resourceHandler.run().then(function() {
 		systemHandler.add(require('./systems/renderer'));
 		//systemHandler.add(require("systems/particule"));
-		//systemHandler.add(require("systems/animation"));
-		systemHandler.add(require('./systems/player'));
+		systemHandler.add(require('./systems/animation'));
+		//systemHandler.add(require("systems/player"));
 
-		level.generate(level.create(0, 0, 0));
+		level.drawRoom(0, 0, Math.floor(Math.random()*10)+1, Math.floor(Math.random()*10)+1);
+		//level.generate(level.create(0, 0, 0));
 		animate();
 	});
 
@@ -313,7 +368,7 @@ module.exports = new Level();
 	}
 }());
 
-},{"./factories/level":7,"./handlers/keyboard":9,"./handlers/resource":10,"./handlers/system":11,"./libs/promise":127,"./systems/player":142,"./systems/renderer":143}],9:[function(require,module,exports){
+},{"./factories/level":7,"./handlers/keyboard":9,"./handlers/resource":10,"./handlers/system":11,"./libs/promise":127,"./systems/animation":142,"./systems/renderer":143}],9:[function(require,module,exports){
 "use strict";
 
 var cKeyboard = require("../components/keyboard");
@@ -368,6 +423,9 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('wall_brick_b', './resources/walls/brick/bottom.png');
 		opengl.loader.add('wall_brick_l', './resources/walls/brick/left.png');
 		opengl.loader.add('wall_brick_bl', './resources/walls/brick/bottom_left.png');
+		opengl.loader.add('wall_brick_br', './resources/walls/brick/bottom_right.png');
+		opengl.loader.add('wall_brick_tl', './resources/walls/brick/top_left.png');
+		opengl.loader.add('wall_brick_tr', './resources/walls/brick/top_right.png');
 
 		opengl.loader.add('monster_zombie', './resources/monsters/zombie.png');
 
@@ -27463,51 +27521,42 @@ module.exports = System;
 },{}],142:[function(require,module,exports){
 "use strict";
 
+var opengl = require('./../libs/index');
 var System = require('./_system');
+var resourceHandler = require('./../handlers/resource');
 var referential = require('./../referential');
-var test = require('./../factories/level');
 
-function Player() {
-	System.prototype.constructor.call(this, "player", {
-		"body": true,
-		"keyboard": true,
+function Animation() {
+	System.prototype.constructor.call(this, "animation", {
 		"animation": true
 	});
+
+	this.lastTime = 0;
 }
 
-Player.prototype = Object.create(System.prototype);
+Animation.prototype = Object.create(System.prototype);
 
-Player.prototype.process = function(entity) {
-	var keys = entity.components.keyboard.keys;
+Animation.prototype.run = function() {
+	var now = Date.now();
 
-	if (keys[referential.keyboard.ok]) {
-		test.add();
-		//entity.components.body.Impulse(0, 1);
-		return;
+	if (now - this.lastTime > referential.fps) {
+		this.lastTime = Date.now();
+		System.prototype.run.call(this);
 	}
-
-	if (keys[referential.keyboard.right]) {
-		entity.components.animation.name = "cat_walk";
-		entity.components.sprite.ref.scale.x = 1;
-		//entity.components.sprite.ref.pivot.x = 0;
-		entity.components.body.Force(10, 0);
-		return;
-	}
-
-	if (keys[referential.keyboard.left]) {
-		entity.components.sprite.ref.scale.x = -1;
-		//entity.components.sprite.ref.pivot.x = 547;
-		entity.components.body.Force(-10, 0);
-		entity.components.animation.name = "cat_walk";
-		return;
-	}
-
-	entity.components.animation.name = "cat_idle";
 };
 
-module.exports = new Player();
+Animation.prototype.process = function(entity) {
+	entity.components.animation.current++;
+	if (entity.components.animation.current > entity.components.animation.frames) {
+		entity.components.animation.current = 1;
+	}
 
-},{"./../factories/level":7,"./../referential":140,"./_system":141}],143:[function(require,module,exports){
+	entity.components.sprite.ref.texture = resourceHandler.get(entity.components.animation.texture, entity.components.animation.current);
+};
+
+module.exports = new Animation();
+
+},{"./../handlers/resource":10,"./../libs/index":107,"./../referential":140,"./_system":141}],143:[function(require,module,exports){
 "use strict";
 
 var opengl = require('./../libs/index');
