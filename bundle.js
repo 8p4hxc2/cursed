@@ -192,35 +192,43 @@ Level.prototype.drawRoom = function(x, y, width, height) {
 	// sol
 	for (var i = 0; i < height + 2; i++) {
 		for (var j = 0; j < width + 2; j++) {
-			systemHandler.register(this.createTile(j - 1, i - 1, "tile_desert"));
+			systemHandler.register(this.createTile(j - 1, i - 1, "ground_pavement"));
 		}
 	}
-	
+
 	// angle tl
 	systemHandler.register(this.createTile(x - 1, y - 1, "wall_brick_tl"));
 
-	// mur de gauche
+	// mur ouest
 	for (i = y; i < y + height; i++) {
 		systemHandler.register(this.createTile(x - 1, i, "wall_brick_l"));
+
+		if (Math.floor(Math.random() * 4) === 2) {
+			systemHandler.register(this.createTile(x - 1, i, "wall_deco_blood_ew"));
+		}
 	}
 
 	// angle bg
 	systemHandler.register(this.createTile(x - 1, y + height, "wall_brick_bl"));
 
-	// mur du haut
+	// mur nord
 	for (i = x; i < x + width; i++) {
 		systemHandler.register(this.createTile(i, y - 1, "wall_brick_b"));
+
+		if (Math.floor(Math.random() * 4) === 2) {
+			systemHandler.register(this.createTile(i, y - 1, "wall_deco_skeleton_ns"));
+		}
 	}
 
 	// angle tr
 	systemHandler.register(this.createTile(x + width, y - 1, "wall_brick_tr"));
 
-	// mur du bas
+	// mur sud
 	for (i = x; i < x + width; i++) {
 		systemHandler.register(this.createTile(i, y + height, "wall_brick_b"));
 	}
 
-	// mur de droite
+	// mur est
 	for (i = y; i < y + height; i++) {
 		systemHandler.register(this.createTile(x + width, i, "wall_brick_l"));
 	}
@@ -233,8 +241,8 @@ Level.prototype.createTile = function(x, y, texture) {
 	return new Tile({
 		id: x + "_" + y + "_" + texture,
 		position: {
-			x: (x - y) * 28 + 300,
-			y: (x + y) / 2 * 28 + 300
+			x: (x - y) * 27 + 300,
+			y: (x + y) * 13 + 300
 		},
 		sprite: {
 			texture: texture
@@ -419,7 +427,10 @@ ResourceHandler.prototype.get = function(texture, frame) {
 
 ResourceHandler.prototype.run = function() {
 	return new Promise(function(resolve) {
-		opengl.loader.add('tile_desert', './resources/tiles/desert.png');
+		opengl.loader.add('ground_desert', './resources/grounds/desert.png');
+		opengl.loader.add('ground_pavement', './resources/grounds/pavement.png');
+
+		// walls
 		opengl.loader.add('wall_brick_b', './resources/walls/brick/bottom.png');
 		opengl.loader.add('wall_brick_l', './resources/walls/brick/left.png');
 		opengl.loader.add('wall_brick_bl', './resources/walls/brick/bottom_left.png');
@@ -427,6 +438,15 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('wall_brick_tl', './resources/walls/brick/top_left.png');
 		opengl.loader.add('wall_brick_tr', './resources/walls/brick/top_right.png');
 
+		// doors
+		opengl.loader.add('door_wood_tp', './resources/doors/wood_topdown.png');
+
+		// walls decos
+		opengl.loader.add('wall_deco_skeleton_ns', './resources/walls_deco/skeleton_ns.png');
+		opengl.loader.add('wall_deco_blood_ns', './resources/walls_deco/blood_ns.png');
+		opengl.loader.add('wall_deco_blood_ew', './resources/walls_deco/blood_ew.png');
+
+		// monsters
 		opengl.loader.add('monster_zombie', './resources/monsters/zombie.png');
 
 		opengl.loader.load(resolve);
@@ -27569,7 +27589,7 @@ function Renderer() {
 	});
 
 	this.canvas = opengl.autoDetectRenderer(window.innerWidth, window.innerHeight, {
-		backgroundColor: 0x1099bb
+		backgroundColor: 0x000000//1099bb
 	});
 	document.body.appendChild(this.canvas.view);
 

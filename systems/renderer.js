@@ -10,7 +10,7 @@ function Renderer() {
 	});
 
 	this.canvas = opengl.autoDetectRenderer(window.innerWidth, window.innerHeight, {
-		backgroundColor: 0x1099bb
+		backgroundColor: 0x000000//1099bb
 	});
 	document.body.appendChild(this.canvas.view);
 
