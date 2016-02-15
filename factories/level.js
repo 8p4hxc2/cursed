@@ -5,6 +5,7 @@ var Tile = require("../entities/tile");
 
 function Level() {
 	this.nbRoom = 0;
+	this.map = [];
 }
 
 Level.prototype.create = function(x, y, noD) {
@@ -45,10 +46,45 @@ Level.prototype.create = function(x, y, noD) {
 	return;
 };
 
+Level.prototype.createMap = function(map_width, map_height, current_height) {
+	if (current_height < map_height) {
+		//this.map.push([]);
+
+		var ROOM_WIDTH_MIN = 2;
+		var ROOM_WIDTH_MAX = 10;
+		var ROOM_HEIGHT_MIN = 2;
+		var ROOM_HEIGHT_MAX = 10;
+		var current_width = 0;
+		var maxHeight = 0;
+
+		while (current_width < map_width) {
+			var roomWidth = Math.ceil(Math.random() * ROOM_WIDTH_MAX) + ROOM_WIDTH_MIN;
+			var roomHeight = Math.ceil(Math.random() * ROOM_HEIGHT_MAX) + ROOM_HEIGHT_MIN;
+			maxHeight = maxHeight < roomHeight ? roomHeight : maxHeight;
+			this.map.push({
+				x: current_width,
+				y: current_height,
+				width: roomWidth,
+				height: roomHeight
+			});
+			this.drawRoom(current_width+2, current_height+2, roomWidth, roomHeight);
+			current_width += roomWidth;
+		}
+
+		this.createMap(map_width, map_height, maxHeight);
+	}
+};
+
+Level.prototype.createRoom = function(map_width, map_height) {
+	for (var x = 0; x < map_width; x++) {
+
+	}
+};
+
 Level.prototype.drawRoom = function(x, y, width, height) {
 	// sol
-	for (var i = 0; i < height + 2; i++) {
-		for (var j = 0; j < width + 2; j++) {
+	for (var i = y; i < y + height + 2; i++) {
+		for (var j = x; j < x + width + 2; j++) {
 			systemHandler.register(this.createTile(j - 1, i - 1, "ground_pavement"));
 		}
 	}
@@ -98,8 +134,8 @@ Level.prototype.createTile = function(x, y, texture) {
 	return new Tile({
 		id: x + "_" + y + "_" + texture,
 		position: {
-			x: (x - y) * 27 + 300,
-			y: (x + y) * 13 + 300
+			x: (x - y) * 27 + 500,
+			y: (x + y) * 13
 		},
 		sprite: {
 			texture: texture

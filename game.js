@@ -13,7 +13,11 @@
 		systemHandler.add(require("systems/animation"));
 		//systemHandler.add(require("systems/player"));
 
-		level.drawRoom(0, 0, Math.floor(Math.random()*10)+1, Math.floor(Math.random()*10)+1);
+		level.createMap(10, 10, 0);
+		console.log(level.map);
+		/*level.drawRoom(0, 0, 6, 6);
+		level.drawRoom(8, 0, 4, 4);
+		level.drawRoom(0, 8, 7, 4);*/
 		//level.generate(level.create(0, 0, 0));
 		animate();
 	});
