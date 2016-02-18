@@ -6,6 +6,8 @@ var Tile = require("../entities/tile");
 function Level() {
 	this.nbRoom = 0;
 	this.map = [];
+	this.mapWidth = 0;
+	this.mapHeight = 0;
 }
 
 Level.prototype.create = function(x, y, noD) {
@@ -46,38 +48,62 @@ Level.prototype.create = function(x, y, noD) {
 	return;
 };
 
-Level.prototype.createMap = function(map_width, map_height, current_height) {
-	if (current_height < map_height) {
-		//this.map.push([]);
+Level.prototype.createMap = function(map_width, map_height, max_room) {
+	this.mapWidth = map_width;
+	this.mapHeight = map_height;
 
-		var ROOM_WIDTH_MIN = 2;
-		var ROOM_WIDTH_MAX = 10;
-		var ROOM_HEIGHT_MIN = 2;
-		var ROOM_HEIGHT_MAX = 10;
-		var current_width = 0;
-		var maxHeight = 0;
+	// initialize
+	this.map = [];
+	for (var i = 0; i < this.mapHeight; i++) {
+		this.map[i] = [];
+	}
 
-		while (current_width < map_width) {
-			var roomWidth = Math.ceil(Math.random() * ROOM_WIDTH_MAX) + ROOM_WIDTH_MIN;
-			var roomHeight = Math.ceil(Math.random() * ROOM_HEIGHT_MAX) + ROOM_HEIGHT_MIN;
-			maxHeight = maxHeight < roomHeight ? roomHeight : maxHeight;
-			this.map.push({
-				x: current_width,
-				y: current_height,
-				width: roomWidth,
-				height: roomHeight
-			});
-			this.drawRoom(current_width+2, current_height+2, roomWidth, roomHeight);
-			current_width += roomWidth;
-		}
-
-		this.createMap(map_width, map_height, maxHeight);
+	var rooms = 0;
+	while (rooms < max_room) {
+		var x = Math.ceil(Math.random() * map_width);
+		var y = Math.ceil(Math.random() * map_height);
+		console.log(x, y);
+		rooms += this.createRoom(x, y);
 	}
 };
 
-Level.prototype.createRoom = function(map_width, map_height) {
-	for (var x = 0; x < map_width; x++) {
+Level.prototype.createRoom = function(x, y) {
+	var width = Math.ceil(Math.random() * 6) + 2;
+	var height = Math.ceil(Math.random() * 6) + 2;
 
+	if (x + width > this.mapWidth) {
+		x = x - (this.mapWidth - width);
+	}
+
+	if (y + height > this.mapHeight) {
+		y = y - (this.mapHeight - height);
+	}
+
+	this.map[x][y] = "nw";
+	this.map[x + width - 1][y] = "ne";
+	this.map[x][y + height - 1] = "sw";
+	this.map[x + width - 1][y + height - 1] = "se";
+
+	for (var i = x + 1; i < x + width - 1; i++) {
+		this.map[i][y] = "ns";
+		this.map[i][y + height - 1] = "ns";
+	}
+
+	for (var j = y + 1; j < y + height - 1; j++) {
+		this.map[x][j] = "we";
+		this.map[x + width - 1][j] = "we";
+	}
+
+	return 1;
+};
+
+Level.prototype.draw = function() {
+	for (var y = 0; y < this.mapHeight - 1; y++) {
+		for (var x = 0; x < this.mapWidth - 1; x++) {
+			if (this.map[x][y]) {
+				systemHandler.register(this.createTile(x, y, "wall_brick_" + this.map[x][y]));
+			}
+		}
 	}
 };
 
@@ -134,7 +160,7 @@ Level.prototype.createTile = function(x, y, texture) {
 	return new Tile({
 		id: x + "_" + y + "_" + texture,
 		position: {
-			x: (x - y) * 27 + 500,
+			x: (x - y) * 27+500,
 			y: (x + y) * 13
 		},
 		sprite: {

@@ -13,7 +13,8 @@
 		systemHandler.add(require("systems/animation"));
 		//systemHandler.add(require("systems/player"));
 
-		level.createMap(10, 10, 0);
+		level.createMap(50, 50, 50);
+		level.draw();
 		console.log(level.map);
 		/*level.drawRoom(0, 0, 6, 6);
 		level.drawRoom(8, 0, 4, 4);

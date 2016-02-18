@@ -18,12 +18,12 @@ ResourceHandler.prototype.run = function() {
 		opengl.loader.add('ground_pavement', './resources/grounds/pavement.png');
 
 		// walls
-		opengl.loader.add('wall_brick_b', './resources/walls/brick/bottom.png');
-		opengl.loader.add('wall_brick_l', './resources/walls/brick/left.png');
-		opengl.loader.add('wall_brick_bl', './resources/walls/brick/bottom_left.png');
-		opengl.loader.add('wall_brick_br', './resources/walls/brick/bottom_right.png');
-		opengl.loader.add('wall_brick_tl', './resources/walls/brick/top_left.png');
-		opengl.loader.add('wall_brick_tr', './resources/walls/brick/top_right.png');
+		opengl.loader.add('wall_brick_ns', './resources/walls/brick/bottom.png');
+		opengl.loader.add('wall_brick_we', './resources/walls/brick/left.png');
+		opengl.loader.add('wall_brick_sw', './resources/walls/brick/bottom_left.png');
+		opengl.loader.add('wall_brick_se', './resources/walls/brick/bottom_right.png');
+		opengl.loader.add('wall_brick_nw', './resources/walls/brick/top_left.png');
+		opengl.loader.add('wall_brick_ne', './resources/walls/brick/top_right.png');
 
 		// doors
 		opengl.loader.add('door_wood_tp', './resources/doors/wood_topdown.png');
