@@ -203,16 +203,21 @@ Level.prototype.createMap = function(map_width, map_height, max_room) {
 
 	var rooms = 0;
 	while (rooms < max_room) {
-		var x = Math.ceil(Math.random() * map_width);
-		var y = Math.ceil(Math.random() * map_height);
-		console.log(x, y);
+		var x = 7; //Math.ceil(Math.random() * 10);
+		var y = 4; //Math.ceil(Math.random() * 10);
+		//console.log(rooms, x, y);
+
+		if (rooms === 1) {
+			x = 1;
+			y = 2;
+		}
 		rooms += this.createRoom(x, y);
 	}
 };
 
 Level.prototype.createRoom = function(x, y) {
-	var width = Math.ceil(Math.random() * 6) + 2;
-	var height = Math.ceil(Math.random() * 6) + 2;
+	var width = 10; //Math.ceil(Math.random() * 6) + 2;
+	var height = 10; //Math.ceil(Math.random() * 6) + 2;
 
 	if (x + width > this.mapWidth) {
 		x = x - (this.mapWidth - width);
@@ -222,29 +227,151 @@ Level.prototype.createRoom = function(x, y) {
 		y = y - (this.mapHeight - height);
 	}
 
-	this.map[x][y] = "nw";
-	this.map[x + width - 1][y] = "ne";
-	this.map[x][y + height - 1] = "sw";
-	this.map[x + width - 1][y + height - 1] = "se";
+	/* ANGLES */
+	this.createTileDatas(x, y, {
+		angle: "nw",
+		ground: "pavement"
+	});
 
+
+	this.createTileDatas(x + width - 1, y, {
+		angle: "ne",
+		ground: "pavement"
+	});
+
+	this.createTileDatas(x, y + height - 1, {
+		angle: "sw",
+		ground: "pavement"
+	});
+
+	this.createTileDatas(x + width - 1, y + height - 1, {
+		angle: "se",
+		ground: "pavement"
+	});
+
+
+	/* MURS HAUT ET BAS */
 	for (var i = x + 1; i < x + width - 1; i++) {
-		this.map[i][y] = "ns";
-		this.map[i][y + height - 1] = "ns";
+		this.createTileDatas(i, y, {
+			wall: "ns",
+			ground: "pavement"
+		});
+
+		this.createTileDatas(i, y + height - 1, {
+			wall: "ns",
+			ground: "pavement"
+		});
 	}
 
+
+	/* MUR GAUCHE ET DROITE */
 	for (var j = y + 1; j < y + height - 1; j++) {
-		this.map[x][j] = "we";
-		this.map[x + width - 1][j] = "we";
+		this.createTileDatas(x, j, {
+			wall: "we",
+			ground: "pavement"
+		});
+
+		this.createTileDatas(x + width - 1, j, {
+			wall: "we",
+			ground: "pavement"
+		});
+	}
+
+	for (i = x + 1; i < x + width - 1; i++) {
+		for (j = y + 1; j < y + height - 1; j++) {
+			this.createTileDatas(i, j, {
+				ground: "pavement"
+			});
+		}
 	}
 
 	return 1;
+};
+
+Level.prototype.createTileDatas = function(x, y, values) {
+	if (!this.map[x][y]) {
+		this.map[x][y] = values;
+	} else {
+		if ((this.map[x][y].wall || this.map[x][y].angle) && !values.wall) {
+			this.map[x][y] = null;
+			/*{
+							ground: "pavement"
+						};*/
+		} else if (this.map[x][y].wall && values.wall) {
+			/*if ((this.map[x + 1][y].wall || this.map[x + 1][y].angle) && (this.map[x][y - 1].wall || this.map[x][y - 1].angle)) {
+				this.map[x][y] = {
+					wall: "sw",
+					ground: "pavement"
+				};
+
+				return;
+			}
+
+			if ((this.map[x - 1][y].wall || this.map[x - 1][y].angle) && (this.map[x][y - 1].wall || this.map[x][y - 1].angle)) {
+				this.map[x][y] = {
+					wall: "se",
+					ground: "pavement"
+				};
+
+				return;
+			}
+
+			if ((this.map[x + 1][y].wall || this.map[x + 1][y].angle) && (this.map[x][y + 1].wall || this.map[x][y + 1].angle)) {
+				this.map[x][y] = {
+					wall: "nw",
+					ground: "pavement"
+				};
+
+				return;
+			}
+
+			if ((this.map[x - 1][y].wall || this.map[x - 1][y].angle) && (this.map[x][y + 1].wall || this.map[x][y + 1].angle)) {
+				this.map[x][y] = {
+					wall: "ne",
+					ground: "pavement"
+				};
+
+				return;
+			}
+
+			if (this.map[x - 1][y].wall || this.map[x - 1][y].angle) {
+				this.map[x][y] = {
+					wall: "ne",
+					ground: "pavement"
+				};
+
+				return;
+			}
+
+			if (this.map[x + 1][y].wall || this.map[x + 1][y].angle) {
+				this.map[x][y] = {
+					wall: "nw",
+					ground: "pavement"
+				};
+				return;
+			}*/
+
+			/*if ((this.map[x - 1][y].wall || this.map[x - 1][y].angle) && (this.map[x][y + 1].wall || this.map[x][y + 1].angle)) {
+				this.map[x][y] = {
+					wall: "se",
+					ground: "pavement"
+				};
+				return;
+			}*/
+		}
+	}
 };
 
 Level.prototype.draw = function() {
 	for (var y = 0; y < this.mapHeight - 1; y++) {
 		for (var x = 0; x < this.mapWidth - 1; x++) {
 			if (this.map[x][y]) {
-				systemHandler.register(this.createTile(x, y, "wall_brick_" + this.map[x][y]));
+				if (this.map[x][y].ground) {
+					systemHandler.register(this.createTile(x, y, "ground_" + this.map[x][y].ground));
+				}
+				if (this.map[x][y].wall || this.map[x][y].angle) {
+					systemHandler.register(this.createTile(x, y, "wall_brick_" + (this.map[x][y].wall || this.map[x][y].angle)));
+				}
 			}
 		}
 	}
@@ -303,7 +430,7 @@ Level.prototype.createTile = function(x, y, texture) {
 	return new Tile({
 		id: x + "_" + y + "_" + texture,
 		position: {
-			x: (x - y) * 27+500,
+			x: (x - y) * 27 + 500,
 			y: (x + y) * 13
 		},
 		sprite: {
@@ -427,7 +554,7 @@ module.exports = new Level();
 		systemHandler.add(require('./systems/animation'));
 		//systemHandler.add(require("systems/player"));
 
-		level.createMap(50, 50, 50);
+		level.createMap(50, 50, 2);
 		level.draw();
 		console.log(level.map);
 		/*level.drawRoom(0, 0, 6, 6);
