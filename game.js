@@ -15,7 +15,7 @@
 
 		level.createMap(50, 50, 2);
 		level.draw();
-		console.log(level.map);
+		//console.log(level.map);
 		/*level.drawRoom(0, 0, 6, 6);
 		level.drawRoom(8, 0, 4, 4);
 		level.drawRoom(0, 8, 7, 4);*/
